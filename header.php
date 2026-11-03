@@ -54,9 +54,11 @@ defined( 'ABSPATH' ) || exit;
             </button>
 
             <!-- Toggle de Dark Mode -->
-            <button id="dimsop-dark-toggle" class="btn btn-sm btn-outline-light ms-1"
+            <button id="dimsop-dark-toggle" class="dimsop-theme-toggle ms-1"
                     type="button" title="<?php esc_attr_e( 'Cambiar modo claro/oscuro', 'dimsop' ); ?>"
-                    aria-label="<?php esc_attr_e( 'Modo oscuro', 'dimsop' ); ?>">
+                    aria-label="<?php esc_attr_e( 'Activar modo claro', 'dimsop' ); ?>"
+                    data-label-light="<?php esc_attr_e( 'Activar modo claro', 'dimsop' ); ?>"
+                    data-label-dark="<?php esc_attr_e( 'Activar modo oscuro', 'dimsop' ); ?>">
                 <i class="fa fa-sun-o" aria-hidden="true"></i>
             </button>
 

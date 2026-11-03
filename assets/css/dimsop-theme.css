@@ -854,6 +854,31 @@ body.dimsop-search-open {
   transition: background 0.2s ease, color 0.2s ease;
 }
 
+.dimsop-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid var(--dimsop-border-subtle);
+  border-radius: var(--dimsop-radius-sm);
+  background: transparent;
+  color: var(--dimsop-primary);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.dimsop-theme-toggle:hover {
+  color: var(--dimsop-accent);
+  border-color: var(--dimsop-accent);
+  background: rgba(77, 163, 47, 0.08);
+}
+.dimsop-theme-toggle:focus-visible {
+  outline: none;
+  box-shadow: var(--dimsop-ring);
+}
+
 .dimsop-search-overlay {
   position: fixed;
   top: 0;
@@ -1220,6 +1245,202 @@ body.dimsop-search-open {
   /* Ocultar iconos interactivos en mobile (se muestra imagen estática) */
   .dimsop-metodologia-icon {
     display: none !important;
+  }
+}
+/* =====================================================================
+ * DIMSOP - UNIDADES DE NEGOCIO (cuadrícula bento)
+ * Usa .dimsop-ui-card de _ui.scss; aquí solo la rejilla y la celda destacada.
+ * ===================================================================== */
+/* Encabezado de sección compartido: insignia + título + entradilla */
+.dimsop-section-lead {
+  max-width: 760px;
+  color: var(--dimsop-text-muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+/* Escritorio: 4 columnas
+ *   [ F F a b ]
+ *   [ F F c d ]
+ *   [ w w w w ]   (dos celdas anchas)
+ */
+.dimsop-bento {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+.dimsop-bento .dimsop-ui-card {
+  display: flex;
+  flex-direction: column;
+}
+.dimsop-bento .dimsop-ui-card-title {
+  font-size: 1.45rem;
+}
+
+.dimsop-bento-featured {
+  grid-column: span 2;
+  grid-row: span 2;
+  justify-content: flex-end;
+  padding: 2.5rem;
+  min-height: 26rem;
+  /* Cuadrícula de puntos decorativa que se desvanece hacia abajo */
+  background-image: radial-gradient(circle, rgba(77, 163, 47, 0.22) 1px, transparent 1.5px), linear-gradient(var(--dimsop-surface), var(--dimsop-surface)), linear-gradient(135deg, var(--dimsop-accent), var(--dimsop-secondary));
+  background-size: 22px 22px, auto, auto;
+  background-origin: padding-box, padding-box, border-box;
+  background-clip: padding-box, padding-box, border-box;
+}
+.dimsop-bento-featured .dimsop-badge {
+  align-self: flex-start;
+}
+.dimsop-bento-featured .dimsop-ui-card-icon {
+  width: 4rem;
+  height: 4rem;
+  font-size: 1.9rem;
+}
+.dimsop-bento-featured .dimsop-ui-card-title {
+  font-size: clamp(2rem, 3vw, 2.6rem);
+}
+.dimsop-bento-featured .dimsop-ui-card-text {
+  max-width: 28rem;
+  font-size: 1.05rem;
+}
+.dimsop-bento-featured .dimsop-button {
+  align-self: flex-start;
+}
+
+.dimsop-bento-wide {
+  grid-column: span 2;
+}
+
+/* Tablet: 2 columnas, la destacada a lo ancho */
+@media (max-width: 991.98px) {
+  .dimsop-bento {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .dimsop-bento-featured {
+    grid-row: auto;
+    min-height: 0;
+  }
+  .dimsop-bento-wide {
+    grid-column: auto;
+  }
+}
+/* Móvil: una columna */
+@media (max-width: 575.98px) {
+  .dimsop-bento {
+    grid-template-columns: 1fr;
+  }
+  .dimsop-bento-featured {
+    grid-column: auto;
+    padding: 1.75rem;
+  }
+}
+/* =====================================================================
+ * DIMSOP - NUESTRAS SEDES (cobertura regional)
+ * Leyenda con .dimsop-ui-card y mapa de respaldo; el globo 3D llega el Día 7.
+ * ===================================================================== */
+.dimsop-cobertura-text {
+  color: var(--dimsop-text);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.dimsop-cobertura-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  height: auto;
+  padding: 1.5rem;
+}
+
+.dimsop-cobertura-title {
+  margin-bottom: 0.35rem;
+  color: var(--dimsop-primary);
+  font-family: var(--dimsop-font-heading);
+  font-size: 1.4rem;
+  letter-spacing: 0.5px;
+}
+
+[data-theme=dark] .dimsop-cobertura-title {
+  color: var(--dimsop-white);
+}
+
+/* Punto de color con halo pulsante (mismo ritmo que .dimsop-badge-dot) */
+.dimsop-cobertura-pin {
+  --_pin: var(--dimsop-secondary);
+  flex: 0 0 auto;
+  width: 0.85rem;
+  height: 0.85rem;
+  margin-top: 0.45rem;
+  border-radius: 50%;
+  background: var(--_pin);
+  box-shadow: 0 0 0 0 var(--_pin);
+  animation: dimsop-pin-pulse 2.4s infinite;
+}
+
+.dimsop-cobertura-pin--blue {
+  --_pin: #0a5aa8;
+}
+
+.dimsop-cobertura-pin--green {
+  --_pin: var(--dimsop-accent);
+}
+
+@keyframes dimsop-pin-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--_pin) 55%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 10px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+.dimsop-cobertura-strong-blue {
+  color: var(--dimsop-secondary);
+  font-weight: 600;
+}
+
+.dimsop-cobertura-strong-green {
+  color: var(--dimsop-accent);
+  font-weight: 600;
+}
+
+/* Mapa / globo */
+.dimsop-globe-wrap {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--dimsop-border-subtle);
+  border-radius: var(--dimsop-radius-lg);
+  background: var(--dimsop-surface);
+  box-shadow: var(--dimsop-shadow-lg);
+}
+
+.dimsop-globe-fallback {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Vacío hasta que el Día 7 monte Globe.gl */
+.dimsop-globe-container:empty {
+  display: none;
+}
+
+.dimsop-globe-container {
+  width: 100%;
+  height: 400px;
+}
+@media (max-width: 767.98px) {
+  .dimsop-globe-container {
+    height: 300px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dimsop-cobertura-pin {
+    animation: none;
   }
 }
 /* =====================================================================

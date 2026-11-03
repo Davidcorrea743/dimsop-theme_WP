@@ -31,11 +31,16 @@
         }
 
         function syncIcon() {
+            var dark = currentTheme() === 'dark';
+            var label = toggle.getAttribute( dark ? 'data-label-light' : 'data-label-dark' );
+            if ( label ) {
+                toggle.setAttribute( 'aria-label', label );
+            }
             if ( ! icon ) {
                 return;
             }
             icon.classList.remove( 'fa-sun-o', 'fa-moon-o' );
-            icon.classList.add( currentTheme() === 'dark' ? 'fa-sun-o' : 'fa-moon-o' );
+            icon.classList.add( dark ? 'fa-sun-o' : 'fa-moon-o' );
         }
 
         toggle.addEventListener( 'click', function () {

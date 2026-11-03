@@ -1,0 +1,104 @@
+/* =====================================================================
+ * DIMSOP - NUESTRAS SEDES (cobertura regional)
+ * Leyenda con .dimsop-ui-card y mapa de respaldo; el globo 3D llega el Día 7.
+ * ===================================================================== */
+
+.dimsop-cobertura-text {
+    color: var(--dimsop-text);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.dimsop-cobertura-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    height: auto;
+    padding: 1.5rem;
+}
+
+.dimsop-cobertura-title {
+    margin-bottom: 0.35rem;
+    color: var(--dimsop-primary);
+    font-family: var(--dimsop-font-heading);
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
+}
+
+[data-theme="dark"] .dimsop-cobertura-title {
+    color: var(--dimsop-white);
+}
+
+/* Punto de color con halo pulsante (mismo ritmo que .dimsop-badge-dot) */
+.dimsop-cobertura-pin {
+    --_pin: var(--dimsop-secondary);
+
+    flex: 0 0 auto;
+    width: 0.85rem;
+    height: 0.85rem;
+    margin-top: 0.45rem;
+    border-radius: 50%;
+    background: var(--_pin);
+    box-shadow: 0 0 0 0 var(--_pin);
+    animation: dimsop-pin-pulse 2.4s infinite;
+}
+
+.dimsop-cobertura-pin--blue {
+    --_pin: #0a5aa8;
+}
+
+.dimsop-cobertura-pin--green {
+    --_pin: var(--dimsop-accent);
+}
+
+@keyframes dimsop-pin-pulse {
+    0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--_pin) 55%, transparent); }
+    70%  { box-shadow: 0 0 0 10px transparent; }
+    100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+.dimsop-cobertura-strong-blue {
+    color: var(--dimsop-secondary);
+    font-weight: 600;
+}
+
+.dimsop-cobertura-strong-green {
+    color: var(--dimsop-accent);
+    font-weight: 600;
+}
+
+/* Mapa / globo */
+.dimsop-globe-wrap {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--dimsop-border-subtle);
+    border-radius: var(--dimsop-radius-lg);
+    background: var(--dimsop-surface);
+    box-shadow: var(--dimsop-shadow-lg);
+}
+
+.dimsop-globe-fallback {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Vacío hasta que el Día 7 monte Globe.gl */
+.dimsop-globe-container:empty {
+    display: none;
+}
+
+.dimsop-globe-container {
+    width: 100%;
+    height: 400px;
+
+    @media (max-width: 767.98px) {
+        height: 300px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dimsop-cobertura-pin {
+        animation: none;
+    }
+}
