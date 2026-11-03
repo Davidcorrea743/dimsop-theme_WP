@@ -220,8 +220,7 @@ html, body {
 }
 [data-theme=dark] .dimsop-card,
 [data-theme=dark] .dimsop-blog,
-[data-theme=dark] .dimsop-blog-item,
-[data-theme=dark] .dimsop-value {
+[data-theme=dark] .dimsop-blog-item {
   background-color: var(--dimsop-surface);
   border-color: var(--dimsop-surface-border);
 }
@@ -1057,28 +1056,19 @@ body.dimsop-search-open {
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
 }
 
-.dimsop-value {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1.2rem;
-  background: var(--dimsop-surface);
-  border: 1px solid var(--dimsop-surface-border);
-  border-radius: 50px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: var(--dimsop-text);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-  transition: transform 0.2s ease, border-color 0.2s ease;
+/* Valores corporativos: tarjetas compactas (.dimsop-ui-card de _ui.scss) */
+.dimsop-value-card {
+  padding: 1.5rem;
+  text-align: center;
 }
-
-.dimsop-value i {
-  color: var(--dimsop-accent);
+.dimsop-value-card .dimsop-ui-card-icon {
+  margin-bottom: 1rem;
 }
-
-.dimsop-value:hover {
-  transform: scale(1.05);
-  border-color: var(--dimsop-accent);
+.dimsop-value-card .dimsop-ui-card-title {
+  font-size: 1.35rem;
+}
+.dimsop-value-card .dimsop-ui-card-text {
+  font-size: 0.9rem;
 }
 
 /* Contadores de Impacto */
@@ -1465,32 +1455,46 @@ body.dimsop-search-open {
   animation-play-state: paused;
 }
 
+/* Chip blanco: los logos están pensados para fondo claro, también en modo oscuro */
 .dimsop-partner-item {
   flex: 0 0 auto;
-  padding: 0 2.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 13rem;
+  height: 6.5rem;
+  margin: 0 0.625rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--dimsop-border-subtle);
+  border-radius: var(--dimsop-radius);
+  background: #fff;
+  box-shadow: var(--dimsop-shadow-sm);
+  transition: transform 0.3s var(--dimsop-ease-out), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.dimsop-partner-item:hover {
+  transform: translateY(-4px);
+  border-color: var(--dimsop-accent);
+  box-shadow: var(--dimsop-shadow-md);
 }
 
 .dimsop-partner-logo {
-  max-height: 55px;
+  max-width: 100%;
+  max-height: 100%;
   width: auto;
-  filter: grayscale(100%) opacity(0.65);
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(100%) opacity(0.7);
   transition: filter 0.3s ease, transform 0.3s ease;
 }
 
 .dimsop-partner-item:hover .dimsop-partner-logo {
-  filter: grayscale(0%) opacity(1);
-  transform: scale(1.08);
+  filter: none;
+  transform: scale(1.05);
 }
 
-[data-theme=dark] .dimsop-partner-logo {
-  filter: grayscale(100%) brightness(1.5) opacity(0.7);
-}
-
-[data-theme=dark] .dimsop-partner-item:hover .dimsop-partner-logo {
-  filter: grayscale(0%) brightness(1) opacity(1);
+[data-theme=dark] .dimsop-partner-item {
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
 @keyframes dimsop-scroll {
@@ -1501,6 +1505,121 @@ body.dimsop-search-open {
     transform: translateX(-50%);
   }
 }
+/* Variante lenta para tarjetas anchas (Proyectos) */
+.dimsop-marquee--slow .dimsop-marquee-track {
+  animation-duration: 90s;
+}
+
+.dimsop-marquee-container:focus-within .dimsop-marquee-track {
+  animation-play-state: paused;
+}
+
+/* Sin animación: la pista se desplaza a mano con scroll horizontal */
+@media (prefers-reduced-motion: reduce) {
+  .dimsop-marquee-container {
+    overflow-x: auto;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+  .dimsop-marquee-track {
+    animation: none;
+  }
+}
+/* =====================================================================
+ * DIMSOP - PROYECTOS REFERENCIALES Y CONTADORES
+ * Tarjetas de proyecto dentro del marquee (_aliados.scss) y cifras de impacto.
+ * ===================================================================== */
+/* ------------------------- Proyectos ------------------------------- */
+.dimsop-proyectos .dimsop-marquee-container {
+  padding: 1.5rem 0 2.5rem;
+}
+
+.dimsop-project-card {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  width: 18rem;
+  height: auto;
+  margin: 0 0.625rem;
+  padding: 1.5rem;
+}
+
+.dimsop-project-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 5.5rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  border: 1px solid var(--dimsop-border-subtle);
+  border-radius: var(--dimsop-radius-sm);
+  background: #fff; /* los logos vienen pensados para fondo blanco */
+}
+.dimsop-project-logo img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.dimsop-project-name {
+  margin-bottom: 0.4rem;
+  color: var(--dimsop-primary);
+  font-family: var(--dimsop-font-heading);
+  font-size: 1.35rem;
+  letter-spacing: 0.5px;
+}
+
+[data-theme=dark] .dimsop-project-name {
+  color: var(--dimsop-white);
+}
+
+.dimsop-project-card .dimsop-ui-card-text {
+  font-size: 0.875rem;
+  white-space: normal;
+}
+
+/* ------------------------- Contadores ------------------------------ */
+.dimsop-h2-light,
+[data-theme=dark] .dimsop-h2-light {
+  color: var(--dimsop-white);
+}
+
+/* Fondo con resplandor verde/azul sobre el azul oscuro corporativo */
+.dimsop-contadores {
+  overflow: hidden;
+  background: radial-gradient(600px circle at 15% 0%, rgba(77, 163, 47, 0.18), transparent 60%), radial-gradient(700px circle at 85% 100%, rgba(10, 90, 168, 0.35), transparent 60%), var(--dimsop-primary-dark);
+}
+
+/* Tarjeta "cristal": funciona igual en modo claro y oscuro */
+.dimsop-counter-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.25rem 1.5rem;
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--dimsop-white);
+  box-shadow: none;
+  backdrop-filter: blur(6px);
+}
+.dimsop-counter-card .dimsop-ui-card-icon {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.dimsop-counter-card:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+}
+
+.dimsop-counter-card .dimsop-counter-num {
+  display: block;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(180deg, #fff 30%, #9fe07f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 /* =====================================================================
  * DIMSOP - PIE DE PÁGINA (FOOTER) Y COMPONENTES RELACIONADOS
  * Reemplaza completamente los estilos en línea del footer original

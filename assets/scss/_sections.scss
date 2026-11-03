@@ -54,28 +54,22 @@
     box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
 }
 
-.dimsop-value {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.6rem 1.2rem;
-    background: var(--dimsop-surface);
-    border: 1px solid var(--dimsop-surface-border);
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: var(--dimsop-text);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-    transition: transform 0.2s ease, border-color 0.2s ease;
-}
+/* Valores corporativos: tarjetas compactas (.dimsop-ui-card de _ui.scss) */
+.dimsop-value-card {
+    padding: 1.5rem;
+    text-align: center;
 
-.dimsop-value i {
-    color: var(--dimsop-accent);
-}
+    .dimsop-ui-card-icon {
+        margin-bottom: 1rem;
+    }
 
-.dimsop-value:hover {
-    transform: scale(1.05);
-    border-color: var(--dimsop-accent);
+    .dimsop-ui-card-title {
+        font-size: 1.35rem;
+    }
+
+    .dimsop-ui-card-text {
+        font-size: 0.9rem;
+    }
 }
 
 /* Contadores de Impacto */

@@ -1,0 +1,101 @@
+/* =====================================================================
+ * DIMSOP - PROYECTOS REFERENCIALES Y CONTADORES
+ * Tarjetas de proyecto dentro del marquee (_aliados.scss) y cifras de impacto.
+ * ===================================================================== */
+
+/* ------------------------- Proyectos ------------------------------- */
+.dimsop-proyectos .dimsop-marquee-container {
+    padding: 1.5rem 0 2.5rem;
+}
+
+.dimsop-project-card {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    width: 18rem;
+    height: auto;
+    margin: 0 0.625rem;
+    padding: 1.5rem;
+}
+
+.dimsop-project-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 5.5rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border: 1px solid var(--dimsop-border-subtle);
+    border-radius: var(--dimsop-radius-sm);
+    background: #fff; /* los logos vienen pensados para fondo blanco */
+
+    img {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+    }
+}
+
+.dimsop-project-name {
+    margin-bottom: 0.4rem;
+    color: var(--dimsop-primary);
+    font-family: var(--dimsop-font-heading);
+    font-size: 1.35rem;
+    letter-spacing: 0.5px;
+}
+
+[data-theme="dark"] .dimsop-project-name {
+    color: var(--dimsop-white);
+}
+
+.dimsop-project-card .dimsop-ui-card-text {
+    font-size: 0.875rem;
+    white-space: normal;
+}
+
+/* ------------------------- Contadores ------------------------------ */
+.dimsop-h2-light,
+[data-theme="dark"] .dimsop-h2-light {
+    color: var(--dimsop-white);
+}
+
+/* Fondo con resplandor verde/azul sobre el azul oscuro corporativo */
+.dimsop-contadores {
+    overflow: hidden;
+    background:
+        radial-gradient(600px circle at 15% 0%, rgba(77, 163, 47, 0.18), transparent 60%),
+        radial-gradient(700px circle at 85% 100%, rgba(10, 90, 168, 0.35), transparent 60%),
+        var(--dimsop-primary-dark);
+}
+
+/* Tarjeta "cristal": funciona igual en modo claro y oscuro */
+.dimsop-counter-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.25rem 1.5rem;
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--dimsop-white);
+    box-shadow: none;
+    backdrop-filter: blur(6px);
+
+    .dimsop-ui-card-icon {
+        border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    &:hover {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    }
+}
+
+.dimsop-counter-card .dimsop-counter-num {
+    display: block;
+    font-variant-numeric: tabular-nums;
+    background: linear-gradient(180deg, #fff 30%, #9fe07f);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}

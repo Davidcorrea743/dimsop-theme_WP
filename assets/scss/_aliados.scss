@@ -21,32 +21,46 @@
     animation-play-state: paused;
 }
 
+/* Chip blanco: los logos están pensados para fondo claro, también en modo oscuro */
 .dimsop-partner-item {
     flex: 0 0 auto;
-    padding: 0 2.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 13rem;
+    height: 6.5rem;
+    margin: 0 0.625rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--dimsop-border-subtle);
+    border-radius: var(--dimsop-radius);
+    background: #fff;
+    box-shadow: var(--dimsop-shadow-sm);
+    transition: transform 0.3s var(--dimsop-ease-out), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.dimsop-partner-item:hover {
+    transform: translateY(-4px);
+    border-color: var(--dimsop-accent);
+    box-shadow: var(--dimsop-shadow-md);
 }
 
 .dimsop-partner-logo {
-    max-height: 55px;
+    max-width: 100%;
+    max-height: 100%;
     width: auto;
-    filter: grayscale(100%) opacity(0.65);
+    height: auto;
+    object-fit: contain;
+    filter: grayscale(100%) opacity(0.7);
     transition: filter 0.3s ease, transform 0.3s ease;
 }
 
 .dimsop-partner-item:hover .dimsop-partner-logo {
-    filter: grayscale(0%) opacity(1);
-    transform: scale(1.08);
+    filter: none;
+    transform: scale(1.05);
 }
 
-[data-theme="dark"] .dimsop-partner-logo {
-    filter: grayscale(100%) brightness(1.5) opacity(0.7);
-}
-
-[data-theme="dark"] .dimsop-partner-item:hover .dimsop-partner-logo {
-    filter: grayscale(0%) brightness(1) opacity(1);
+[data-theme="dark"] .dimsop-partner-item {
+    border-color: rgba(255, 255, 255, 0.08);
 }
 
 @keyframes dimsop-scroll {
@@ -55,5 +69,27 @@
     }
     100% {
         transform: translateX(-50%);
+    }
+}
+
+/* Variante lenta para tarjetas anchas (Proyectos) */
+.dimsop-marquee--slow .dimsop-marquee-track {
+    animation-duration: 90s;
+}
+
+.dimsop-marquee-container:focus-within .dimsop-marquee-track {
+    animation-play-state: paused;
+}
+
+/* Sin animación: la pista se desplaza a mano con scroll horizontal */
+@media (prefers-reduced-motion: reduce) {
+    .dimsop-marquee-container {
+        overflow-x: auto;
+        mask-image: none;
+        -webkit-mask-image: none;
+    }
+
+    .dimsop-marquee-track {
+        animation: none;
     }
 }
