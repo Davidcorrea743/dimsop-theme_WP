@@ -10,18 +10,14 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Obtener opción de configuración corporativa de Dimsop
+ * Valores por defecto de las opciones corporativas
  *
- * Permite centralizar valores globales como teléfonos, sedes y redes.
+ * Se usan cuando la opción no se ha guardado en Apariencia › Opciones Dimsop.
  *
- * @param string $key Identificador de la opción.
- * @param mixed  $default Valor por defecto en caso de no estar definida.
- * @return mixed
+ * @return array<string, string>
  */
-function dimsop_get_option( $key, $default = '' ) {
-    $options = get_option( 'dimsop_theme_options', array() );
-
-    $defaults = array(
+function dimsop_get_option_defaults() {
+    return array(
         // Teléfono general (usado también como WhatsApp hasta confirmar el definitivo)
         'whatsapp_number'  => '582128195400',
         'contact_phone_ve' => '+58 212-819.54.00',
@@ -36,6 +32,20 @@ function dimsop_get_option( $key, $default = '' ) {
         'linkedin_url'     => 'https://www.linkedin.com/company/dimsop',
         'instagram_url'    => 'https://www.instagram.com/dimsop',
     );
+}
+
+/**
+ * Obtener opción de configuración corporativa de Dimsop
+ *
+ * Permite centralizar valores globales como teléfonos, sedes y redes.
+ *
+ * @param string $key Identificador de la opción.
+ * @param mixed  $default Valor por defecto en caso de no estar definida.
+ * @return mixed
+ */
+function dimsop_get_option( $key, $default = '' ) {
+    $options  = get_option( 'dimsop_theme_options', array() );
+    $defaults = dimsop_get_option_defaults();
 
     if ( isset( $options[ $key ] ) && ! empty( $options[ $key ] ) ) {
         return $options[ $key ];

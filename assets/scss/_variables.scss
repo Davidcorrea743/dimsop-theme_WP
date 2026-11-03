@@ -27,6 +27,18 @@
     --dimsop-surface:        var(--dimsop-white);
     --dimsop-surface-border: #dce3ec;
     --dimsop-card-shadow:    0 10px 30px rgba(0, 51, 98, 0.08);
+
+    /* Sistema UI (inspirado en shadcn/ui): radios, bordes, foco, sombras, easing */
+    --dimsop-radius-sm:      0.5rem;
+    --dimsop-radius:         0.75rem;
+    --dimsop-radius-lg:      1.25rem;
+    --dimsop-border-subtle:  rgba(0, 51, 98, 0.10);
+    --dimsop-ring:           0 0 0 3px rgba(77, 163, 47, 0.35);
+    --dimsop-shadow-sm:      0 1px 2px rgba(0, 51, 98, 0.06);
+    --dimsop-shadow-md:      0 1px 2px rgba(0, 51, 98, 0.04), 0 6px 16px -4px rgba(0, 51, 98, 0.10);
+    --dimsop-shadow-lg:      0 2px 4px rgba(0, 51, 98, 0.04), 0 24px 48px -12px rgba(0, 51, 98, 0.18);
+    --dimsop-spotlight:      rgba(77, 163, 47, 0.10);
+    --dimsop-ease-out:       cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Tokens para Modo Oscuro */
@@ -40,6 +52,13 @@
     --dimsop-primary:        #0b1626;
     --dimsop-secondary:      #13233f;
     --dimsop-card-shadow:    0 10px 30px rgba(0, 0, 0, 0.4);
+
+    --dimsop-border-subtle:  rgba(255, 255, 255, 0.08);
+    --dimsop-ring:           0 0 0 3px rgba(77, 163, 47, 0.45);
+    --dimsop-shadow-sm:      0 1px 2px rgba(0, 0, 0, 0.30);
+    --dimsop-shadow-md:      0 1px 2px rgba(0, 0, 0, 0.30), 0 8px 20px -6px rgba(0, 0, 0, 0.50);
+    --dimsop-shadow-lg:      0 2px 4px rgba(0, 0, 0, 0.30), 0 28px 56px -12px rgba(0, 0, 0, 0.65);
+    --dimsop-spotlight:      rgba(77, 163, 47, 0.16);
 
     --bs-body-color:         #e6edf5;
     --bs-body-bg:            #0b1626;

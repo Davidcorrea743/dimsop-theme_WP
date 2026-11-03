@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
             <!-- Columna 1: Logo + Contacto general -->
             <div class="col-lg-3 col-md-6">
                 <a class="dimsop-logo d-inline-block mb-3" href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php bloginfo( 'name' ); ?>">
-                    <img src="<?php echo esc_url( dimsop_asset_url( 'images/logos/logo_Dimsop_D_Degradado.png' ) ); ?>"
+                    <img src="<?php echo esc_url( dimsop_asset_url( 'images/logos/logo_Dimsop_D_Degradado.webp' ) ); ?>"
                          alt="<?php bloginfo( 'name' ); ?>" class="img-fluid dimsop-footer-logo-img" loading="lazy">
                 </a>
                 <p class="mb-2 dimsop-footer-contact-item">

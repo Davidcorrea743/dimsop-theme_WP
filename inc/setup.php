@@ -58,6 +58,34 @@ if ( ! function_exists( 'dimsop_theme_setup' ) ) {
 add_action( 'after_setup_theme', 'dimsop_theme_setup' );
 
 /**
+ * Genera en WebP los tamaños intermedios de las imágenes JPG/PNG subidas
+ * (el original se conserva). Solo si el servidor soporta WebP.
+ */
+function dimsop_image_output_format( $formats ) {
+    if ( wp_image_editor_supports( array( 'mime_type' => 'image/webp' ) ) ) {
+        $formats['image/jpeg'] = 'image/webp';
+        $formats['image/png']  = 'image/webp';
+    }
+    return $formats;
+}
+add_filter( 'image_editor_output_format', 'dimsop_image_output_format' );
+
+/**
+ * Favicon de respaldo mientras no se defina un Icono del sitio en el Personalizador.
+ */
+function dimsop_fallback_favicon() {
+    if ( has_site_icon() ) {
+        return;
+    }
+    printf(
+        '<link rel="icon" type="image/webp" href="%s">' . "\n",
+        esc_url( dimsop_asset_url( 'images/logos/logo_Dimsop_D_Degradado.webp' ) )
+    );
+}
+add_action( 'wp_head', 'dimsop_fallback_favicon', 2 );
+add_action( 'admin_head', 'dimsop_fallback_favicon' );
+
+/**
  * Ancho máximo de contenido global
  */
 function dimsop_content_width() {

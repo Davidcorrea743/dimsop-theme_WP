@@ -22,6 +22,11 @@ require_once DIMSOP_THEME_DIR . '/inc/helpers.php';
 require_once DIMSOP_THEME_DIR . '/inc/enqueues.php';
 require_once DIMSOP_THEME_DIR . '/inc/navigation.php';
 
+if ( is_admin() ) {
+    require_once DIMSOP_THEME_DIR . '/inc/options-page.php';
+    require_once DIMSOP_THEME_DIR . '/inc/importer.php';
+}
+
 // Los módulos de CPTs y Formularios se cargarán en las siguientes fases
 if ( file_exists( DIMSOP_THEME_DIR . '/inc/post-types.php' ) ) {
     require_once DIMSOP_THEME_DIR . '/inc/post-types.php';

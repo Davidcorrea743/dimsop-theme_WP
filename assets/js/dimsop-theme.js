@@ -5,7 +5,7 @@
  * @version 1.0.0
  *
  * Incluye: Dark Mode, header (ocultar/mostrar, progreso, enlace activo,
- * desplazamiento suave), menú móvil y buscador overlay.
+ * desplazamiento suave), menú móvil, buscador overlay y spotlight de tarjetas.
  * Pendiente: contadores GSAP, reveals, Globe.gl, marquee y envío AJAX de formularios.
  */
 ( function () {
@@ -282,8 +282,29 @@
         } );
     }
 
+    /**
+     * Spotlight de tarjetas: pasa la posición del cursor a --mx/--my.
+     * Solo en dispositivos con ratón; en táctil la tarjeta queda estática.
+     */
+    function initSpotlight() {
+        if ( ! window.matchMedia || ! window.matchMedia( '(hover: hover) and (pointer: fine)' ).matches ) {
+            return;
+        }
+
+        document.addEventListener( 'pointermove', function ( e ) {
+            var card = e.target.closest && e.target.closest( '.dimsop-ui-card' );
+            if ( ! card ) {
+                return;
+            }
+            var rect = card.getBoundingClientRect();
+            card.style.setProperty( '--mx', ( e.clientX - rect.left ) + 'px' );
+            card.style.setProperty( '--my', ( e.clientY - rect.top ) + 'px' );
+        }, { passive: true } );
+    }
+
     function init() {
         initDarkMode();
+        initSpotlight();
         initHeaderScroll();
         initSmoothScroll();
         initActiveNav();

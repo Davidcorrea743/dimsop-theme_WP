@@ -24,6 +24,17 @@
   --dimsop-surface: var(--dimsop-white);
   --dimsop-surface-border: #dce3ec;
   --dimsop-card-shadow: 0 10px 30px rgba(0, 51, 98, 0.08);
+  /* Sistema UI (inspirado en shadcn/ui): radios, bordes, foco, sombras, easing */
+  --dimsop-radius-sm: 0.5rem;
+  --dimsop-radius: 0.75rem;
+  --dimsop-radius-lg: 1.25rem;
+  --dimsop-border-subtle: rgba(0, 51, 98, 0.10);
+  --dimsop-ring: 0 0 0 3px rgba(77, 163, 47, 0.35);
+  --dimsop-shadow-sm: 0 1px 2px rgba(0, 51, 98, 0.06);
+  --dimsop-shadow-md: 0 1px 2px rgba(0, 51, 98, 0.04), 0 6px 16px -4px rgba(0, 51, 98, 0.10);
+  --dimsop-shadow-lg: 0 2px 4px rgba(0, 51, 98, 0.04), 0 24px 48px -12px rgba(0, 51, 98, 0.18);
+  --dimsop-spotlight: rgba(77, 163, 47, 0.10);
+  --dimsop-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Tokens para Modo Oscuro */
@@ -37,6 +48,12 @@
   --dimsop-primary: #0b1626;
   --dimsop-secondary: #13233f;
   --dimsop-card-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  --dimsop-border-subtle: rgba(255, 255, 255, 0.08);
+  --dimsop-ring: 0 0 0 3px rgba(77, 163, 47, 0.45);
+  --dimsop-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.30);
+  --dimsop-shadow-md: 0 1px 2px rgba(0, 0, 0, 0.30), 0 8px 20px -6px rgba(0, 0, 0, 0.50);
+  --dimsop-shadow-lg: 0 2px 4px rgba(0, 0, 0, 0.30), 0 28px 56px -12px rgba(0, 0, 0, 0.65);
+  --dimsop-spotlight: rgba(77, 163, 47, 0.16);
   --bs-body-color: #e6edf5;
   --bs-body-bg: #0b1626;
 }
@@ -289,6 +306,341 @@ html, body {
   color: var(--dimsop-white) !important;
 }
 
+/* =====================================================================
+ * DIMSOP - COMPONENTES UI (lenguaje visual inspirado en shadcn/ui)
+ * Botones, tarjetas con spotlight, insignias y campos de formulario.
+ * Usa los tokens --dimsop-radius*, --dimsop-ring, --dimsop-shadow-* de _variables.
+ * ===================================================================== */
+/* ----------------------------- Botones ------------------------------ */
+.dimsop-button {
+  --_bg: var(--dimsop-accent);
+  --_fg: var(--dimsop-white);
+  --_border: transparent;
+  --_bg-hover: var(--dimsop-accent-hover);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2.75rem;
+  padding: 0 1.25rem;
+  border: 1px solid var(--_border);
+  border-radius: var(--dimsop-radius-sm);
+  background: var(--_bg);
+  color: var(--_fg);
+  font-family: var(--dimsop-font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: var(--dimsop-shadow-sm);
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s var(--dimsop-ease-out);
+}
+.dimsop-button:hover {
+  background: var(--_bg-hover);
+  color: var(--_fg);
+}
+.dimsop-button:focus-visible {
+  outline: none;
+  box-shadow: var(--dimsop-ring);
+}
+.dimsop-button:active {
+  transform: scale(0.97);
+}
+.dimsop-button:disabled, .dimsop-button[aria-disabled=true] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.dimsop-button .fa {
+  font-size: 1em;
+}
+
+.dimsop-button--outline {
+  --_bg: transparent;
+  --_fg: var(--dimsop-text);
+  --_border: var(--dimsop-surface-border);
+  --_bg-hover: var(--dimsop-bg-alt);
+  box-shadow: none;
+}
+
+.dimsop-button--ghost {
+  --_bg: transparent;
+  --_fg: var(--dimsop-text);
+  --_bg-hover: var(--dimsop-bg-alt);
+  box-shadow: none;
+}
+
+.dimsop-button--secondary {
+  --_bg: var(--dimsop-primary);
+  --_bg-hover: var(--dimsop-secondary);
+}
+
+/* En oscuro --dimsop-primary coincide con el fondo: se usa el azul corporativo */
+[data-theme=dark] .dimsop-button--secondary {
+  --_bg: #004587;
+  --_bg-hover: #0a5aa8;
+}
+
+.dimsop-button--sm {
+  height: 2.25rem;
+  padding: 0 0.875rem;
+  font-size: 0.85rem;
+}
+
+.dimsop-button--lg {
+  height: 3.25rem;
+  padding: 0 1.75rem;
+  font-size: 1.05rem;
+}
+
+/* Flecha que se desplaza al pasar el ratón */
+.dimsop-button .dimsop-button-arrow {
+  transition: transform 0.25s var(--dimsop-ease-out);
+}
+
+.dimsop-button:hover .dimsop-button-arrow {
+  transform: translateX(3px);
+}
+
+/* ---------------------- Tarjetas con spotlight ---------------------- */
+.dimsop-ui-card {
+  --mx: 50%;
+  --my: 50%;
+  position: relative;
+  isolation: isolate;
+  height: 100%;
+  padding: 1.75rem;
+  border: 1px solid var(--dimsop-border-subtle);
+  border-radius: var(--dimsop-radius);
+  background: var(--dimsop-surface);
+  color: var(--dimsop-text);
+  box-shadow: var(--dimsop-shadow-md);
+  overflow: hidden;
+  transition: transform 0.35s var(--dimsop-ease-out), box-shadow 0.35s var(--dimsop-ease-out), border-color 0.35s ease;
+  /* Brillo radial que sigue al cursor (--mx/--my los actualiza dimsop-theme.js) */
+}
+.dimsop-ui-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(420px circle at var(--mx) var(--my), var(--dimsop-spotlight), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+.dimsop-ui-card {
+  /* Borde con degradado verde/azul que aparece al pasar el ratón */
+}
+.dimsop-ui-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: radial-gradient(260px circle at var(--mx) var(--my), var(--dimsop-accent), rgba(0, 69, 135, 0.6) 45%, transparent 75%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+.dimsop-ui-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--dimsop-shadow-lg);
+}
+.dimsop-ui-card:hover::before, .dimsop-ui-card:hover::after, .dimsop-ui-card:focus-within::after {
+  opacity: 1;
+}
+
+.dimsop-ui-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--dimsop-border-subtle);
+  border-radius: var(--dimsop-radius-sm);
+  background: linear-gradient(135deg, rgba(77, 163, 47, 0.16), rgba(0, 69, 135, 0.12));
+  color: var(--dimsop-accent);
+  font-size: 1.35rem;
+}
+
+.dimsop-ui-card-title {
+  margin-bottom: 0.5rem;
+  color: var(--dimsop-primary);
+  font-family: var(--dimsop-font-heading);
+  font-size: 1.6rem;
+  letter-spacing: 0.5px;
+  line-height: 1.1;
+}
+
+[data-theme=dark] .dimsop-ui-card-title {
+  color: var(--dimsop-white);
+}
+
+.dimsop-ui-card-text {
+  margin: 0;
+  color: var(--dimsop-text-muted);
+  font-size: 0.95rem;
+}
+
+/* Variante destacada (p. ej. la unidad de Desarrollo e IA en el bento) */
+.dimsop-ui-card--featured {
+  background: linear-gradient(var(--dimsop-surface), var(--dimsop-surface)) padding-box, linear-gradient(135deg, var(--dimsop-accent), var(--dimsop-secondary)) border-box;
+  border-color: transparent;
+}
+
+/* --------------------------- Insignias ------------------------------ */
+.dimsop-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: rgba(77, 163, 47, 0.12);
+  color: var(--dimsop-accent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  line-height: 1.2;
+}
+
+.dimsop-badge--outline {
+  background: transparent;
+  border-color: var(--dimsop-surface-border);
+  color: var(--dimsop-text-muted);
+}
+
+.dimsop-badge--primary {
+  background: rgba(0, 69, 135, 0.12);
+  color: var(--dimsop-secondary);
+}
+
+[data-theme=dark] .dimsop-badge--primary {
+  background: rgba(110, 168, 254, 0.14);
+  color: #9ec5fe;
+}
+
+/* Punto pulsante para insignias "en vivo" */
+.dimsop-badge-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 0 currentColor;
+  animation: dimsop-badge-pulse 2s infinite;
+}
+
+@keyframes dimsop-badge-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(77, 163, 47, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(77, 163, 47, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(77, 163, 47, 0);
+  }
+}
+/* ----------------------- Campos de formulario ----------------------- */
+.dimsop-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.dimsop-label {
+  color: var(--dimsop-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.dimsop-input {
+  width: 100%;
+  height: 2.75rem;
+  padding: 0 0.875rem;
+  border: 1px solid var(--dimsop-surface-border);
+  border-radius: var(--dimsop-radius-sm);
+  background: var(--dimsop-bg);
+  color: var(--dimsop-text);
+  font-family: var(--dimsop-font-body);
+  font-size: 0.95rem;
+  box-shadow: var(--dimsop-shadow-sm);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.dimsop-input::placeholder {
+  color: var(--dimsop-text-muted);
+  opacity: 0.8;
+}
+.dimsop-input:hover {
+  border-color: rgba(77, 163, 47, 0.5);
+}
+.dimsop-input:focus {
+  outline: none;
+  border-color: var(--dimsop-accent);
+  box-shadow: var(--dimsop-ring);
+}
+.dimsop-input[aria-invalid=true], .dimsop-input.is-invalid {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
+}
+
+textarea.dimsop-input {
+  height: auto;
+  min-height: 7rem;
+  padding: 0.75rem 0.875rem;
+  resize: vertical;
+}
+
+select.dimsop-input {
+  padding-right: 2.25rem;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%236c757d' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+}
+
+.dimsop-field-hint,
+.dimsop-field-error {
+  font-size: 0.8rem;
+}
+
+.dimsop-field-hint {
+  color: var(--dimsop-text-muted);
+}
+
+.dimsop-field-error {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #dc3545;
+}
+
+[data-theme=dark] .dimsop-field-error {
+  color: #f1707b;
+}
+
+/* ------------------------- Accesibilidad ---------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .dimsop-button,
+  .dimsop-ui-card,
+  .dimsop-ui-card::before,
+  .dimsop-ui-card::after {
+    transition: none;
+  }
+  .dimsop-ui-card:hover {
+    transform: none;
+  }
+  .dimsop-badge-dot {
+    animation: none;
+  }
+}
 /* =====================================================================
  * DIMSOP - HEADER, NAVEGACIÓN Y BUSCADOR MODAL
  * ===================================================================== */
