@@ -93,3 +93,90 @@
         animation: none;
     }
 }
+
+/* Con JS (initMarquees): la pista se mueve por transform y admite arrastre */
+.dimsop-marquee {
+    position: relative;
+}
+
+.dimsop-marquee.is-enhanced {
+    .dimsop-marquee-container {
+        overflow: hidden;
+        cursor: grab;
+        touch-action: pan-y; /* el gesto vertical sigue moviendo la página */
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    .dimsop-marquee-track {
+        animation: none;
+        will-change: transform;
+    }
+
+    &.is-dragging .dimsop-marquee-container {
+        cursor: grabbing;
+    }
+}
+
+.dimsop-marquee-btn {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1px solid var(--dimsop-surface-border);
+    border-radius: 50%;
+    background: var(--dimsop-surface);
+    color: var(--dimsop-text);
+    box-shadow: var(--dimsop-shadow-md);
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+                box-shadow 0.2s ease, transform 0.15s var(--dimsop-ease-out);
+
+    &[hidden] {
+        display: none;
+    }
+
+    &:hover {
+        border-color: var(--dimsop-accent);
+        background: var(--dimsop-accent);
+        color: var(--dimsop-white);
+    }
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: var(--dimsop-ring);
+    }
+
+    &:active {
+        transform: translateY(-50%) scale(0.92);
+    }
+}
+
+.dimsop-marquee-btn--prev {
+    left: 1.5rem;
+}
+
+.dimsop-marquee-btn--next {
+    right: 1.5rem;
+}
+
+@media (max-width: 767.98px) {
+    .dimsop-marquee-btn {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .dimsop-marquee-btn--prev {
+        left: 0.5rem;
+    }
+
+    .dimsop-marquee-btn--next {
+        right: 0.5rem;
+    }
+}

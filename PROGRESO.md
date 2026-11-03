@@ -13,7 +13,7 @@ Estados: ✅ hecho · 🟡 en curso · ⬜ pendiente
 | 1 | Puesta a punto y navegación | ✅ | Walker de menú (`inc/navigation.php`), header que se oculta/reaparece, barra de progreso, enlace activo, desplazamiento suave, menú hamburguesa y buscador overlay. SMTP a Mailpit (puerto 10001). |
 | 2 | Opciones y contenido | ✅ | Apariencia › Opciones Dimsop, importador (7 unidades, 25 aliados, 19 proyectos), imágenes a WebP (17,4 → 0,7 MB), favicon, tokens y componentes UI estilo shadcn (`_ui.scss`), Guía de componentes. |
 | 3 | Unidades y cobertura | ✅ | Corrección del botón de tema. Unidades en cuadrícula bento (`section-unidades.php`, `_unidades.scss`) con tarjetas spotlight e insignia pulsante. "Nuestras Sedes" (`section-cobertura.php`, `_cobertura.scss`) con leyenda en tarjetas, puntos pulsantes y mapa WebP de respaldo. |
-| 4 | Aliados, contadores y proyectos | ✅ | Ajustes de Nosotros (títulos centrados, valores en tarjetas). Aliados: carrusel en bucle de 25 logos en chips blancos. Contadores en tarjetas "cristal" con valor final visible sin JS. Proyectos: carrusel de 19 tarjetas con logo, cliente y descripción. Nuevo `_proyectos.scss`. |
+| 4 | Aliados, contadores y proyectos | ✅ | Ajustes de Nosotros (títulos centrados, valores en tarjetas). Aliados: carrusel en bucle de 25 logos en chips blancos. Contadores en tarjetas "cristal" con valor final visible sin JS. Proyectos: carrusel de 19 tarjetas con logo y nombre de la empresa. Controles en ambos carruseles. Nuevo `_proyectos.scss`. |
 | 5 | Blog, contacto y revisión responsive | ⬜ | |
 | 6 | SEO, respaldo y correcciones de base | ⬜ | |
 | 7 | Animaciones (GSAP, Lenis), carruseles, contadores, globo 3D | ⬜ | |
@@ -42,6 +42,8 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 | 2026-11-03 | 3 | El sol del botón de tema no se veía en modo claro | Usaba `btn-outline-light` (blanco sobre header blanco) | Clase propia `dimsop-theme-toggle`: azul en claro, verde en oscuro, anillo de foco; `aria-label` cambia según el modo |
 | 2026-11-03 | 4 | Logos de aliados invisibles en modo oscuro | Logos oscuros con filtro gris sobre fondo azul | Chips blancos en ambos modos (como en Odoo) |
 | 2026-11-03 | 4 | Contadores de Odoo mostraban "+0" sin JS | El valor solo lo escribía el JS | Se imprime el valor final; el Día 7 se anima desde 0 |
+| 2026-11-03 | 5 | Los carruseles no se podían mover a mano | Solo tenían la animación CSS | `initMarquees()`: botones, arrastre con ratón o dedo, inercia y rueda horizontal en Aliados y Proyectos (adelantado del Día 7) |
+| 2026-11-03 | 5 | Proyectos mostraba la descripción de cada trabajo | Decisión de diseño revisada por David | Solo logo y nombre centrado; los extractos siguen guardados en el panel pero no se muestran |
 
 ## Decisiones tomadas
 

@@ -3,7 +3,8 @@
  * Sección: Aliados Tecnológicos (carrusel de logos en bucle)
  *
  * Lee el CPT dimsop_partner. La pista se imprime dos veces para el bucle infinito
- * (la copia va con aria-hidden). Botones, arrastre e inercia llegan el Día 7.
+ * (la copia va con aria-hidden). initMarquees() añade botones, arrastre e inercia;
+ * sin JS queda la animación CSS y los botones siguen ocultos.
  *
  * @package Dimsop
  */
@@ -28,7 +29,9 @@ if ( ! $dimsop_partners ) {
         </div>
     </div>
 
-    <div class="dimsop-marquee-container" role="region" aria-label="<?php esc_attr_e( 'Logos de aliados tecnológicos de Dimsop', 'dimsop' ); ?>">
+    <div class="dimsop-marquee" data-marquee data-speed="60" role="region" aria-label="<?php esc_attr_e( 'Logos de aliados tecnológicos de Dimsop', 'dimsop' ); ?>">
+        <button class="dimsop-marquee-btn dimsop-marquee-btn--prev" type="button" aria-label="<?php esc_attr_e( 'Mover el carrusel hacia atrás', 'dimsop' ); ?>" hidden><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+        <div class="dimsop-marquee-container">
         <div class="dimsop-marquee-track">
             <?php foreach ( array( false, true ) as $dimsop_is_copy ) : ?>
                 <?php foreach ( $dimsop_partners as $dimsop_partner ) : ?>
@@ -48,5 +51,7 @@ if ( ! $dimsop_partners ) {
                 <?php endforeach; ?>
             <?php endforeach; ?>
         </div>
+        </div>
+        <button class="dimsop-marquee-btn dimsop-marquee-btn--next" type="button" aria-label="<?php esc_attr_e( 'Mover el carrusel hacia adelante', 'dimsop' ); ?>" hidden><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
     </div>
 </section>

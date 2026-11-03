@@ -12,10 +12,10 @@
     flex: 0 0 auto;
     display: flex;
     flex-direction: column;
-    width: 18rem;
+    width: 15rem;
     height: auto;
     margin: 0 0.625rem;
-    padding: 1.5rem;
+    padding: 1.25rem;
 }
 
 .dimsop-project-logo {
@@ -39,20 +39,16 @@
 }
 
 .dimsop-project-name {
-    margin-bottom: 0.4rem;
+    margin-bottom: 0;
     color: var(--dimsop-primary);
     font-family: var(--dimsop-font-heading);
-    font-size: 1.35rem;
+    font-size: 1.25rem;
     letter-spacing: 0.5px;
+    text-align: center;
 }
 
 [data-theme="dark"] .dimsop-project-name {
     color: var(--dimsop-white);
-}
-
-.dimsop-project-card .dimsop-ui-card-text {
-    font-size: 0.875rem;
-    white-space: normal;
 }
 
 /* ------------------------- Contadores ------------------------------ */

@@ -5,8 +5,8 @@
  * @version 1.0.0
  *
  * Incluye: Dark Mode, header (ocultar/mostrar, progreso, enlace activo,
- * desplazamiento suave), menú móvil, buscador overlay y spotlight de tarjetas.
- * Pendiente: contadores GSAP, reveals, Globe.gl, marquee y envío AJAX de formularios.
+ * desplazamiento suave), menú móvil, buscador overlay, spotlight de tarjetas y carruseles.
+ * Pendiente: contadores GSAP, reveals, Globe.gl y envío AJAX de formularios.
  */
 ( function () {
     'use strict';
@@ -307,9 +307,208 @@
         }, { passive: true } );
     }
 
+    /**
+     * Carruseles en bucle: avance automático, botones, arrastre con inercia y
+     * rueda horizontal. Sustituye a la animación CSS, que queda como respaldo sin JS.
+     * Con movimiento reducido no hay avance automático ni inercia.
+     */
+    function initMarquees() {
+        var reduceMotion = window.matchMedia && window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
+
+        Array.prototype.forEach.call( document.querySelectorAll( '[data-marquee]' ), function ( root ) {
+            var viewport = root.querySelector( '.dimsop-marquee-container' );
+            var track = root.querySelector( '.dimsop-marquee-track' );
+            if ( ! viewport || ! track ) {
+                return;
+            }
+
+            var speed = parseFloat( root.getAttribute( 'data-speed' ) ) || 50; // px por segundo
+            var x = 0;
+            var loopWidth = 0;
+            var velocity = 0;
+            var glide = 0; // distancia pendiente de los botones
+            var hovering = false;
+            var focused = false;
+            var dragging = false;
+            var resumeAt = 0;
+            var lastFrame = 0;
+            var lastPointerX = 0;
+            var lastPointerTime = 0;
+            var rafId = null;
+
+            function measure() {
+                loopWidth = track.scrollWidth / 2;
+            }
+
+            function render() {
+                if ( loopWidth > 0 ) {
+                    x = ( ( x % loopWidth ) + loopWidth ) % loopWidth;
+                }
+                track.style.transform = 'translate3d(' + ( -x ) + 'px, 0, 0)';
+            }
+
+            function frame( time ) {
+                var dt = Math.min( ( time - lastFrame ) / 1000, 0.05 );
+                lastFrame = time;
+
+                if ( ! dragging ) {
+                    if ( glide ) {
+                        var step = reduceMotion ? glide : glide * Math.min( 1, dt * 8 );
+                        if ( Math.abs( glide - step ) < 0.5 ) {
+                            step = glide;
+                        }
+                        x += step;
+                        glide -= step;
+                    } else if ( Math.abs( velocity ) > 5 ) {
+                        x += velocity * dt;
+                        velocity *= Math.pow( 0.05, dt );
+                    } else {
+                        velocity = 0;
+                        if ( ! reduceMotion && ! hovering && ! focused && time >= resumeAt ) {
+                            x += speed * dt;
+                        }
+                    }
+                }
+
+                render();
+                rafId = window.requestAnimationFrame( frame );
+            }
+
+            function start() {
+                if ( null === rafId ) {
+                    lastFrame = window.performance.now();
+                    rafId = window.requestAnimationFrame( frame );
+                }
+            }
+
+            function stop() {
+                if ( null !== rafId ) {
+                    window.cancelAnimationFrame( rafId );
+                    rafId = null;
+                }
+            }
+
+            function nudge( direction ) {
+                var item = track.firstElementChild;
+                var itemWidth = item ? item.offsetWidth : 0;
+                velocity = 0;
+                glide += direction * Math.max( viewport.clientWidth * 0.6, itemWidth );
+                resumeAt = window.performance.now() + 2000;
+            }
+
+            function endDrag() {
+                if ( ! dragging ) {
+                    return;
+                }
+                dragging = false;
+                root.classList.remove( 'is-dragging' );
+                var now = window.performance.now();
+                // Sin inercia si el puntero se quedó quieto antes de soltar.
+                if ( reduceMotion || now - lastPointerTime > 100 ) {
+                    velocity = 0;
+                }
+                velocity = Math.max( -3000, Math.min( 3000, velocity ) );
+                resumeAt = now + 1500;
+            }
+
+            Array.prototype.forEach.call( root.querySelectorAll( '.dimsop-marquee-btn' ), function ( btn ) {
+                btn.hidden = false;
+                btn.addEventListener( 'click', function () {
+                    nudge( btn.classList.contains( 'dimsop-marquee-btn--prev' ) ? -1 : 1 );
+                } );
+            } );
+
+            viewport.addEventListener( 'pointerdown', function ( e ) {
+                if ( 'mouse' === e.pointerType && 0 !== e.button ) {
+                    return;
+                }
+                dragging = true;
+                glide = 0;
+                velocity = 0;
+                lastPointerX = e.clientX;
+                lastPointerTime = window.performance.now();
+                root.classList.add( 'is-dragging' );
+                viewport.setPointerCapture( e.pointerId );
+            } );
+
+            viewport.addEventListener( 'pointermove', function ( e ) {
+                if ( ! dragging ) {
+                    return;
+                }
+                var now = window.performance.now();
+                var dx = e.clientX - lastPointerX;
+                var elapsed = Math.max( ( now - lastPointerTime ) / 1000, 0.001 );
+                x -= dx;
+                velocity = 0.8 * ( -dx / elapsed ) + 0.2 * velocity;
+                lastPointerX = e.clientX;
+                lastPointerTime = now;
+            } );
+
+            viewport.addEventListener( 'pointerup', endDrag );
+            viewport.addEventListener( 'pointercancel', endDrag );
+
+            // Evita el arrastre nativo de las imágenes.
+            track.addEventListener( 'dragstart', function ( e ) {
+                e.preventDefault();
+            } );
+
+            // Solo gestos horizontales (o Mayús + rueda): la rueda vertical sigue moviendo la página.
+            viewport.addEventListener( 'wheel', function ( e ) {
+                var delta = Math.abs( e.deltaX ) > Math.abs( e.deltaY ) ? e.deltaX : ( e.shiftKey ? e.deltaY : 0 );
+                if ( ! delta ) {
+                    return;
+                }
+                e.preventDefault();
+                glide = 0;
+                velocity = 0;
+                x += delta;
+                resumeAt = window.performance.now() + 1500;
+            }, { passive: false } );
+
+            root.addEventListener( 'pointerenter', function ( e ) {
+                hovering = 'mouse' === e.pointerType;
+            } );
+            root.addEventListener( 'pointerleave', function () {
+                hovering = false;
+            } );
+
+            // Pausa al navegar con teclado (un clic con ratón no cuenta como foco visible).
+            root.addEventListener( 'focusin', function ( e ) {
+                focused = e.target.matches( ':focus-visible' );
+            } );
+            root.addEventListener( 'focusout', function () {
+                focused = false;
+            } );
+
+            root.classList.add( 'is-enhanced' );
+            measure();
+            render();
+
+            if ( window.ResizeObserver ) {
+                new window.ResizeObserver( measure ).observe( track );
+            } else {
+                window.addEventListener( 'resize', measure );
+            }
+
+            // Fuera de pantalla no gasta animación.
+            if ( window.IntersectionObserver ) {
+                new window.IntersectionObserver( function ( entries ) {
+                    if ( entries[ 0 ].isIntersecting ) {
+                        start();
+                    } else {
+                        stop();
+                    }
+                } ).observe( root );
+            } else {
+                start();
+            }
+        } );
+    }
+
     function init() {
         initDarkMode();
         initSpotlight();
+        initMarquees();
         initHeaderScroll();
         initSmoothScroll();
         initActiveNav();
