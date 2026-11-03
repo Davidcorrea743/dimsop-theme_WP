@@ -1,0 +1,119 @@
+/* =====================================================================
+ * DIMSOP - FORMULARIOS Y ELEMENTOS DE ENTRADA SEGUROS
+ * ===================================================================== */
+
+.dimsop-form {
+    background: var(--dimsop-surface);
+    border: 1px solid var(--dimsop-surface-border);
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: var(--dimsop-card-shadow);
+}
+
+.dimsop-form .form-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--dimsop-text);
+    margin-bottom: 0.4rem;
+}
+
+.dimsop-form .form-control,
+.dimsop-form .form-select {
+    background-color: var(--dimsop-bg);
+    border: 1px solid var(--dimsop-surface-border);
+    color: var(--dimsop-text);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dimsop-form .form-control:focus,
+.dimsop-form .form-select:focus {
+    border-color: var(--dimsop-accent);
+    box-shadow: 0 0 0 3px rgba(77, 163, 47, 0.2);
+    outline: none;
+}
+
+/* Campo Honeypot Oculto para Trampa de Bots (Inaccesible pero sin display:none para bots simples) */
+.dimsop-hp-field {
+    opacity: 0 !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    z-index: -1 !important;
+    pointer-events: none !important;
+}
+
+/* Botón de Enví­o */
+.dimsop-btn-submit {
+    background: linear-gradient(135deg, var(--dimsop-accent), #3f8a27);
+    color: var(--dimsop-white);
+    font-family: var(--dimsop-font-heading);
+    font-size: 1.15rem;
+    letter-spacing: 0.8px;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 2.5rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.dimsop-btn-submit:hover {
+    color: var(--dimsop-white);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(77, 163, 47, 0.35);
+}
+
+.dimsop-btn-spinner {
+    display: none;
+}
+
+.dimsop-btn-loading .dimsop-btn-spinner {
+    display: inline-block;
+}
+
+/* Subida de Archivos Personalizada (Upload CV) */
+.dimsop-file-upload {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    width: 100%;
+}
+
+.dimsop-file-upload input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.dimsop-file-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+    background-color: var(--dimsop-bg-alt);
+    border: 2px dashed var(--dimsop-surface-border);
+    border-radius: 8px;
+    color: var(--dimsop-text-muted);
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dimsop-file-upload:hover .dimsop-file-label {
+    border-color: var(--dimsop-accent);
+    color: var(--dimsop-accent);
+}

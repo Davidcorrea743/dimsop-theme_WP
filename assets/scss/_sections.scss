@@ -1,0 +1,231 @@
+/* =====================================================================
+ * DIMSOP - SECCIONES CORPORATIVAS
+ * Cintillo ISO, Nosotros, Cobertura y Contadores de Impacto
+ * ===================================================================== */
+
+/* Cintillo ISO 9001 */
+.dimsop-iso {
+    background-color: var(--dimsop-primary-dark);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Secciones Generales */
+.dimsop-section {
+    position: relative;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+.dimsop-section-alt {
+    background-color: var(--dimsop-bg-alt);
+}
+
+.dimsop-section-dark {
+    background-color: var(--dimsop-primary-dark);
+    color: var(--dimsop-white);
+}
+
+/* Sección Nosotros (Misión, Visión, Valores) */
+.dimsop-lead-nosotros {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.dimsop-card {
+    background: var(--dimsop-surface);
+    border: 1px solid var(--dimsop-surface-border);
+    border-radius: 12px;
+    padding: 2.25rem;
+    box-shadow: var(--dimsop-card-shadow);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.dimsop-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(0, 51, 98, 0.12);
+}
+
+[data-theme="dark"] .dimsop-card:hover {
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+}
+
+.dimsop-value {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    background: var(--dimsop-surface);
+    border: 1px solid var(--dimsop-surface-border);
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--dimsop-text);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.dimsop-value i {
+    color: var(--dimsop-accent);
+}
+
+.dimsop-value:hover {
+    transform: scale(1.05);
+    border-color: var(--dimsop-accent);
+}
+
+/* Contadores de Impacto */
+.dimsop-counter-box {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.dimsop-counter-num {
+    font-family: var(--dimsop-font-heading);
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    color: var(--dimsop-accent);
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.dimsop-counter-label {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* =====================================================================
+ * METODOLOGÍA DE TRABAJO (Sección - imagen base + iconos interactivos)
+ * Portado desde el módulo Odoo dimsop_website
+ * ===================================================================== */
+.dimsop-metodologia-text {
+    color: var(--dimsop-text);
+}
+
+.dimsop-metodologia-container {
+    position: relative;
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.dimsop-metodologia-base {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.dimsop-metodologia-icon {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 10;
+    text-align: center;
+    opacity: 0.15;
+    transition: opacity 0.9s ease, transform 0.3s ease;
+}
+
+/* Posiciones por icono */
+#metod-icon-cliente { top: 21%; left: calc(38% + 126px); }
+#metod-icon-base    { top: calc(31% + 11px); left: calc(52% + 121px); }
+#metod-icon-valor   { top: calc(11% + 132px); left: calc(24% + 132px); }
+#metod-icon-equipos { top: calc(59% + 131px); left: calc(24% + 133px); }
+#metod-icon-diseno  { top: calc(60% + 125px); left: calc(52% + 121px); }
+
+/* Labels encima para base, valor y cliente */
+#metod-icon-cliente .dimsop-metodologia-icon-label,
+#metod-icon-base .dimsop-metodologia-icon-label,
+#metod-icon-valor .dimsop-metodologia-icon-label {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 8px;
+    margin-top: 0;
+}
+
+.dimsop-metodologia-container:hover .dimsop-metodologia-icon {
+    opacity: 1 !important;
+}
+
+.dimsop-metodologia-icon:hover {
+    opacity: 1 !important;
+    z-index: 20;
+}
+
+.dimsop-metodologia-icon-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.98);
+    border: 3px solid var(--dimsop-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.dimsop-metodologia-icon-circle img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    transition: filter 0.3s ease;
+}
+
+.dimsop-metodologia-icon-label {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--dimsop-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.dimsop-metodologia-icon:hover .dimsop-metodologia-icon-circle {
+    transform: scale(1.2);
+    box-shadow: 0 8px 25px rgba(77, 163, 47, 0.4);
+}
+
+.dimsop-metodologia-icon:hover .dimsop-metodologia-icon-label {
+    background: var(--dimsop-accent);
+    color: var(--dimsop-white);
+}
+
+@media (max-width: 767.98px) {
+    .dimsop-metodologia-container {
+        max-width: 100%;
+    }
+
+    .dimsop-metodologia-icon-circle {
+        width: 48px;
+        height: 48px;
+    }
+
+    .dimsop-metodologia-icon-circle img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .dimsop-metodologia-icon-label {
+        font-size: 0.6rem;
+    }
+
+    /* Ocultar iconos interactivos en mobile (se muestra imagen estática) */
+    .dimsop-metodologia-icon {
+        display: none !important;
+    }
+}

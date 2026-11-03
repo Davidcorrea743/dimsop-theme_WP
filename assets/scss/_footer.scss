@@ -1,0 +1,123 @@
+/* =====================================================================
+ * DIMSOP - PIE DE PÁGINA (FOOTER) Y COMPONENTES RELACIONADOS
+ * Reemplaza completamente los estilos en línea del footer original
+ * ===================================================================== */
+
+.dimsop-footer {
+    background-color: var(--dimsop-primary-dark);
+    position: relative;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dimsop-footer-logo-img {
+    max-height: 140px;
+    width: auto;
+}
+
+.dimsop-footer-title {
+    font-family: var(--dimsop-font-heading);
+    font-size: 1.25rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--dimsop-white);
+    margin-bottom: 1.25rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.dimsop-footer-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 35px;
+    height: 2px;
+    background-color: var(--dimsop-accent);
+}
+
+.dimsop-footer ul li {
+    margin-bottom: 0.65rem;
+}
+
+.dimsop-footer ul li a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+.dimsop-footer ul li a:hover {
+    color: var(--dimsop-accent);
+    padding-left: 4px;
+}
+
+.dimsop-footer-contact-item {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.dimsop-footer-address {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 0.75rem;
+}
+
+.dimsop-footer-meta {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.dimsop-footer-map-wrap {
+    width: 100%;
+    height: 130px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dimsop-footer-map {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.dimsop-footer-map-link {
+    font-size: 0.8rem;
+    color: var(--dimsop-accent);
+    text-decoration: none;
+    display: inline-block;
+    transition: color 0.2s ease;
+}
+
+.dimsop-footer-map-link:hover {
+    color: #7dd956;
+    text-decoration: underline;
+}
+
+.dimsop-footer-bottom {
+    background-color: rgba(0, 0, 0, 0.25);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.dimsop-social-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--dimsop-white);
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.dimsop-social-btn:hover {
+    background: var(--dimsop-accent);
+    color: var(--dimsop-white);
+    transform: translateY(-2px);
+}

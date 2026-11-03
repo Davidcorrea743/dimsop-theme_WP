@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem \"$env:USERPROFILE\\\\Local Sites\\\\dimsop-theme\\\\app\\\\public\\\\wp-content\\\\themes\" | Select-Object Name, LinkType, Target; Get-ChildItem \"$env:USERPROFILE\\\\Local Sites\\\\dimsop-theme\\\\app\\\\public\\\\wp-content\\\\plugins\" | Select-Object Name)",
+      "PowerShell(git init ..)",
+      "PowerShell(git -C .. status --short)",
+      "PowerShell(npm --prefix .. run build 2>&1 | Select-Object -Last 5; $j = Get-Content \"$env:APPDATA\\\\Local\\\\sites.json\" -Raw | ConvertFrom-Json; $j.PSObject.Properties | ForEach-Object { $_.Value | Select-Object name, domain, path, @{n='http';e={$_.services.nginx.ports.HTTP}}, @{n='mailpit';e={$_.services.mailpit.ports}} })",
+      "PowerShell($j = Get-Content \"$env:APPDATA\\\\Local\\\\sites.json\" -Raw | ConvertFrom-Json; $s=$j.PSObject.Properties | Select-Object -First 1 -ExpandProperty Value; $s.services.mysql | ConvertTo-Json -Compress; $s.mysql | ConvertTo-Json -Compress; Get-ChildItem \"$env:APPDATA\\\\..\\\\Local\\\\Programs\\\\Local\\\\resources\\\\extraResources\\\\lightning-services\" -Directory -ErrorAction SilentlyContinue | Select-Object Name; Get-ChildItem \"C:\\\\Program Files\\\\Local\\\\resources\\\\extraResources\\\\lightning-services\" -Directory -ErrorAction SilentlyContinue | Select-Object Name)",
+      "PowerShell($my = Get-ChildItem \"$env:LOCALAPPDATA\\\\Programs\\\\Local\\\\resources\\\\extraResources\\\\lightning-services\\\\mysql-8.4.0+2\" -Recurse -Filter mysql.exe | Select-Object -First 1 -ExpandProperty FullName; & $my -h 127.0.0.1 -P 10005 -u root -proot local -e \"SELECT option_name, LEFT\\(option_value,200\\) v FROM wp_options WHERE option_name IN \\('siteurl','permalink_structure','timezone_string','gmt_offset','WPLANG','date_format','blogname','blogdescription','show_on_front','page_on_front','page_for_posts','template','stylesheet','active_plugins','wp_mail_smtp','start_of_week'\\)\" 2>$null)",
+      "PowerShell(foreach \\($p in 1025,8025,10000,10001\\) { $t = Test-NetConnection 127.0.0.1 -Port $p -WarningAction SilentlyContinue; \"$p $\\($t.TcpTestSucceeded\\)\" })"
+    ]
+  }
+}

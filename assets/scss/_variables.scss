@@ -1,0 +1,111 @@
+/* =====================================================================
+ * DIMSOP - TOKENS DE DISEÑO Y VARIABLES GLOBALES
+ * ===================================================================== */
+
+:root {
+    /* Paleta corporativa */
+    --dimsop-primary:        #003362;  /* Azul corporativo */
+    --dimsop-primary-dark:   #0a192f;  /* Variante oscura para cintillo y contrastes */
+    --dimsop-secondary:      #004587;  /* Fondo secundario */
+    --dimsop-accent:         #4da32f;  /* Verde de acento: botones CTA, badges, hover */
+    --dimsop-accent-hover:   #3f8a27;  /* Hover de verde */
+    --dimsop-text:           #1d2a44;  /* Texto sobre fondo claro */
+    --dimsop-text-muted:     #6c757d;  /* Texto secundario */
+    --dimsop-white:          #ffffff;  /* Blanco puro */
+
+    /* Tipografía corporativa */
+    --dimsop-font-heading:   'Bebas Neue', 'Anton', sans-serif;
+    --dimsop-font-body:      'Arimo', sans-serif;
+
+    /* Medidas base */
+    --dimsop-font-base:      16px;
+    --dimsop-line-height:    1.6;
+
+    /* Superficies y Bordes (Modo Claro) */
+    --dimsop-bg:             var(--dimsop-white);
+    --dimsop-bg-alt:         #f4f7fb;
+    --dimsop-surface:        var(--dimsop-white);
+    --dimsop-surface-border: #dce3ec;
+    --dimsop-card-shadow:    0 10px 30px rgba(0, 51, 98, 0.08);
+}
+
+/* Tokens para Modo Oscuro */
+[data-theme="dark"] {
+    --dimsop-bg:             #0b1626;
+    --dimsop-bg-alt:         #10203a;
+    --dimsop-surface:        #13233f;
+    --dimsop-surface-border: #22354f;
+    --dimsop-text:           #e6edf5;
+    --dimsop-text-muted:     #94a3b8;
+    --dimsop-primary:        #0b1626;
+    --dimsop-secondary:      #13233f;
+    --dimsop-card-shadow:    0 10px 30px rgba(0, 0, 0, 0.4);
+
+    --bs-body-color:         #e6edf5;
+    --bs-body-bg:            #0b1626;
+}
+
+/* Reset y Base Global */
+html {
+    background-color: var(--dimsop-bg);
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--dimsop-font-body);
+    font-size: var(--dimsop-font-base);
+    line-height: var(--dimsop-line-height);
+    color: var(--dimsop-text);
+    background-color: var(--dimsop-bg);
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Tipografía de Encabezados */
+h1, h2, h3, h4, h5, h6,
+.dimsop-h1, .dimsop-h2, .dimsop-h3, .dimsop-h4 {
+    font-family: var(--dimsop-font-heading);
+    letter-spacing: 0.5px;
+}
+
+.dimsop-h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: var(--dimsop-white);
+    line-height: 1.15;
+}
+
+.dimsop-h2 {
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    color: var(--dimsop-primary);
+    font-weight: 700;
+}
+
+.dimsop-h3 {
+    font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+    color: var(--dimsop-primary);
+    font-weight: 600;
+}
+
+[data-theme="dark"] .dimsop-h2,
+[data-theme="dark"] .dimsop-h3 {
+    color: var(--dimsop-white);
+}
+
+.dimsop-lead {
+    font-size: 1.15rem;
+    color: var(--dimsop-text);
+    line-height: 1.6;
+}
+
+/* Utilidades para reemplazar estilos en línea */
+.dimsop-lead-hero {
+    max-width: 680px;
+}
+
+.dimsop-lead-nosotros {
+    max-width: 900px;
+}
+
+.dimsop-privacy-container {
+    max-width: 860px;
+}

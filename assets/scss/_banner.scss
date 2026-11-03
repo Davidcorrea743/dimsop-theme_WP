@@ -1,0 +1,51 @@
+/* =====================================================================
+ * DIMSOP - BANNER PRINCIPAL (HERO VIDEO SECTION)
+ * Reemplaza los estilos en línea de video y max-width
+ * ===================================================================== */
+
+.dimsop-banner {
+    position: relative;
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: var(--dimsop-primary-dark);
+}
+
+.dimsop-banner-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    z-index: 1;
+}
+
+.dimsop-banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(10, 25, 47, 0.75) 0%, rgba(10, 25, 47, 0.9) 100%);
+    z-index: 2;
+}
+
+.dimsop-banner .container {
+    position: relative;
+    z-index: 3;
+}
+
+.dimsop-banner-lead {
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+    line-height: 1.6;
+}

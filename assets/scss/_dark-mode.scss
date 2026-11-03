@@ -1,0 +1,223 @@
+// =====================================================================
+// DIMSOP - DARK MODE
+// Toggle manual (botón luna/sol en el header), persistido en localStorage
+// por static/src/js/darkmode.js mediante el atributo data-theme en <html>.
+// =====================================================================
+
+// Transición suave al alternar el tema
+html, body {
+    transition: background-color .3s ease, color .3s ease;
+}
+
+// En dark mode el botón usa verde para contrastar
+[data-theme="dark"] #dimsop-dark-toggle {
+    color: var(--dimsop-accent);
+    border-color: var(--dimsop-accent);
+}
+[data-theme="dark"] #dimsop-dark-toggle:hover {
+    color: var(--dimsop-white);
+    border-color: var(--dimsop-white);
+}
+
+// Ajustes específicos del dark mode
+[data-theme="dark"] {
+    // Header - glassmorphism dark
+    .dimsop-header {
+        background: rgba(11, 22, 38, 0.88) !important;
+        border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+    }
+    .dimsop-header .dimsop-nav .nav-link {
+        color: var(--dimsop-text) !important;
+    }
+    .dimsop-header .dimsop-nav .nav-link:hover,
+    .dimsop-header .dimsop-nav .nav-link.dimsop-nav-active {
+        color: var(--dimsop-accent) !important;
+    }
+    .dimsop-scroll-progress {
+        background: linear-gradient(90deg, var(--dimsop-accent), #7dd956);
+    }
+    .dimsop-logo img {
+        filter: brightness(1.2);
+    }
+    .dimsop-search-trigger {
+        color: var(--dimsop-text) !important;
+
+        &:hover {
+            background: rgba(255, 255, 255, .08);
+        }
+    }
+    .dimsop-lang-btn {
+        color: var(--dimsop-text) !important;
+        border-color: rgba(255, 255, 255, .15);
+
+        &:hover {
+            background: rgba(255, 255, 255, .06);
+            border-color: rgba(255, 255, 255, .25);
+        }
+    }
+    .dimsop-lang-dropdown .dropdown-menu {
+        background: rgba(15, 30, 52, 0.95);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+    .dimsop-lang-dropdown .dropdown-item {
+        color: #e0e7ef;
+    }
+    .dimsop-lang-dropdown .dropdown-item:hover,
+    .dimsop-lang-dropdown .dropdown-item:focus {
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--dimsop-accent);
+    }
+    .dimsop-lang-dropdown .dropdown-item.active {
+        background: var(--dimsop-accent);
+        color: var(--dimsop-white);
+    }
+    .dimsop-search-overlay-form {
+        background: #0f1e34;
+    }
+    .dimsop-search-overlay-input {
+        color: #e0e7ef;
+
+        &::placeholder {
+            color: #6b7a8d;
+        }
+    }
+    .dimsop-search-overlay-close {
+        color: #6b7a8d;
+
+        &:hover {
+            background: rgba(255, 255, 255, .06);
+            color: #e0e7ef;
+        }
+    }
+
+    // Burger menú móvil
+    .dimsop-burger-line {
+        background: var(--dimsop-text) !important;
+    }
+    .dimsop-burger:hover .dimsop-burger-line {
+        background: var(--dimsop-accent) !important;
+    }
+
+    // Panel menú móvil
+    .dimsop-mobile-panel {
+        background-color: rgba(11, 22, 38, 0.95) !important;
+        border-top-color: rgba(255, 255, 255, 0.06) !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+    }
+    .dimsop-mobile-panel .nav-link {
+        color: var(--dimsop-text) !important;
+        border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+    }
+    .dimsop-mobile-panel .nav-link:hover {
+        color: var(--dimsop-accent) !important;
+    }
+
+    // Tarjetas y superficies
+    .dimsop-card,
+    .dimsop-blog,
+    .dimsop-blog-item,
+    .dimsop-value {
+        background-color: var(--dimsop-surface);
+        border-color: var(--dimsop-surface-border);
+    }
+
+    .dimsop-blog-item-content h3 {
+        color: var(--dimsop-text);
+    }
+
+    // Proyectos: sin tono grisáceo, usar fondo del sitio
+    .dimsop-project {
+        background-color: var(--dimsop-bg) !important;
+        border: 1px solid var(--dimsop-surface-border) !important;
+    }
+    // Sobreescribir el background blanco que Bootstrap Odoo inyecta en .card-body
+    .dimsop-project .card-body,
+    .dimsop-project.card .card-body {
+        background-color: transparent !important;
+        color: var(--dimsop-text) !important;
+    }
+    .dimsop-project .card-body p {
+        color: var(--dimsop-text) !important;
+    }
+
+    // Formulario - card glassmorphic dark
+    .dimsop-form-card {
+        background: rgba(15, 30, 52, 0.75);
+        border-color: rgba(255, 255, 255, 0.08);
+        box-shadow:
+            0 4px 24px rgba(0, 0, 0, 0.2),
+            0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+    .dimsop-form-card:hover {
+        box-shadow:
+            0 8px 32px rgba(0, 0, 0, 0.28),
+            0 2px 6px rgba(0, 0, 0, 0.18);
+    }
+    .dimsop-form .form-control,
+    .dimsop-form .form-select {
+        background-color: var(--dimsop-bg-alt);
+        color: var(--dimsop-text);
+        border-color: var(--dimsop-surface-border);
+    }
+    .dimsop-form .form-control:hover,
+    .dimsop-form .form-select:hover {
+        border-color: #5a6a80;
+    }
+    .dimsop-form .form-control:focus,
+    .dimsop-form .form-select:focus {
+        border-color: var(--dimsop-accent);
+        box-shadow: 0 0 0 3px rgba(77, 163, 47, 0.2);
+    }
+    .dimsop-form .form-label {
+        color: var(--dimsop-text);
+    }
+
+    // Textos secundarios de Bootstrap
+    .text-muted {
+        color: #9db0c9 !important;
+    }
+
+    // Marquee de aliados: bordes que funden con el fondo oscuro
+    .dimsop-marquee::before {
+        background: linear-gradient(to right, var(--dimsop-bg), transparent);
+    }
+    .dimsop-marquee::after {
+        background: linear-gradient(to left, var(--dimsop-bg), transparent);
+    }
+
+    // Metodología - dark mode
+    #metodologia {
+        background-color: var(--dimsop-bg) !important;
+    }
+    .dimsop-metodologia-text {
+        color: var(--dimsop-text) !important;
+    }
+    .dimsop-metodologia-icon-circle {
+        background: rgba(15, 30, 52, 0.95) !important;
+        border-color: var(--dimsop-accent) !important;
+    }
+    .dimsop-metodologia-icon-label {
+        background: rgba(15, 30, 52, 0.95) !important;
+        color: var(--dimsop-text) !important;
+    }
+    .dimsop-section-divider {
+        background: linear-gradient(90deg, var(--dimsop-accent), var(--dimsop-primary));
+    }
+
+    // Sedes - texto bold visible en dark
+    #cobertura .dimsop-cobertura-strong-blue {
+        color: #6da8e8 !important;
+    }
+    #cobertura .dimsop-cobertura-strong-green {
+        color: var(--dimsop-accent) !important;
+    }
+
+    // Botón secundario - dark mode
+    .btn-dimsop-secondary {
+        color: var(--dimsop-accent) !important;
+        border-color: var(--dimsop-accent) !important;
+        &:hover {
+            color: var(--dimsop-white) !important;
+        }
+    }
+}

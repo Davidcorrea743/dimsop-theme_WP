@@ -1,0 +1,287 @@
+/* =====================================================================
+ * DIMSOP - HEADER, NAVEGACIÓN Y BUSCADOR MODAL
+ * ===================================================================== */
+
+.dimsop-header {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    border-bottom: 1px solid rgba(0, 51, 98, 0.08);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                background 0.35s ease,
+                box-shadow 0.35s ease;
+}
+
+.dimsop-header-visible {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.dimsop-header-hidden {
+    transform: translateY(-100%);
+}
+
+.dimsop-scroll-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0;
+    background: linear-gradient(90deg, var(--dimsop-accent), #7dd956);
+    z-index: 1040;
+    transition: width 0.1s linear;
+}
+
+.dimsop-header-main {
+    min-height: 70px;
+}
+
+.dimsop-logo img {
+    max-height: 55px;
+    width: auto;
+    transition: filter 0.3s ease;
+}
+
+/* Navegación Desktop */
+.dimsop-nav .nav-link {
+    color: var(--dimsop-primary);
+    font-family: var(--dimsop-font-heading);
+    font-size: 1.05rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0.5rem 0.85rem;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.dimsop-nav .nav-link:hover,
+.dimsop-nav .nav-link.dimsop-nav-active,
+.dimsop-nav .current-menu-item > a {
+    color: var(--dimsop-accent);
+}
+
+.dimsop-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0.85rem;
+    right: 0.85rem;
+    height: 2px;
+    background-color: var(--dimsop-accent);
+    transform: scaleX(0);
+    transition: transform 0.25s ease;
+}
+
+.dimsop-nav .nav-link:hover::after,
+.dimsop-nav .nav-link.dimsop-nav-active::after,
+.dimsop-nav .current-menu-item > a::after {
+    transform: scaleX(1);
+}
+
+/* Botón CTA Header */
+.dimsop-btn-cta {
+    background: linear-gradient(135deg, var(--dimsop-primary), var(--dimsop-accent));
+    color: var(--dimsop-white);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-family: var(--dimsop-font-heading);
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dimsop-btn-cta:hover {
+    color: var(--dimsop-white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(77, 163, 47, 0.35);
+}
+
+/* Selector de Idioma */
+.dimsop-lang-btn {
+    background: transparent;
+    border: 1px solid rgba(0, 51, 98, 0.15);
+    color: var(--dimsop-text);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-family: var(--dimsop-font-heading);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dimsop-lang-btn:hover {
+    border-color: var(--dimsop-accent);
+    color: var(--dimsop-accent);
+}
+
+/* Dropdown de Idioma */
+.dimsop-lang-dropdown .dropdown-item {
+    font-family: var(--dimsop-font-heading);
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--dimsop-primary);
+    padding: 8px 16px;
+    transition: background 0.15s, color 0.15s;
+}
+
+.dimsop-lang-dropdown .dropdown-item:hover,
+.dimsop-lang-dropdown .dropdown-item.active {
+    background-color: var(--dimsop-bg-alt);
+    color: var(--dimsop-accent);
+}
+
+/* Menú Burger Móvil */
+.dimsop-burger {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.dimsop-burger-line {
+    width: 24px;
+    height: 2px;
+    background-color: var(--dimsop-primary);
+    transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .dimsop-burger-line {
+    background-color: var(--dimsop-white);
+}
+
+.dimsop-burger.dimsop-burger-active .dimsop-burger-line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.dimsop-burger.dimsop-burger-active .dimsop-burger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.dimsop-burger.dimsop-burger-active .dimsop-burger-line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+.dimsop-burger:hover .dimsop-burger-line {
+    background-color: var(--dimsop-accent);
+}
+
+/* Bloquea el scroll del fondo mientras el buscador está abierto */
+body.dimsop-search-open {
+    overflow: hidden;
+}
+
+/* Panel Móvil */
+.dimsop-mobile-panel {
+    background: var(--dimsop-surface);
+    border-bottom: 1px solid var(--dimsop-surface-border);
+    padding: 1.5rem;
+    display: none;
+}
+
+.dimsop-mobile-panel.dimsop-mobile-open {
+    display: block;
+}
+
+.dimsop-mobile-panel .nav-link {
+    color: var(--dimsop-text);
+    font-family: var(--dimsop-font-heading);
+    font-size: 1.05rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--dimsop-surface-border);
+}
+
+/* Buscador Overlay */
+.dimsop-search-trigger {
+    background: none;
+    border: none;
+    color: var(--dimsop-primary);
+    font-size: 1.1rem;
+    padding: 0.4rem 0.6rem;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.dimsop-search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.3s ease, opacity 0.3s ease;
+}
+
+.dimsop-search-overlay.dimsop-search-active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.dimsop-search-overlay-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(11, 22, 38, 0.92);
+    backdrop-filter: blur(8px);
+}
+
+.dimsop-search-overlay-content {
+    position: relative;
+    z-index: 2001;
+    width: 90%;
+    max-width: 650px;
+}
+
+.dimsop-search-overlay-form {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid var(--dimsop-accent);
+    padding-bottom: 0.5rem;
+}
+
+.dimsop-search-overlay-icon {
+    font-size: 1.5rem;
+    color: var(--dimsop-accent);
+    margin-right: 1rem;
+}
+
+.dimsop-search-overlay-input {
+    background: none;
+    border: none;
+    color: var(--dimsop-white);
+    font-size: 1.5rem;
+    width: 100%;
+    outline: none;
+}
+
+.dimsop-search-overlay-close {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.dimsop-search-overlay-close:hover {
+    color: var(--dimsop-white);
+}

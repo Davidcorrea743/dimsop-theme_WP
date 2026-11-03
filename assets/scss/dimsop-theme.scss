@@ -1,0 +1,14 @@
+// =====================================================================
+// DIMSOP - MASTER SASS (SCSS)
+// Arquitectura modular de estilos para compilar a assets/css/dimsop-theme.css
+// =====================================================================
+
+@use "variables";
+@use "dark-mode";
+@use "header";
+@use "banner";
+@use "sections";
+@use "aliados";
+@use "footer";
+@use "forms";
+@use "whatsapp";
