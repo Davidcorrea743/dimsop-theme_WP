@@ -927,6 +927,7 @@ body.dimsop-search-open {
   font-size: 1.5rem;
   color: var(--dimsop-accent);
   margin-right: 1rem;
+  margin-left: 0.55rem;
 }
 
 .dimsop-search-overlay-input {
@@ -1263,6 +1264,8 @@ body.dimsop-search-open {
 .dimsop-bento .dimsop-ui-card {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 .dimsop-bento .dimsop-ui-card-title {
   font-size: 1.45rem;
@@ -1280,9 +1283,6 @@ body.dimsop-search-open {
   background-origin: padding-box, padding-box, border-box;
   background-clip: padding-box, padding-box, border-box;
 }
-.dimsop-bento-featured .dimsop-badge {
-  align-self: flex-start;
-}
 .dimsop-bento-featured .dimsop-ui-card-icon {
   width: 4rem;
   height: 4rem;
@@ -1294,9 +1294,6 @@ body.dimsop-search-open {
 .dimsop-bento-featured .dimsop-ui-card-text {
   max-width: 28rem;
   font-size: 1.05rem;
-}
-.dimsop-bento-featured .dimsop-button {
-  align-self: flex-start;
 }
 
 .dimsop-bento-wide {
@@ -1334,14 +1331,17 @@ body.dimsop-search-open {
   color: var(--dimsop-text);
   font-size: 1rem;
   line-height: 1.7;
+  text-align: center;
 }
 
 .dimsop-cobertura-item {
   display: flex;
-  align-items: flex-start;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
   height: auto;
   padding: 1.5rem;
+  text-align: center;
 }
 
 .dimsop-cobertura-title {
@@ -1362,7 +1362,6 @@ body.dimsop-search-open {
   flex: 0 0 auto;
   width: 0.85rem;
   height: 0.85rem;
-  margin-top: 0.45rem;
   border-radius: 50%;
   background: var(--_pin);
   box-shadow: 0 0 0 0 var(--_pin);
@@ -1807,8 +1806,7 @@ body.dimsop-search-open {
   color: var(--dimsop-white);
   text-decoration: none;
   border: 1px solid var(--dimsop-white);
-  font-size: 1.2rem;
-  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .dimsop-social-btn:hover {

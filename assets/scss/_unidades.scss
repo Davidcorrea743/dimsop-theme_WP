@@ -24,6 +24,8 @@
     .dimsop-ui-card {
         display: flex;
         flex-direction: column;
+        align-items: center;
+        text-align: center;
     }
 
     .dimsop-ui-card-title {
@@ -47,10 +49,6 @@
     background-origin: padding-box, padding-box, border-box;
     background-clip: padding-box, padding-box, border-box;
 
-    .dimsop-badge {
-        align-self: flex-start;
-    }
-
     .dimsop-ui-card-icon {
         width: 4rem;
         height: 4rem;
@@ -64,10 +62,6 @@
     .dimsop-ui-card-text {
         max-width: 28rem;
         font-size: 1.05rem;
-    }
-
-    .dimsop-button {
-        align-self: flex-start;
     }
 }
 

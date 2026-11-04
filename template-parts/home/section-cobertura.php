@@ -39,7 +39,7 @@ defined( 'ABSPATH' ) || exit;
                             );
                             ?>
                         </p>
-                        <div class="d-flex flex-wrap gap-2 mt-3">
+                        <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
                             <span class="dimsop-badge dimsop-badge--primary"><?php esc_html_e( 'Caracas', 'dimsop' ); ?></span>
                             <span class="dimsop-badge dimsop-badge--primary"><?php esc_html_e( 'Miami', 'dimsop' ); ?></span>
                         </div>
@@ -59,7 +59,7 @@ defined( 'ABSPATH' ) || exit;
                             );
                             ?>
                         </p>
-                        <div class="d-flex flex-wrap gap-2 mt-3">
+                        <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
                             <span class="dimsop-badge"><?php esc_html_e( 'Latinoamérica', 'dimsop' ); ?></span>
                             <span class="dimsop-badge"><?php esc_html_e( 'España', 'dimsop' ); ?></span>
                         </div>

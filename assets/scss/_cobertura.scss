@@ -7,14 +7,17 @@
     color: var(--dimsop-text);
     font-size: 1rem;
     line-height: 1.7;
+    text-align: center;
 }
 
 .dimsop-cobertura-item {
     display: flex;
-    align-items: flex-start;
-    gap: 1rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
     height: auto;
     padding: 1.5rem;
+    text-align: center;
 }
 
 .dimsop-cobertura-title {
@@ -36,7 +39,6 @@
     flex: 0 0 auto;
     width: 0.85rem;
     height: 0.85rem;
-    margin-top: 0.45rem;
     border-radius: 50%;
     background: var(--_pin);
     box-shadow: 0 0 0 0 var(--_pin);

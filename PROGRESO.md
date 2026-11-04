@@ -44,6 +44,7 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 | 2026-11-03 | 4 | Contadores de Odoo mostraban "+0" sin JS | El valor solo lo escribía el JS | Se imprime el valor final; el Día 7 se anima desde 0 |
 | 2026-11-03 | 5 | Los carruseles no se podían mover a mano | Solo tenían la animación CSS | `initMarquees()`: botones, arrastre con ratón o dedo, inercia y rueda horizontal en Aliados y Proyectos (adelantado del Día 7) |
 | 2026-11-03 | 5 | Proyectos mostraba la descripción de cada trabajo | Decisión de diseño revisada por David | Solo logo y nombre centrado; los extractos siguen guardados en el panel pero no se muestran |
+| 2026-11-04 | 5 | Tarjetas de Unidades y Sedes alineadas a la izquierda, a diferencia del resto del sitio | Diseño inicial del Día 3 | Icono y texto centrados en todas las vistas; en Sedes el punto de color pasa arriba del título |
 | 2026-11-03 | 5 | Cambio de favicon pedido por David | Usaba `logo_Dimsop_D_Degradado` | `favicon-32/180/512.png` generados desde `logo_header.png`, sin márgenes y con fondo blanco |
 
 ## Decisiones tomadas
