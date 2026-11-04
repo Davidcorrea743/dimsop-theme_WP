@@ -1338,13 +1338,16 @@ body.dimsop-search-open {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
   height: auto;
   padding: 1.5rem;
   text-align: center;
 }
 
 .dimsop-cobertura-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
   margin-bottom: 0.35rem;
   color: var(--dimsop-primary);
   font-family: var(--dimsop-font-heading);
@@ -1360,12 +1363,13 @@ body.dimsop-search-open {
 .dimsop-cobertura-pin {
   --_pin: var(--dimsop-secondary);
   flex: 0 0 auto;
-  width: 0.85rem;
-  height: 0.85rem;
+  width: 0.55rem;
+  height: 0.55rem;
   border-radius: 50%;
   background: var(--_pin);
   box-shadow: 0 0 0 0 var(--_pin);
   animation: dimsop-pin-pulse 2.4s infinite;
+  margin-top:-6px;
 }
 
 .dimsop-cobertura-pin--blue {

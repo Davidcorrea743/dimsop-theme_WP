@@ -26,9 +26,8 @@ defined( 'ABSPATH' ) || exit;
                 <p class="dimsop-cobertura-text mb-4"><?php esc_html_e( 'En el mapa de nuestras sedes puedes ver nuestro alcance:', 'dimsop' ); ?></p>
 
                 <article class="dimsop-ui-card dimsop-cobertura-item mb-3">
-                    <span class="dimsop-cobertura-pin dimsop-cobertura-pin--blue" aria-hidden="true"></span>
                     <div>
-                        <h3 class="dimsop-cobertura-title"><?php esc_html_e( 'Sedes físicas', 'dimsop' ); ?></h3>
+                        <h3 class="dimsop-cobertura-title"><span class="dimsop-cobertura-pin dimsop-cobertura-pin--blue" aria-hidden="true"></span> <?php esc_html_e( 'Sedes físicas', 'dimsop' ); ?></h3>
                         <p class="dimsop-ui-card-text">
                             <?php
                             printf(
@@ -47,9 +46,8 @@ defined( 'ABSPATH' ) || exit;
                 </article>
 
                 <article class="dimsop-ui-card dimsop-cobertura-item">
-                    <span class="dimsop-cobertura-pin dimsop-cobertura-pin--green" aria-hidden="true"></span>
                     <div>
-                        <h3 class="dimsop-cobertura-title"><?php esc_html_e( 'Cobertura global', 'dimsop' ); ?></h3>
+                        <h3 class="dimsop-cobertura-title"><span class="dimsop-cobertura-pin dimsop-cobertura-pin--green" aria-hidden="true"></span> <?php esc_html_e( 'Cobertura global', 'dimsop' ); ?></h3>
                         <p class="dimsop-ui-card-text">
                             <?php
                             printf(
