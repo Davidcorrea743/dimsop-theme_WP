@@ -107,17 +107,19 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.08);
     color: var(--dimsop-white);
     text-decoration: none;
-    transition: background 0.2s ease, transform 0.2s ease;
+    border: 1px solid var(--dimsop-white);
+    transition: background-color .2s ease, color .2s ease, border-color .2s ease;
 }
 
 .dimsop-social-btn:hover {
     background: var(--dimsop-accent);
     color: var(--dimsop-white);
+    border-color: var(--dimsop-accent);
     transform: translateY(-2px);
 }

@@ -78,8 +78,12 @@ function dimsop_fallback_favicon() {
         return;
     }
     printf(
-        '<link rel="icon" type="image/webp" href="%s">' . "\n",
-        esc_url( dimsop_asset_url( 'images/logos/logo_Dimsop_D_Degradado.webp' ) )
+        '<link rel="icon" type="image/png" sizes="32x32" href="%1$s">' . "\n" .
+        '<link rel="icon" type="image/png" sizes="512x512" href="%2$s">' . "\n" .
+        '<link rel="apple-touch-icon" href="%3$s">' . "\n",
+        esc_url( dimsop_asset_url( 'images/logos/favicon-32.png' ) ),
+        esc_url( dimsop_asset_url( 'images/logos/favicon-512.png' ) ),
+        esc_url( dimsop_asset_url( 'images/logos/favicon-180.png' ) )
     );
 }
 add_action( 'wp_head', 'dimsop_fallback_favicon', 2 );

@@ -39,9 +39,10 @@
 }
 
 .dimsop-logo img {
-    max-height: 55px;
-    width: auto;
-    transition: filter 0.3s ease;
+  max-height: 120px;
+  transition: transform 0.3s ease;
+  margin-top: -55px;
+  margin-bottom: -43px;
 }
 
 /* Navegación Desktop */

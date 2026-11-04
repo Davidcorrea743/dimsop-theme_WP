@@ -34,7 +34,7 @@ defined( 'ABSPATH' ) || exit;
             } else {
                 ?>
                 <img src="<?php echo esc_url( dimsop_asset_url( 'images/logos/Logo_completo_dimsop.webp' ) ); ?>"
-                     alt="<?php bloginfo( 'name' ); ?>" class="img-fluid" width="220" height="55">
+                     alt="<?php bloginfo( 'name' ); ?>" class="img-fluid">
                 <?php
             }
             ?>
