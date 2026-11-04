@@ -505,10 +505,99 @@
         } );
     }
 
+    /**
+     * Formulario de contacto: envía por AJAX y muestra el aviso junto al botón, sin recargar.
+     * El aviso desaparece solo tras un minuto. Sin JS, el formulario envía por POST.
+     */
+    function initContactForm() {
+        var form = document.querySelector( '#contacto .dimsop-form' );
+        var feedback = document.getElementById( 'dimsop-contact-feedback' );
+        if ( ! form || ! feedback || ! settings.ajaxUrl || ! window.fetch ) {
+            return;
+        }
+
+        var i18n = settings.i18n || {};
+        var submit = form.querySelector( '[type="submit"]' );
+        var label = submit.querySelector( '.dimsop-button-label' );
+        var icon = submit.querySelector( '.fa' );
+        var labelText = label.textContent;
+        var iconClass = icon.className;
+        var hideDelay = 60000;
+        var hideTimer = null;
+
+        function hideLater( alert ) {
+            window.clearTimeout( hideTimer );
+            hideTimer = window.setTimeout( function () {
+                alert.classList.add( 'is-hiding' );
+                window.setTimeout( function () {
+                    alert.remove();
+                }, 400 );
+            }, hideDelay );
+        }
+
+        function showAlert( success, message ) {
+            var alert = document.createElement( 'div' );
+            var alertIcon = document.createElement( 'i' );
+            var text = document.createElement( 'span' );
+
+            alert.className = 'dimsop-alert dimsop-alert--' + ( success ? 'success' : 'error' );
+            alertIcon.className = 'fa ' + ( success ? 'fa-check-circle' : 'fa-exclamation-circle' );
+            alertIcon.setAttribute( 'aria-hidden', 'true' );
+            text.textContent = message;
+            alert.appendChild( alertIcon );
+            alert.appendChild( text );
+
+            feedback.textContent = '';
+            feedback.appendChild( alert );
+            alert.scrollIntoView( { block: 'nearest' } );
+            hideLater( alert );
+        }
+
+        function setLoading( loading ) {
+            submit.disabled = loading;
+            label.textContent = loading ? ( i18n.submitting || labelText ) : labelText;
+            icon.className = loading ? 'fa fa-circle-o-notch fa-spin' : iconClass;
+        }
+
+        // Aviso del envío sin JS: se limpia la URL para que no reaparezca al recargar.
+        var serverAlert = feedback.querySelector( '.dimsop-alert' );
+        if ( serverAlert ) {
+            hideLater( serverAlert );
+            if ( window.history && window.history.replaceState ) {
+                window.history.replaceState( null, '', window.location.pathname + window.location.hash );
+            }
+        }
+
+        form.addEventListener( 'submit', function ( e ) {
+            e.preventDefault();
+            setLoading( true );
+
+            // new FormData incluye action, nonce y honeypot; el campo "action" tapa a form.action.
+            window.fetch( settings.ajaxUrl, { method: 'POST', body: new FormData( form ), credentials: 'same-origin' } )
+                .then( function ( response ) {
+                    return response.json();
+                } )
+                .then( function ( result ) {
+                    var message = result.data && result.data.message ? result.data.message : i18n.errorGeneric;
+                    showAlert( !! result.success, message );
+                    if ( result.success ) {
+                        form.reset();
+                    }
+                } )
+                .catch( function () {
+                    showAlert( false, i18n.errorGeneric );
+                } )
+                .then( function () {
+                    setLoading( false );
+                } );
+        } );
+    }
+
     function init() {
         initDarkMode();
         initSpotlight();
         initMarquees();
+        initContactForm();
         initHeaderScroll();
         initSmoothScroll();
         initActiveNav();

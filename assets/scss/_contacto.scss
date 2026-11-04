@@ -1,0 +1,65 @@
+/* =====================================================================
+ * DIMSOP - CONTACTO
+ * Formulario (.dimsop-form + campos de _ui.scss) y avisos.
+ * ===================================================================== */
+
+.dimsop-label-optional {
+    color: var(--dimsop-text-muted);
+    font-weight: 400;
+}
+
+/* La tarjeta del formulario usa los radios y sombras del sistema UI */
+.dimsop-contacto .dimsop-form {
+    margin: 0;
+    padding: 2rem;
+    border-color: var(--dimsop-border-subtle);
+    border-radius: var(--dimsop-radius);
+    box-shadow: var(--dimsop-shadow-md);
+}
+
+.dimsop-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin-top: 1rem;
+    padding: 0.875rem 1rem;
+    border: 1px solid transparent;
+    border-radius: var(--dimsop-radius-sm);
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: opacity 0.4s ease;
+
+    .fa {
+        margin-top: 0.2rem;
+    }
+}
+
+.dimsop-alert.is-hiding {
+    opacity: 0;
+}
+
+.dimsop-alert--success {
+    border-color: rgba(77, 163, 47, 0.4);
+    background: rgba(77, 163, 47, 0.12);
+    color: #2f6f1a;
+}
+
+.dimsop-alert--error {
+    border-color: rgba(220, 53, 69, 0.4);
+    background: rgba(220, 53, 69, 0.1);
+    color: #b02a37;
+}
+
+[data-theme="dark"] .dimsop-alert--success {
+    color: #9fe07f;
+}
+
+[data-theme="dark"] .dimsop-alert--error {
+    color: #f1707b;
+}
+
+@media (max-width: 575.98px) {
+    .dimsop-contacto .dimsop-form {
+        padding: 1.25rem;
+    }
+}

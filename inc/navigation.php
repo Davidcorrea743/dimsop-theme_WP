@@ -43,7 +43,7 @@ function dimsop_get_fallback_menu_items() {
         array( 'url' => home_url( '/#nosotros' ),  'label' => __( 'Nosotros', 'dimsop' ) ),
         array( 'url' => home_url( '/#unidades' ),  'label' => __( 'Unidades de Negocio', 'dimsop' ) ),
         array( 'url' => home_url( '/#aliados' ),   'label' => __( 'Aliados', 'dimsop' ) ),
-        array( 'url' => home_url( '/blog' ),       'label' => __( 'Blog', 'dimsop' ) ),
+        array( 'url' => home_url( '/#blog' ),       'label' => __( 'Blog', 'dimsop' ) ),
         array( 'url' => home_url( '/catalogo' ),   'label' => __( 'Catálogo', 'dimsop' ) ),
         array( 'url' => home_url( '/#contacto' ),  'label' => __( 'Contacto', 'dimsop' ) ),
     );

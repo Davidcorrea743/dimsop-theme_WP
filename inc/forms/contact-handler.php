@@ -28,7 +28,7 @@ function dimsop_handle_contact_form() {
     // 2. Verificación de Token CSRF (Nonce)
     $nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
     if ( ! wp_verify_nonce( $nonce, 'dimsop_public_nonce' ) ) {
-        dimsop_form_response( false, esc_html__( 'Sesión de seguridad inválida o expirada. Recargue la página.', 'dimsop' ), 'invalid_nonce', 403, $is_ajax );
+        dimsop_form_response( false, esc_html__( 'Tu sesión expiró. Recarga la página e intenta de nuevo.', 'dimsop' ), 'invalid_nonce', 403, $is_ajax );
         return;
     }
 
@@ -36,13 +36,13 @@ function dimsop_handle_contact_form() {
     $honeypot = isset( $_POST['homepage'] ) ? trim( sanitize_text_field( wp_unslash( $_POST['homepage'] ) ) ) : '';
     if ( ! empty( $honeypot ) ) {
         // Simular éxito para despistar al bot sin guardar ningún registro en el sistema
-        dimsop_form_response( true, esc_html__( '¡Mensaje enviado con éxito!', 'dimsop' ), 'enviado', 200, $is_ajax );
+        dimsop_form_response( true, esc_html__( '¡Gracias por contactarnos! Un especialista de Dimsop se comunicará contigo a la brevedad.', 'dimsop' ), 'enviado', 200, $is_ajax );
         return;
     }
 
     // 4. Rate Limiting por IP (Máximo 5 envíos cada 10 minutos)
     if ( dimsop_is_rate_limited( 'contact_form', 5, 600 ) ) {
-        dimsop_form_response( false, esc_html__( 'Demasiados envíos recientes. Por favor intente de nuevo en unos minutos.', 'dimsop' ), 'limite', 429, $is_ajax );
+        dimsop_form_response( false, esc_html__( 'Demasiados envíos recientes. Intenta de nuevo en unos minutos.', 'dimsop' ), 'limite', 429, $is_ajax );
         return;
     }
 
@@ -57,7 +57,7 @@ function dimsop_handle_contact_form() {
 
     // 6. Validación de Campos Obligatorios
     if ( empty( $name ) || empty( $email ) || ! is_email( $email ) ) {
-        dimsop_form_response( false, esc_html__( 'Por favor complete su nombre y un correo electrónico válido.', 'dimsop' ), 'datos_incompletos', 400, $is_ajax );
+        dimsop_form_response( false, esc_html__( 'Por favor completa tu nombre y un correo electrónico válido.', 'dimsop' ), 'datos_incompletos', 400, $is_ajax );
         return;
     }
 
@@ -80,7 +80,7 @@ function dimsop_handle_contact_form() {
     ), true );
 
     if ( is_wp_error( $lead_id ) ) {
-        dimsop_form_response( false, esc_html__( 'Error interno al registrar su solicitud. Intente más tarde.', 'dimsop' ), 'db_error', 500, $is_ajax );
+        dimsop_form_response( false, esc_html__( 'No pudimos registrar tu solicitud. Intenta más tarde.', 'dimsop' ), 'db_error', 500, $is_ajax );
         return;
     }
 
@@ -99,7 +99,7 @@ function dimsop_handle_contact_form() {
     dimsop_send_lead_notification( $name, $email, $phone, $company, $position, $service, $message, $ip, $lead_id );
 
     // 9. Respuesta Exitosa
-    dimsop_form_response( true, esc_html__( '¡Gracias por contactarnos! Un especialista de Dimsop se comunicará con usted a la brevedad.', 'dimsop' ), 'enviado', 200, $is_ajax );
+    dimsop_form_response( true, esc_html__( '¡Gracias por contactarnos! Un especialista de Dimsop se comunicará contigo a la brevedad.', 'dimsop' ), 'enviado', 200, $is_ajax );
 }
 
 // Registro de Hooks AJAX y Form POST estándar
@@ -174,7 +174,8 @@ function dimsop_form_response( $success, $message, $code, $status_code = 200, $i
         if ( $success ) {
             $redirect_url = add_query_arg( 'mensaje', $code, $redirect_url );
         } else {
-            $redirect_url = add_query_arg( 'error', $code, $redirect_url );
+            // "error" es una variable de consulta reservada de WordPress.
+            $redirect_url = add_query_arg( 'form_error', $code, $redirect_url );
         }
         $redirect_url .= '#contacto';
         wp_safe_redirect( $redirect_url );

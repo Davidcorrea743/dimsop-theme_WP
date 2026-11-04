@@ -1,0 +1,68 @@
+/* =====================================================================
+ * DIMSOP - BLOG (tarjetas de la portada)
+ * Parte de .dimsop-ui-card; la portada va a sangre y el contenido centrado.
+ * ===================================================================== */
+
+.dimsop-post-card {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.dimsop-post-cover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(77, 163, 47, 0.18), rgba(0, 69, 135, 0.22));
+    color: var(--dimsop-accent);
+    font-size: 2.5rem;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s var(--dimsop-ease-out);
+    }
+}
+
+.dimsop-post-card:hover .dimsop-post-cover img {
+    transform: scale(1.04);
+}
+
+.dimsop-post-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    text-align: center;
+
+    .dimsop-ui-card-title {
+        margin-bottom: 0;
+        font-size: 1.45rem;
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s ease;
+
+            &:hover {
+                color: var(--dimsop-accent);
+            }
+        }
+    }
+
+    .dimsop-ui-card-text {
+        margin-bottom: 0.75rem;
+    }
+}
+
+.dimsop-post-date {
+    color: var(--dimsop-text-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}

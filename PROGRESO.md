@@ -1,6 +1,6 @@
 # Control de avance: migración Dimsop (Odoo → WordPress)
 
-**Día actual:** 5 de 20 (Semana 1) · Día 4 cerrado el 2026-11-03
+**Día actual:** 6 de 20 (Semana 2) · Día 5 cerrado el 2026-11-04
 **Sitio local:** http://dimsop-theme.localhost/ · Mailpit: http://localhost:10000
 **Plan completo:** `C:\Users\jdcor\.claude\plans\te-explico-un-poco-graceful-clock.md`
 
@@ -14,7 +14,7 @@ Estados: ✅ hecho · 🟡 en curso · ⬜ pendiente
 | 2 | Opciones y contenido | ✅ | Apariencia › Opciones Dimsop, importador (7 unidades, 25 aliados, 19 proyectos), imágenes a WebP (17,4 → 0,7 MB), favicon, tokens y componentes UI estilo shadcn (`_ui.scss`), Guía de componentes. |
 | 3 | Unidades y cobertura | ✅ | Corrección del botón de tema. Unidades en cuadrícula bento (`section-unidades.php`, `_unidades.scss`) con tarjetas spotlight e insignia pulsante. "Nuestras Sedes" (`section-cobertura.php`, `_cobertura.scss`) con leyenda en tarjetas, puntos pulsantes y mapa WebP de respaldo. |
 | 4 | Aliados, contadores y proyectos | ✅ | Ajustes de Nosotros (títulos centrados, valores en tarjetas). Aliados: carrusel en bucle de 25 logos en chips blancos. Contadores en tarjetas "cristal" con valor final visible sin JS. Proyectos: carrusel de 19 tarjetas con logo y nombre de la empresa. Controles en ambos carruseles. Nuevo `_proyectos.scss`. |
-| 5 | Blog, contacto y revisión responsive | ⬜ | |
+| 5 | Blog, contacto y revisión responsive | ✅ | Blog: 3 últimas entradas en tarjetas (`section-blog.php`, `_blog.scss`). Contacto: formulario conectado al handler por AJAX, con avisos de éxito y error (`section-contacto.php`, `_contacto.scss`). Misión y Visión con tarjetas UI e insignias en Nosotros y Metodología. Revisado a 1400, 991, 767 y 375 px. |
 | 6 | SEO, respaldo y correcciones de base | ⬜ | |
 | 7 | Animaciones (GSAP, Lenis), carruseles, contadores, globo 3D | ⬜ | |
 | 8 | Formulario de contacto (AJAX, SMTP, CRM) | ⬜ | |
@@ -44,6 +44,10 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 | 2026-11-03 | 4 | Contadores de Odoo mostraban "+0" sin JS | El valor solo lo escribía el JS | Se imprime el valor final; el Día 7 se anima desde 0 |
 | 2026-11-03 | 5 | Los carruseles no se podían mover a mano | Solo tenían la animación CSS | `initMarquees()`: botones, arrastre con ratón o dedo, inercia y rueda horizontal en Aliados y Proyectos (adelantado del Día 7) |
 | 2026-11-03 | 5 | Proyectos mostraba la descripción de cada trabajo | Decisión de diseño revisada por David | Solo logo y nombre centrado; los extractos siguen guardados en el panel pero no se muestran |
+| 2026-11-04 | 5 | Al enviar el formulario la página recargaba y bajaba desde el inicio | Envío por POST con redirección | `initContactForm()` envía por AJAX (adelantado del Día 8); aviso junto al botón que desaparece al minuto |
+| 2026-11-04 | 5 | Correo, teléfono y WhatsApp repetidos en Contacto | Ya están en el footer y el botón flotante | Se elimina la franja; queda solo el formulario, con los opcionales marcados |
+| 2026-11-04 | 5 | Los errores del formulario no mostraban aviso | `?error=` es una variable reservada de WordPress | El handler redirige con `?form_error=` |
+| 2026-11-04 | 5 | El enlace Blog del menú y del footer daba 404 | `/blog` no existe hasta el Día 13 | Apunta a `/#blog`; volver a cambiarlo el Día 13 |
 | 2026-11-04 | 5 | Tarjetas de Unidades y Sedes alineadas a la izquierda, a diferencia del resto del sitio | Diseño inicial del Día 3 | Icono y texto centrados en todas las vistas; en Sedes el punto de color va junto a cada título, como leyenda del mapa |
 | 2026-11-03 | 5 | Cambio de favicon pedido por David | Usaba `logo_Dimsop_D_Degradado` | `favicon-32/180/512.png` generados desde `logo_header.png`, sin márgenes y con fondo blanco |
 
@@ -54,6 +58,7 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 - Las tarjetas con spotlight y la insignia con punto pulsante se usan en producción (unidades, proyectos, blog, valores).
 - La Guía de componentes (`/guia-componentes/`) es solo de referencia: se borra o pasa a borrador el Día 19.
 - Los commits los hace David; Claude solo entrega la descripción.
+- Blog en portada: cuadrícula con las 3 últimas entradas, se actualiza sola al publicar (en Odoo el carrusel también mostraba solo 3).
 - Valores corporativos: tarjetas con icono y frase breve (las frases son propuesta, validar con el cliente).
 
 ## Pendientes y decisiones abiertas
@@ -61,6 +66,8 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 - [ ] Zona horaria (hoy UTC) e idioma de WordPress (hoy inglés): Ajustes › Generales.
 - [ ] Desactivar WPForms Lite (no se usa).
 - [ ] Borrar los PNG/JPG originales de `assets/images` (ya existen los WebP).
+- [ ] Catálogo: el enlace del menú sigue dando 404 hasta decidir la página (Día 10).
+- [ ] Borrar los 3 prospectos de prueba ("Prueba ... Día 5"), las 5 entradas de prueba (meta `_dimsop_test_post`, slug `prueba-*`) y "Hello world!" antes de publicar.
 - [ ] CRM: ¿Odoo por XML-RPC/webhook o solo leads en WordPress? (Día 8)
 - [ ] Hosting de staging y producción, y acceso al DNS (Días 16, 19, 20).
 - [ ] Página Catálogo y texto legal de la política de privacidad (los entrega el cliente).

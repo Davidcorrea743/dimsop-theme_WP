@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
 
 <section id="metodologia" class="dimsop-section">
     <div class="container">
+        <div class="text-center"><span class="dimsop-badge mb-3"><span class="dimsop-badge-dot"></span> <?php esc_html_e( 'Cómo trabajamos', 'dimsop' ); ?></span></div>
         <h2 class="dimsop-h2 text-center mb-2"><?php esc_html_e( 'Metodología de Trabajo', 'dimsop' ); ?></h2>
         <p class="text-center mb-5 mx-auto dimsop-metodologia-text" style="max-width: 780px;">
             <?php esc_html_e( 'Nuestro proceso garantiza soluciones efectivas, desde la identificación de necesidades hasta la entrega de valor tangible para tu negocio.', 'dimsop' ); ?>

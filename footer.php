@@ -39,7 +39,7 @@ defined( 'ABSPATH' ) || exit;
                     <li><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Inicio', 'dimsop' ); ?></a></li>
                     <li><a href="<?php echo esc_url( home_url( '/#nosotros' ) ); ?>"><?php esc_html_e( 'Nosotros', 'dimsop' ); ?></a></li>
                     <li><a href="<?php echo esc_url( home_url( '/#unidades' ) ); ?>"><?php esc_html_e( 'Unidades de Negocio', 'dimsop' ); ?></a></li>
-                    <li><a href="<?php echo esc_url( home_url( '/blog' ) ); ?>"><?php esc_html_e( 'Blog', 'dimsop' ); ?></a></li>
+                    <li><a href="<?php echo esc_url( home_url( '/#blog' ) ); ?>"><?php esc_html_e( 'Blog', 'dimsop' ); ?></a></li>
                     <li><a href="<?php echo esc_url( home_url( '/#contacto' ) ); ?>"><?php esc_html_e( 'Contacto', 'dimsop' ); ?></a></li>
                     <li><a href="<?php echo esc_url( home_url( '/politica-de-privacidad' ) ); ?>"><?php esc_html_e( 'Políticas de Privacidad', 'dimsop' ); ?></a></li>
                     <li>
