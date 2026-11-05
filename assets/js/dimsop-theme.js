@@ -593,8 +593,36 @@
         } );
     }
 
+    /**
+     * Banner: al cruzar los 992 px sin recargar (p. ej. al girar una tablet) se vuelve a
+     * elegir el recurso de esa vista: el navegador solo lo hace por sí mismo al cargar.
+     */
+    function initBannerMedia() {
+        var video = document.querySelector( '.dimsop-banner-video' );
+        var image = document.querySelector( '.dimsop-banner-image' );
+        if ( ! video || ! image || ! window.matchMedia ) {
+            return;
+        }
+
+        var desktop = window.matchMedia( '(min-width: 992px)' );
+        if ( ! desktop.addEventListener ) {
+            return;
+        }
+
+        desktop.addEventListener( 'change', function ( e ) {
+            if ( e.matches ) {
+                if ( ! video.currentSrc ) {
+                    video.load();
+                }
+            } else {
+                image.srcset = image.getAttribute( 'srcset' );
+            }
+        } );
+    }
+
     function init() {
         initDarkMode();
+        initBannerMedia();
         initSpotlight();
         initMarquees();
         initContactForm();

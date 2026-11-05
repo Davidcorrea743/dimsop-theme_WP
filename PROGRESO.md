@@ -44,6 +44,7 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 | 2026-11-03 | 4 | Contadores de Odoo mostraban "+0" sin JS | El valor solo lo escribía el JS | Se imprime el valor final; el Día 7 se anima desde 0 |
 | 2026-11-03 | 5 | Los carruseles no se podían mover a mano | Solo tenían la animación CSS | `initMarquees()`: botones, arrastre con ratón o dedo, inercia y rueda horizontal en Aliados y Proyectos (adelantado del Día 7) |
 | 2026-11-03 | 5 | Proyectos mostraba la descripción de cada trabajo | Decisión de diseño revisada por David | Solo logo y nombre centrado; los extractos siguen guardados en el panel pero no se muestran |
+| 2026-11-05 | 5 | El video del banner se veía recortado en móvil | Con `cover` en vertical solo se ve una franja del video | Bajo 992 px, imagen `corporativa_nueva` completa con el texto debajo; el video queda solo en escritorio y no se descarga en móvil |
 | 2026-11-04 | 5 | Al enviar el formulario la página recargaba y bajaba desde el inicio | Envío por POST con redirección | `initContactForm()` envía por AJAX (adelantado del Día 8); aviso junto al botón que desaparece al minuto |
 | 2026-11-04 | 5 | Correo, teléfono y WhatsApp repetidos en Contacto | Ya están en el footer y el botón flotante | Se elimina la franja; queda solo el formulario, con los opcionales marcados |
 | 2026-11-04 | 5 | Los errores del formulario no mostraban aviso | `?error=` es una variable reservada de WordPress | El handler redirige con `?form_error=` |
@@ -58,6 +59,7 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 - Las tarjetas con spotlight y la insignia con punto pulsante se usan en producción (unidades, proyectos, blog, valores).
 - La Guía de componentes (`/guia-componentes/`) es solo de referencia: se borra o pasa a borrador el Día 19.
 - Los commits los hace David; Claude solo entrega la descripción.
+- Banner: video desde 992 px; por debajo, imagen completa con el texto debajo (el corte es el mismo del menú hamburguesa).
 - Blog en portada: cuadrícula con las 3 últimas entradas, se actualiza sola al publicar (en Odoo el carrusel también mostraba solo 3).
 - Valores corporativos: tarjetas con icono y frase breve (las frases son propuesta, validar con el cliente).
 

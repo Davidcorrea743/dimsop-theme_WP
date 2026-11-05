@@ -953,7 +953,7 @@ body.dimsop-search-open {
 }
 
 /* =====================================================================
- * DIMSOP - BANNER PRINCIPAL (HERO VIDEO SECTION)
+ * DIMSOP - BANNER PRINCIPAL (video en escritorio, imagen en móvil)
  * Reemplaza los estilos en línea de video y max-width
  * ===================================================================== */
 .dimsop-banner {
@@ -1003,6 +1003,47 @@ body.dimsop-search-open {
   line-height: 1.6;
 }
 
+/* Móvil y tablet: el video se recortaba, así que se usa la imagen completa con el texto debajo.
+ * #170e51 es el color del fondo de la imagen, para que no se note el paso al texto. */
+.dimsop-banner-picture {
+  display: none;
+}
+
+@media (max-width: 991.98px) {
+  .dimsop-banner {
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 0;
+    background-color: #170e51;
+  }
+  .dimsop-banner-video,
+  .dimsop-banner-overlay {
+    display: none;
+  }
+  .dimsop-banner-picture {
+    position: relative;
+    display: block;
+    width: 100%;
+  }
+  .dimsop-banner-picture::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 25%;
+    background: linear-gradient(180deg, transparent, #170e51);
+    pointer-events: none;
+  }
+  .dimsop-banner-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1920/908;
+  }
+  .dimsop-banner .container {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+}
 /* =====================================================================
  * DIMSOP - SECCIONES CORPORATIVAS
  * Cintillo ISO, Nosotros, Cobertura y Contadores de Impacto
