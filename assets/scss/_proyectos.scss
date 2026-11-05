@@ -12,6 +12,7 @@
     flex: 0 0 auto;
     display: flex;
     flex-direction: column;
+    justify-content: center; /* centra el nombre si el proyecto no tiene logo */
     width: 15rem;
     height: auto;
     margin: 0 0.625rem;

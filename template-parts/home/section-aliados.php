@@ -37,7 +37,7 @@ if ( ! $dimsop_partners ) {
                 <?php foreach ( $dimsop_partners as $dimsop_partner ) : ?>
                     <div class="dimsop-partner-item"<?php echo $dimsop_is_copy ? ' aria-hidden="true"' : ''; ?>>
                         <?php
-                        echo get_the_post_thumbnail(
+                        $dimsop_logo = get_the_post_thumbnail(
                             $dimsop_partner,
                             'dimsop-partner-logo',
                             array(
@@ -46,6 +46,12 @@ if ( ! $dimsop_partners ) {
                                 'loading' => 'lazy',
                             )
                         );
+                        if ( $dimsop_logo ) {
+                            echo $dimsop_logo; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML generado por WordPress.
+                        } else {
+                            // Sin logo se muestra el nombre, para que el chip no quede vacío.
+                            echo '<span class="dimsop-partner-name">' . esc_html( get_the_title( $dimsop_partner ) ) . '</span>';
+                        }
                         ?>
                     </div>
                 <?php endforeach; ?>

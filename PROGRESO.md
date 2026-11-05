@@ -44,6 +44,8 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 | 2026-11-03 | 4 | Contadores de Odoo mostraban "+0" sin JS | El valor solo lo escribía el JS | Se imprime el valor final; el Día 7 se anima desde 0 |
 | 2026-11-03 | 5 | Los carruseles no se podían mover a mano | Solo tenían la animación CSS | `initMarquees()`: botones, arrastre con ratón o dedo, inercia y rueda horizontal en Aliados y Proyectos (adelantado del Día 7) |
 | 2026-11-03 | 5 | Proyectos mostraba la descripción de cada trabajo | Decisión de diseño revisada por David | Solo logo y nombre centrado; los extractos siguen guardados en el panel pero no se muestran |
+| 2026-11-05 | 5 | Editores y autores podían ver las Postulaciones | El tipo de contenido usaba los permisos normales de entradas | Solo administradores (`manage_options`), también por URL directa |
+| 2026-11-05 | 5 | Aliados y Proyectos sin logo mostraban un recuadro vacío | La plantilla imprimía la caja aunque no hubiera imagen | Aliado: chip con el nombre. Proyecto: tarjeta solo con el nombre |
 | 2026-11-05 | 5 | El video del banner se veía recortado en móvil | Con `cover` en vertical solo se ve una franja del video | Bajo 992 px, imagen `corporativa_nueva` completa con el texto debajo; el video queda solo en escritorio y no se descarga en móvil |
 | 2026-11-04 | 5 | Al enviar el formulario la página recargaba y bajaba desde el inicio | Envío por POST con redirección | `initContactForm()` envía por AJAX (adelantado del Día 8); aviso junto al botón que desaparece al minuto |
 | 2026-11-04 | 5 | Correo, teléfono y WhatsApp repetidos en Contacto | Ya están en el footer y el botón flotante | Se elimina la franja; queda solo el formulario, con los opcionales marcados |
@@ -70,6 +72,9 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 - [ ] Borrar los PNG/JPG originales de `assets/images` (ya existen los WebP).
 - [ ] Catálogo: el enlace del menú sigue dando 404 hasta decidir la página (Día 10).
 - [ ] Borrar los 3 prospectos de prueba ("Prueba ... Día 5"), las 5 entradas de prueba (meta `_dimsop_test_post`, slug `prueba-*`) y "Hello world!" antes de publicar.
+- [ ] Prospectos CRM: autores, colaboradores y editores aún pueden verlos (datos personales). Decidir si se limitan.
+- [ ] Unidades: la cuadrícula solo cuadra con 7; con otra cantidad deja huecos, y la novena no aparece.
+- [ ] Entrada del blog sin plantilla propia (portada, botones de compartir): previsto para el Día 13.
 - [ ] CRM: ¿Odoo por XML-RPC/webhook o solo leads en WordPress? (Día 8)
 - [ ] Hosting de staging y producción, y acceso al DNS (Días 16, 19, 20).
 - [ ] Página Catálogo y texto legal de la política de privacidad (los entrega el cliente).

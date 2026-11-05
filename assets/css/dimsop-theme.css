@@ -1533,6 +1533,16 @@ body.dimsop-search-open {
   transition: filter 0.3s ease, transform 0.3s ease;
 }
 
+/* Aliado sin logo: el chip siempre es blanco, así que el color no cambia en modo oscuro */
+.dimsop-partner-name {
+  color: #003362;
+  font-family: var(--dimsop-font-heading);
+  font-size: 1.25rem;
+  letter-spacing: 0.5px;
+  line-height: 1.1;
+  text-align: center;
+}
+
 .dimsop-partner-item:hover .dimsop-partner-logo {
   filter: none;
   transform: scale(1.05);
@@ -1658,6 +1668,7 @@ body.dimsop-search-open {
   flex: 0 0 auto;
   display: flex;
   flex-direction: column;
+  justify-content: center; /* centra el nombre si el proyecto no tiene logo */
   width: 15rem;
   height: auto;
   margin: 0 0.625rem;

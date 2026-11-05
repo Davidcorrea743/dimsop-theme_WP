@@ -34,19 +34,20 @@ if ( ! $dimsop_projects ) {
         <div class="dimsop-marquee-track">
             <?php foreach ( array( false, true ) as $dimsop_is_copy ) : ?>
                 <?php foreach ( $dimsop_projects as $dimsop_project ) : ?>
+                    <?php
+                    $dimsop_logo = get_the_post_thumbnail(
+                        $dimsop_project,
+                        'dimsop-partner-logo',
+                        array(
+                            'alt'     => '', // El nombre de la empresa va justo debajo.
+                            'loading' => 'lazy',
+                        )
+                    );
+                    ?>
                     <article class="dimsop-ui-card dimsop-project-card"<?php echo $dimsop_is_copy ? ' aria-hidden="true"' : ''; ?>>
-                        <div class="dimsop-project-logo">
-                            <?php
-                            echo get_the_post_thumbnail(
-                                $dimsop_project,
-                                'dimsop-partner-logo',
-                                array(
-                                    'alt'     => '', // El nombre de la empresa va justo debajo.
-                                    'loading' => 'lazy',
-                                )
-                            );
-                            ?>
-                        </div>
+                        <?php if ( $dimsop_logo ) : ?>
+                            <div class="dimsop-project-logo"><?php echo $dimsop_logo; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML generado por WordPress. ?></div>
+                        <?php endif; ?>
                         <h3 class="dimsop-project-name"><?php echo esc_html( get_the_title( $dimsop_project ) ); ?></h3>
                     </article>
                 <?php endforeach; ?>
