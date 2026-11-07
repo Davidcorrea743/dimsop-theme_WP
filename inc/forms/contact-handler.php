@@ -46,7 +46,7 @@ function dimsop_handle_contact_form() {
         return;
     }
 
-    // 5. Captura y Sanitización Estricta de Campos (Límites de longitud equivalentes a Odoo)
+    // 5. Captura y Sanitización Estricta de Campos (con límites de longitud)
     $name     = isset( $_POST['name'] ) ? sanitize_text_field( substr( trim( wp_unslash( $_POST['name'] ) ), 0, 200 ) ) : '';
     $email    = isset( $_POST['email'] ) ? sanitize_email( substr( trim( wp_unslash( $_POST['email'] ) ), 0, 254 ) ) : '';
     $phone    = isset( $_POST['phone'] ) ? dimsop_sanitize_phone( substr( trim( wp_unslash( $_POST['phone'] ) ), 0, 40 ) ) : '';

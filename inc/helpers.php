@@ -59,29 +59,95 @@ function dimsop_get_option( $key, $default = '' ) {
 }
 
 /**
- * Obtener IP real del cliente con validación estricta y soporte para Cloudflare/Proxies
+ * Comprobar si una IP pertenece a alguno de los rangos dados (IP suelta o CIDR, IPv4 o IPv6)
  *
- * @return string IP sanitizada y validada o '0.0.0.0' si es inválida
+ * @param string   $ip     IP ya validada.
+ * @param string[] $ranges Lista de IP o rangos, por ejemplo '173.245.48.0/20'.
+ * @return bool
  */
-function dimsop_get_client_ip() {
-    $ip_keys = array(
-        'HTTP_CF_CONNECTING_IP', // Cloudflare
-        'HTTP_X_FORWARDED_FOR',  // Proxies balanceados
-        'HTTP_X_REAL_IP',        // Nginx proxy_pass
-        'REMOTE_ADDR',           // IP directa
-    );
+function dimsop_ip_in_ranges( $ip, $ranges ) {
+    $ip_bin = inet_pton( $ip );
 
-    foreach ( $ip_keys as $key ) {
-        if ( ! empty( $_SERVER[ $key ] ) ) {
-            $ips = explode( ',', sanitize_text_field( wp_unslash( $_SERVER[ $key ] ) ) );
-            $candidate_ip = trim( $ips[0] );
-            if ( filter_var( $candidate_ip, FILTER_VALIDATE_IP ) ) {
-                return $candidate_ip;
-            }
+    foreach ( (array) $ranges as $range ) {
+        $parts = explode( '/', trim( $range ), 2 );
+
+        if ( ! filter_var( $parts[0], FILTER_VALIDATE_IP ) ) {
+            continue;
+        }
+
+        $net_bin = inet_pton( $parts[0] );
+
+        if ( strlen( $net_bin ) !== strlen( $ip_bin ) ) {
+            continue; // Una es IPv4 y la otra IPv6.
+        }
+
+        $max_bits = strlen( $net_bin ) * 8;
+        $bits     = isset( $parts[1] ) ? min( max( (int) $parts[1], 0 ), $max_bits ) : $max_bits;
+        $bytes    = intdiv( $bits, 8 );
+        $rest     = $bits % 8;
+
+        if ( substr( $ip_bin, 0, $bytes ) !== substr( $net_bin, 0, $bytes ) ) {
+            continue;
+        }
+
+        if ( 0 === $rest ) {
+            return true;
+        }
+
+        $mask = ( 0xFF << ( 8 - $rest ) ) & 0xFF;
+
+        if ( ( ord( $ip_bin[ $bytes ] ) & $mask ) === ( ord( $net_bin[ $bytes ] ) & $mask ) ) {
+            return true;
         }
     }
 
-    return '0.0.0.0';
+    return false;
+}
+
+/**
+ * Obtener la IP del cliente sin fiarse de cabeceras que el visitante puede falsificar
+ *
+ * Por defecto usa REMOTE_ADDR. X-Forwarded-For solo se lee si la petición llega desde
+ * un proxy declarado en wp-config.php (Cloudflare, balanceador):
+ *
+ *     define( 'DIMSOP_TRUSTED_PROXIES', array( '173.245.48.0/20', '10.0.0.5' ) );
+ *
+ * La cabecera se recorre de derecha a izquierda porque cada proxy añade su dato al
+ * final: lo que esté a la izquierda de la primera IP no confiable lo pudo escribir
+ * el propio visitante.
+ *
+ * @return string IP validada o '0.0.0.0' si es inválida
+ */
+function dimsop_get_client_ip() {
+    $remote = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+
+    if ( ! filter_var( $remote, FILTER_VALIDATE_IP ) ) {
+        return '0.0.0.0';
+    }
+
+    if (
+        ! defined( 'DIMSOP_TRUSTED_PROXIES' )
+        || empty( $_SERVER['HTTP_X_FORWARDED_FOR'] )
+        || ! dimsop_ip_in_ranges( $remote, DIMSOP_TRUSTED_PROXIES )
+    ) {
+        return $remote;
+    }
+
+    $forwarded = explode( ',', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) );
+
+    foreach ( array_reverse( $forwarded ) as $candidate ) {
+        $candidate = trim( $candidate );
+
+        if ( ! filter_var( $candidate, FILTER_VALIDATE_IP ) ) {
+            break;
+        }
+
+        if ( ! dimsop_ip_in_ranges( $candidate, DIMSOP_TRUSTED_PROXIES ) ) {
+            return $candidate;
+        }
+    }
+
+    return $remote;
 }
 
 /**

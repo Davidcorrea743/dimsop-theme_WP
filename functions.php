@@ -3,13 +3,12 @@
  * Dimsop Theme functions and definitions
  *
  * @package Dimsop
- * @version 1.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
-// Definición de constantes del tema
-define( 'DIMSOP_THEME_VERSION', '1.0.0' );
+// Definición de constantes del tema. La versión se lee de style.css, su única fuente.
+define( 'DIMSOP_THEME_VERSION', wp_get_theme( get_template() )->get( 'Version' ) );
 define( 'DIMSOP_THEME_DIR', get_template_directory() );
 define( 'DIMSOP_THEME_URI', get_template_directory_uri() );
 

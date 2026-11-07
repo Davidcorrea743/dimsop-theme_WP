@@ -11,8 +11,6 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Inyección de Cabeceras HTTP de Seguridad (Defensa en profundidad)
- *
- * Replica y amplía las cabeceras definidas en controllers/main.py de Odoo
  */
 function dimsop_security_headers() {
     if ( headers_sent() ) {

@@ -19,10 +19,9 @@ function dimsop_darkmode_head_script() {
     <script>
         (function() {
             try {
+                // Oscuro por defecto (branding, igual que el sitio original); claro solo si el visitante lo eligió.
                 var savedTheme = localStorage.getItem('dimsop-theme');
-                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-                var theme = savedTheme ? savedTheme : (prefersDark ? 'dark' : 'dark'); // Default a dark según branding
-                document.documentElement.setAttribute('data-theme', theme);
+                document.documentElement.setAttribute('data-theme', savedTheme === 'light' ? 'light' : 'dark');
             } catch (e) {}
         })();
     </script>

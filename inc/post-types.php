@@ -119,11 +119,25 @@ function dimsop_register_post_types() {
         'show_in_menu'        => true,
         'menu_icon'           => 'dashicons-id-alt',
         'supports'            => array( 'title' ),
-        'capability_type'     => 'post',
+        // Contienen datos personales: solo administradores y editores (los únicos con
+        // edit_others_posts), también por URL directa.
         'capabilities'        => array(
-            'create_posts' => 'do_not_allow', // Solo el formulario puede crear
+            'create_posts'           => 'do_not_allow', // Solo el formulario puede crear
+            'edit_post'              => 'edit_others_posts',
+            'read_post'              => 'edit_others_posts',
+            'delete_post'            => 'edit_others_posts',
+            'edit_posts'             => 'edit_others_posts',
+            'edit_others_posts'      => 'edit_others_posts',
+            'edit_private_posts'     => 'edit_others_posts',
+            'edit_published_posts'   => 'edit_others_posts',
+            'publish_posts'          => 'edit_others_posts',
+            'read_private_posts'     => 'edit_others_posts',
+            'delete_posts'           => 'edit_others_posts',
+            'delete_others_posts'    => 'edit_others_posts',
+            'delete_private_posts'   => 'edit_others_posts',
+            'delete_published_posts' => 'edit_others_posts',
         ),
-        'map_meta_cap'        => true,
+        'map_meta_cap'        => false,
         'show_in_rest'        => false,
         'exclude_from_search' => true,
     ) );
@@ -174,7 +188,7 @@ function dimsop_register_post_types() {
 add_action( 'init', 'dimsop_register_post_types' );
 
 /**
- * 2. Catálogo de Servicios de Interés (Equivalente al Selection de Odoo)
+ * 2. Catálogo de Servicios de Interés
  */
 function dimsop_get_service_options() {
     return array(

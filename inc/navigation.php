@@ -33,7 +33,7 @@ function dimsop_nav_menu_link_attributes( $atts, $item, $args ) {
 add_filter( 'nav_menu_link_attributes', 'dimsop_nav_menu_link_attributes', 10, 3 );
 
 /**
- * Enlaces del menú de respaldo (mismo orden que el sitio Odoo).
+ * Enlaces del menú de respaldo.
  *
  * @return array<int, array{url: string, label: string}>
  */

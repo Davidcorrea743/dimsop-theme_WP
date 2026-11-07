@@ -129,7 +129,7 @@ html, body {
         background-color: var(--dimsop-bg) !important;
         border: 1px solid var(--dimsop-surface-border) !important;
     }
-    // Sobreescribir el background blanco que Bootstrap Odoo inyecta en .card-body
+    // Sobreescribir el fondo blanco que Bootstrap aplica a .card-body
     .dimsop-project .card-body,
     .dimsop-project.card .card-body {
         background-color: transparent !important;
