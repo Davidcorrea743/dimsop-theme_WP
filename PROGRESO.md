@@ -1,6 +1,6 @@
 # Control de avance: migración Dimsop (Odoo → WordPress)
 
-**Día actual:** 7 de 20 (Semana 2) · Día 6 cerrado el 2026-11-06
+**Día actual:** 8 de 20 (Semana 2) · Día 7 cerrado el 2026-11-07
 **Sitio local:** http://dimsop-theme.localhost/ · Mailpit: http://localhost:10000
 **Plan completo:** `C:\Users\jdcor\.claude\plans\te-explico-un-poco-graceful-clock.md`
 
@@ -16,7 +16,7 @@ Estados: ✅ hecho · 🟡 en curso · ⬜ pendiente
 | 4 | Aliados, contadores y proyectos | ✅ | Ajustes de Nosotros (títulos centrados, valores en tarjetas). Aliados: carrusel en bucle de 25 logos en chips blancos. Contadores en tarjetas "cristal" con valor final visible sin JS. Proyectos: carrusel de 19 tarjetas con logo y nombre de la empresa. Controles en ambos carruseles. Nuevo `_proyectos.scss`. |
 | 5 | Blog, contacto y revisión responsive | ✅ | Blog: 3 últimas entradas en tarjetas (`section-blog.php`, `_blog.scss`). Contacto: formulario conectado al handler por AJAX, con avisos de éxito y error (`section-contacto.php`, `_contacto.scss`). Misión y Visión con tarjetas UI e insignias en Nosotros y Metodología. Revisado a 1400, 991, 767 y 375 px. |
 | 6 | SEO, respaldo y correcciones de base | ✅ | Yoast SEO y UpdraftPlus instalados (sin programar respaldos aún). Prospectos solo para administradores y editores. IP del límite de envíos sin fiarse de cabeceras (`DIMSOP_TRUSTED_PROXIES`). Versión del tema leída de `style.css`. Modo oscuro por defecto simplificado. Comentarios de Odoo eliminados. WordPress en español, zona horaria de Caracas, nombre del sitio "Dimsop" y archivos de autor desactivados. |
-| 7 | Animaciones (GSAP, Lenis), carruseles, contadores, globo 3D | ⬜ | |
+| 7 | Animaciones (GSAP, Lenis), carruseles, contadores, globo 3D | ✅ | `dimsop-motion.js` + `_motion.scss`: Lenis sincronizado con ScrollTrigger; banner con título palabra por palabra, parallax del video y cuadrícula de puntos; títulos de sección palabra por palabra; tarjetas con desvanecido, subida y desenfoque escalonados; contadores en rodillos; botones magnéticos (solo ratón); carruseles que frenan al pasar el ratón. Globo 3D (Globe.gl 2.42.0) con carga diferida, pausa fuera de pantalla y datos propios en `assets/data` y `assets/images/globe`. Todo estático con movimiento reducido. |
 | 8 | Formulario de contacto (AJAX, SMTP, CRM) | ⬜ | |
 | 9 | Postulación con CV | ⬜ | |
 | 10 | Páginas interiores (page, 404, búsqueda, privacidad) | ⬜ | |
@@ -50,6 +50,7 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 | 2026-11-06 | 6 | El límite de envíos se podía saltar cambiando la cabecera X-Forwarded-For | Se confiaba en cabeceras que escribe el visitante | Se usa REMOTE_ADDR; la cabecera solo se lee desde proxies declarados en `DIMSOP_TRUSTED_PROXIES` |
 | 2026-11-06 | 6 | Autores y colaboradores podían ver los Prospectos | Usaba los permisos normales de entradas | Solo administradores y editores (`edit_others_posts`), también por URL directa |
 | 2026-11-06 | 6 | Yoast publicaba los autores en el sitemap, y el tema oculta los usuarios | Yoast activa los archivos de autor por defecto | Archivos de autor desactivados en Yoast |
+| 2026-11-07 | 7 | El globo 3D no se dibujaba | Globe.gl 2.33.1 no tiene `htmlElementVisibilityModifier`, que usaba el código de Odoo | Versión 2.42.0 y la llamada pasa a ser opcional; si el globo falla queda el mapa y un aviso en consola |
 | 2026-11-04 | 5 | Al enviar el formulario la página recargaba y bajaba desde el inicio | Envío por POST con redirección | `initContactForm()` envía por AJAX (adelantado del Día 8); aviso junto al botón que desaparece al minuto |
 | 2026-11-04 | 5 | Correo, teléfono y WhatsApp repetidos en Contacto | Ya están en el footer y el botón flotante | Se elimina la franja; queda solo el formulario, con los opcionales marcados |
 | 2026-11-04 | 5 | Los errores del formulario no mostraban aviso | `?error=` es una variable reservada de WordPress | El handler redirige con `?form_error=` |
@@ -70,6 +71,8 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 - Prospectos: solo administradores y editores. Postulaciones: solo administradores.
 - Modo oscuro por defecto, igual que el sitio original; el modo claro solo si el visitante lo elige.
 - Respaldos con UpdraftPlus (decisión de Claude, gratuito y sin coste de servicio; se puede cambiar antes del Día 19).
+- Animación: con "reducir movimiento" no hay Lenis, revelados ni giro del globo. En pantallas táctiles no hay botones magnéticos ni desenfoque, y el dedo desplaza la página en vez de girar el globo.
+- Globo: datos de países y textura servidos desde el tema (no desde GitHub, como en Odoo). Globe.gl se descarga de jsDelivr solo al acercarse a Sedes (~1,7 MB).
 
 ## Pendientes y decisiones abiertas
 
@@ -77,6 +80,7 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 - [ ] UpdraftPlus: programar los respaldos y elegir dónde se guardan (Día 19). Hoy no hace ninguno.
 - [ ] Revisar la cabecera HSTS del tema con `preload` e `includeSubDomains` antes de publicar (Día 19): afecta a todos los subdominios de dimsop.com.
 - [ ] Meta descripción de la portada y Open Graph en Yoast (Día 15). Sacar del sitemap `sample-page` y `guia-componentes` al borrarlas.
+- [ ] Día 15: medir con Lighthouse el peso de Globe.gl en móvil; si penaliza, cargar el globo solo desde 768 px.
 - [ ] Desactivar WPForms Lite (no se usa).
 - [ ] Borrar los PNG/JPG originales de `assets/images` (ya existen los WebP).
 - [ ] Catálogo: el enlace del menú sigue dando 404 hasta decidir la página (Día 10).

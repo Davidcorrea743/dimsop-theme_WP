@@ -137,8 +137,13 @@
                 return;
             }
             e.preventDefault();
-            var top = target.getBoundingClientRect().top + window.pageYOffset - headerOffset();
-            window.scrollTo( { top: top, behavior: 'smooth' } );
+            if ( window.dimsopLenis ) {
+                // Con Lenis activo (dimsop-motion.js) el desplazamiento lo hace él para no pelear con su inercia.
+                window.dimsopLenis.scrollTo( target, { offset: -headerOffset() } );
+            } else {
+                var top = target.getBoundingClientRect().top + window.pageYOffset - headerOffset();
+                window.scrollTo( { top: top, behavior: 'smooth' } );
+            }
             if ( window.history && window.history.replaceState ) {
                 window.history.replaceState( null, '', link.hash );
             }
@@ -323,6 +328,7 @@
             }
 
             var speed = parseFloat( root.getAttribute( 'data-speed' ) ) || 50; // px por segundo
+            var currentSpeed = reduceMotion ? 0 : speed; // se acerca a speed o a 0 poco a poco
             var x = 0;
             var loopWidth = 0;
             var velocity = 0;
@@ -364,9 +370,13 @@
                         velocity *= Math.pow( 0.05, dt );
                     } else {
                         velocity = 0;
-                        if ( ! reduceMotion && ! hovering && ! focused && time >= resumeAt ) {
-                            x += speed * dt;
+                        // Al pasar el ratón frena en ~1 s en vez de pararse en seco, y al salir acelera igual.
+                        var targetSpeed = ( reduceMotion || hovering || focused || time < resumeAt ) ? 0 : speed;
+                        currentSpeed += ( targetSpeed - currentSpeed ) * Math.min( 1, dt * 3 );
+                        if ( 0 === targetSpeed && currentSpeed < 0.5 ) {
+                            currentSpeed = 0;
                         }
+                        x += currentSpeed * dt;
                     }
                 }
 
@@ -392,6 +402,7 @@
                 var item = track.firstElementChild;
                 var itemWidth = item ? item.offsetWidth : 0;
                 velocity = 0;
+                currentSpeed = 0;
                 glide += direction * Math.max( viewport.clientWidth * 0.6, itemWidth );
                 resumeAt = window.performance.now() + 2000;
             }
@@ -425,6 +436,7 @@
                 dragging = true;
                 glide = 0;
                 velocity = 0;
+                currentSpeed = 0;
                 lastPointerX = e.clientX;
                 lastPointerTime = window.performance.now();
                 root.classList.add( 'is-dragging' );

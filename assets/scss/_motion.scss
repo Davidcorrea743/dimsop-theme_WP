@@ -1,0 +1,158 @@
+/* =====================================================================
+ * DIMSOP - CAPA DE ANIMACIÓN (dimsop-motion.js)
+ * Lenis, títulos palabra por palabra, contadores en rodillos, globo 3D
+ * y la cuadrícula de puntos del banner.
+ * ===================================================================== */
+
+/* ------------------------- Lenis ----------------------------------- */
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+
+/* Lenis ya suaviza: el scroll-behavior nativo lo haría ir a trompicones */
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+/* ---------------- Texto del banner antes de animarse ---------------- */
+/* La clase la pone el <head>; si el JS no llega en 3 s se retira sola. */
+.dimsop-motion:not(.dimsop-motion-ready) {
+    .dimsop-banner .dimsop-h1,
+    .dimsop-banner .dimsop-banner-lead {
+        visibility: hidden;
+    }
+}
+
+/* ---------------------- Palabras de los títulos --------------------- */
+.dimsop-word {
+    display: inline-block;
+    overflow: hidden;
+    /* Margen para tildes y signos (¿, Á) que sobresalen de la línea */
+    padding: 0.14em 0.02em;
+    margin: -0.14em -0.02em;
+    vertical-align: top;
+}
+
+.dimsop-word-inner {
+    display: inline-block;
+    will-change: transform;
+}
+
+/* ---------------------- Contadores en rodillos ---------------------- */
+.dimsop-counter-num.is-rolling {
+    display: flex;
+    justify-content: center;
+    /* El degradado pasa a cada cifra: el texto recortado no admite hijos con transform */
+    background: none;
+    color: inherit;
+}
+
+.dimsop-roll {
+    display: inline-block;
+    overflow: hidden;
+    height: 1em;
+}
+
+.dimsop-roll-strip {
+    display: block;
+    will-change: transform;
+}
+
+.dimsop-roll-digit {
+    display: block;
+    height: 1em;
+    line-height: 1;
+    background: linear-gradient(180deg, #fff 30%, #9fe07f);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* --------------------- Banner: cuadrícula de puntos ------------------ */
+.dimsop-banner-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1.5px);
+    background-size: 22px 22px;
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 20%, transparent 75%);
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 20%, transparent 75%);
+    pointer-events: none;
+}
+
+/* ------------------------------ Globo ------------------------------- */
+/* Altura fija desde el principio: el globo sustituye al mapa sin mover la página */
+.dimsop-globe-wrap {
+    aspect-ratio: 16 / 9;
+    background: #070f1c;
+
+    @media (max-width: 767.98px) {
+        aspect-ratio: 4 / 3;
+    }
+
+    .dimsop-globe-fallback {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: opacity 0.8s ease;
+    }
+
+    .dimsop-globe-container {
+        position: absolute;
+        inset: 0;
+        height: auto;
+        opacity: 0;
+        transition: opacity 1s ease;
+    }
+
+    &.is-globe-ready {
+        .dimsop-globe-fallback {
+            opacity: 0;
+        }
+
+        .dimsop-globe-container {
+            opacity: 1;
+        }
+    }
+}
+
+.dimsop-globe-label {
+    color: #fff;
+    font-family: var(--dimsop-font-body);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.9), 0 0 8px rgba(0, 0, 0, 0.9);
+    white-space: nowrap;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.25s ease;
+}
+
+.dimsop-globe-hq {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+    transform: translate(-50%, -100%);
+    transition: opacity 0.25s ease;
+
+    span {
+        margin-top: 2px;
+        color: #8cc8ff;
+        font-family: var(--dimsop-font-body);
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
+        white-space: nowrap;
+    }
+}

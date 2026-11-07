@@ -3,7 +3,7 @@
  * Sección: Ecosistema Dimsop (contadores de impacto)
  *
  * Las cifras se imprimen ya con su valor final para que se vean sin JS;
- * el Día 7 dimsop-motion.js las anima desde 0 usando data-target.
+ * dimsop-motion.js las convierte en rodillos que giran hasta data-target.
  *
  * @package Dimsop
  */

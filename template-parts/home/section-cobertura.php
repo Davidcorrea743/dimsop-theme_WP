@@ -3,7 +3,7 @@
  * Sección: Nuestras Sedes (cobertura regional)
  *
  * Leyenda de sedes y cobertura, más el mapa estático de respaldo. El globo 3D
- * (Globe.gl) se monta sobre #dimsop-globe el Día 7 y reemplaza la imagen.
+ * (Globe.gl) lo monta dimsop-motion.js sobre #dimsop-globe y reemplaza la imagen.
  *
  * @package Dimsop
  */

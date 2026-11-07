@@ -23,6 +23,16 @@ function dimsop_darkmode_head_script() {
                 var savedTheme = localStorage.getItem('dimsop-theme');
                 document.documentElement.setAttribute('data-theme', savedTheme === 'light' ? 'light' : 'dark');
             } catch (e) {}
+            // Oculta el texto del banner hasta que dimsop-motion.js lo anime; si no llega en 3 s, se muestra igual.
+            if (!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+                var root = document.documentElement;
+                root.classList.add('dimsop-motion');
+                setTimeout(function() {
+                    if (!window.dimsopMotionReady) {
+                        root.classList.remove('dimsop-motion');
+                    }
+                }, 3000);
+            }
         })();
     </script>
     <?php
@@ -104,6 +114,52 @@ function dimsop_enqueue_scripts() {
         true
     );
 
+    // 7b. Lenis (desplazamiento con inercia) y capa de animación (GSAP + ScrollTrigger)
+    wp_enqueue_script(
+        'dimsop-lenis',
+        'https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js',
+        array(),
+        '1.1.13',
+        true
+    );
+
+    $motion_js  = '/assets/js/dimsop-motion.js';
+    $motion_ver = file_exists( DIMSOP_THEME_DIR . $motion_js ) ? filemtime( DIMSOP_THEME_DIR . $motion_js ) : DIMSOP_THEME_VERSION;
+    wp_enqueue_script(
+        'dimsop-motion',
+        DIMSOP_THEME_URI . $motion_js,
+        array( 'dimsop-gsap-scrolltrigger', 'dimsop-lenis', 'dimsop-main-js' ),
+        $motion_ver,
+        true
+    );
+
+    // Globo 3D: Globe.gl se descarga solo al acercarse a la sección Sedes (ver dimsop-motion.js).
+    wp_localize_script(
+        'dimsop-motion',
+        'dimsopMotion',
+        array(
+            'globe' => array(
+                'script'    => 'https://cdn.jsdelivr.net/npm/globe.gl@2.42.0/dist/globe.gl.min.js',
+                'image'     => dimsop_asset_url( 'images/globe/earth-dark.jpg' ),
+                'countries' => dimsop_asset_url( 'data/countries-110m.json' ),
+                // Clave: nombre del país en el GeoJSON (Natural Earth). Valor: etiqueta en pantalla.
+                'projects'  => array(
+                    'Mexico'     => __( 'México', 'dimsop' ),
+                    'Costa Rica' => __( 'Costa Rica', 'dimsop' ),
+                    'Colombia'   => __( 'Colombia', 'dimsop' ),
+                    'Peru'       => __( 'Perú', 'dimsop' ),
+                    'Chile'      => __( 'Chile', 'dimsop' ),
+                    'Argentina'  => __( 'Argentina', 'dimsop' ),
+                    'Spain'      => __( 'España', 'dimsop' ),
+                ),
+                'hqs'       => array(
+                    array( 'name' => __( 'Caracas', 'dimsop' ), 'lat' => 10.4806, 'lng' => -66.9036 ),
+                    array( 'name' => __( 'Miami', 'dimsop' ), 'lat' => 25.7617, 'lng' => -80.1918 ),
+                ),
+            ),
+        )
+    );
+
     // 8. Localización de datos dinámicos y tokens de seguridad (Nonces)
     wp_localize_script(
         'dimsop-main-js',
@@ -128,7 +184,7 @@ add_action( 'wp_enqueue_scripts', 'dimsop_enqueue_scripts' );
  * Añadir atributos 'defer' o 'async' a scripts externos para maximizar PageSpeed
  */
 function dimsop_defer_scripts( $tag, $handle, $src ) {
-    $defer_handles = array( 'dimsop-gsap', 'dimsop-gsap-scrolltrigger', 'dimsop-main-js' );
+    $defer_handles = array( 'dimsop-gsap', 'dimsop-gsap-scrolltrigger', 'dimsop-main-js', 'dimsop-lenis', 'dimsop-motion' );
     if ( in_array( $handle, $defer_handles, true ) ) {
         return str_replace( ' src', ' defer src', $tag );
     }
