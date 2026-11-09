@@ -54,6 +54,7 @@ function dimsop_handle_contact_form() {
     $position = isset( $_POST['position'] ) ? sanitize_text_field( substr( trim( wp_unslash( $_POST['position'] ) ), 0, 200 ) ) : '';
     $service  = isset( $_POST['service'] ) ? sanitize_text_field( trim( wp_unslash( $_POST['service'] ) ) ) : '';
     $message  = isset( $_POST['message'] ) ? sanitize_textarea_field( substr( trim( wp_unslash( $_POST['message'] ) ), 0, 1000 ) ) : '';
+    $other    = isset( $_POST['other_reason'] ) ? sanitize_text_field( mb_substr( trim( wp_unslash( $_POST['other_reason'] ) ), 0, 200 ) ) : '';
 
     // 6. Validación de Campos Obligatorios
     if ( empty( $name ) || empty( $email ) || ! is_email( $email ) ) {
@@ -61,10 +62,25 @@ function dimsop_handle_contact_form() {
         return;
     }
 
+    // Nombre y apellido: solo letras (con tildes, ñ, etc.) separadas por espacios.
+    $name = trim( preg_replace( '/\s+/u', ' ', $name ) );
+    if ( ! preg_match( '/^[\p{L}\p{M}]+(?: [\p{L}\p{M}]+)*$/u', $name ) ) {
+        dimsop_form_response( false, esc_html__( 'El nombre y apellido solo puede tener letras y espacios.', 'dimsop' ), 'nombre_invalido', 400, $is_ajax );
+        return;
+    }
+
     // Validar servicio de interés contra lista blanca
     $valid_services = array_keys( dimsop_get_service_options() );
     if ( ! in_array( $service, $valid_services, true ) ) {
         $service = '';
+    }
+
+    // El motivo libre solo cuenta con el servicio "Otro", y entonces es obligatorio.
+    if ( 'other' !== $service ) {
+        $other = '';
+    } elseif ( '' === $other ) {
+        dimsop_form_response( false, esc_html__( 'Elegiste "Otro": indícanos el motivo de tu contacto.', 'dimsop' ), 'motivo_requerido', 400, $is_ajax );
+        return;
     }
 
     $ip = dimsop_get_client_ip();
@@ -91,12 +107,13 @@ function dimsop_handle_contact_form() {
     update_post_meta( $lead_id, '_dimsop_lead_company', $company );
     update_post_meta( $lead_id, '_dimsop_lead_position', $position );
     update_post_meta( $lead_id, '_dimsop_lead_service', $service );
+    update_post_meta( $lead_id, '_dimsop_lead_other', $other );
     update_post_meta( $lead_id, '_dimsop_lead_message', $message );
     update_post_meta( $lead_id, '_dimsop_lead_ip', $ip );
     update_post_meta( $lead_id, '_dimsop_lead_date', current_time( 'mysql' ) );
 
     // 8. Envío de Notificación por Correo Corporativo
-    dimsop_send_lead_notification( $name, $email, $phone, $company, $position, $service, $message, $ip, $lead_id );
+    dimsop_send_lead_notification( $name, $email, $phone, $company, $position, dimsop_lead_service_label( $service, $other ), $message, $ip, $lead_id );
 
     // 9. Respuesta Exitosa
     dimsop_form_response( true, esc_html__( '¡Gracias por contactarnos! Un especialista de Dimsop se comunicará contigo a la brevedad.', 'dimsop' ), 'enviado', 200, $is_ajax );
@@ -110,16 +127,15 @@ add_action( 'admin_post_nopriv_dimsop_submit_contact', 'dimsop_handle_contact_fo
 
 /**
  * Notificación por Email Corporativo
+ *
+ * @param string $service_label Servicio ya legible (ver dimsop_lead_service_label()).
  */
-function dimsop_send_lead_notification( $name, $email, $phone, $company, $position, $service, $message, $ip, $lead_id ) {
+function dimsop_send_lead_notification( $name, $email, $phone, $company, $position, $service_label, $message, $ip, $lead_id ) {
     $to = dimsop_get_option( 'contact_email', get_option( 'admin_email' ) );
     $subject = sprintf( '[Dimsop Web] Nuevo Prospecto: %s', $name );
     if ( $company ) {
         $subject .= sprintf( ' (%s)', $company );
     }
-
-    $services = dimsop_get_service_options();
-    $service_label = isset( $services[ $service ] ) ? $services[ $service ] : ( $service ? $service : 'No especificado' );
 
     $admin_url = admin_url( 'post.php?post=' . $lead_id . '&action=edit' );
 
@@ -156,6 +172,8 @@ function dimsop_send_lead_notification( $name, $email, $phone, $company, $positi
  */
 function dimsop_form_response( $success, $message, $code, $status_code = 200, $is_ajax = true ) {
     if ( $is_ajax ) {
+        // El JS lo inserta con textContent: va como texto plano, sin entidades HTML (&quot;).
+        $message = wp_specialchars_decode( $message, ENT_QUOTES );
         status_header( $status_code );
         if ( $success ) {
             wp_send_json_success( array(

@@ -63,3 +63,25 @@
         padding: 1.25rem;
     }
 }
+
+/* Campo "Otro": initContactForm() lo oculta con [hidden] salvo que se elija ese servicio */
+#dimsop-f-other-wrap[hidden] {
+    display: none !important;
+}
+
+#dimsop-f-other-wrap:not([hidden]) {
+    animation: dimsop-field-in 0.3s var(--dimsop-ease-out);
+}
+
+@keyframes dimsop-field-in {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #dimsop-f-other-wrap:not([hidden]) {
+        animation: none;
+    }
+}

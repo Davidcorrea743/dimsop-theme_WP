@@ -173,7 +173,15 @@ function dimsop_enqueue_scripts() {
                 'submitting'      => esc_html__( 'Enviando...', 'dimsop' ),
                 'fileTooLarge'    => esc_html__( 'El archivo excede el tamaño máximo permitido de 5MB.', 'dimsop' ),
                 'invalidFileType' => esc_html__( 'Formato de archivo no válido. Solo se admiten archivos PDF, DOC o DOCX.', 'dimsop' ),
-                'errorGeneric'    => esc_html__( 'Ocurrió un error. Por favor intente más tarde.', 'dimsop' ),
+                'errorGeneric'    => esc_html__( 'Ocurrió un error. Por favor intenta más tarde.', 'dimsop' ),
+                // Validación del formulario de contacto en el navegador.
+                'nameRequired'    => esc_html__( 'Escribe tu nombre y apellido.', 'dimsop' ),
+                'nameInvalid'     => esc_html__( 'Usa solo letras y espacios, sin números ni símbolos.', 'dimsop' ),
+                'emailRequired'   => esc_html__( 'Escribe tu correo electrónico.', 'dimsop' ),
+                'emailInvalid'    => esc_html__( 'Revisa el correo: debe tener el formato nombre@empresa.com.', 'dimsop' ),
+                'phoneInvalid'    => esc_html__( 'Revisa el teléfono: usa solo números, espacios, guiones, paréntesis o +.', 'dimsop' ),
+                'otherRequired'   => esc_html__( 'Indícanos el motivo de tu contacto.', 'dimsop' ),
+                'fixErrors'       => esc_html__( 'Revisa los campos marcados para poder enviar el formulario.', 'dimsop' ),
             ),
         )
     );

@@ -1,6 +1,6 @@
 # Control de avance: migración Dimsop (Odoo → WordPress)
 
-**Día actual:** 8 de 20 (Semana 2) · Día 7 cerrado el 2026-11-07
+**Día actual:** 9 de 20 (Semana 2) · Día 8 cerrado el 2026-11-09
 **Sitio local:** http://dimsop-theme.localhost/ · Mailpit: http://localhost:10000
 **Plan completo:** `C:\Users\jdcor\.claude\plans\te-explico-un-poco-graceful-clock.md`
 
@@ -17,7 +17,7 @@ Estados: ✅ hecho · 🟡 en curso · ⬜ pendiente
 | 5 | Blog, contacto y revisión responsive | ✅ | Blog: 3 últimas entradas en tarjetas (`section-blog.php`, `_blog.scss`). Contacto: formulario conectado al handler por AJAX, con avisos de éxito y error (`section-contacto.php`, `_contacto.scss`). Misión y Visión con tarjetas UI e insignias en Nosotros y Metodología. Revisado a 1400, 991, 767 y 375 px. |
 | 6 | SEO, respaldo y correcciones de base | ✅ | Yoast SEO y UpdraftPlus instalados (sin programar respaldos aún). Prospectos solo para administradores y editores. IP del límite de envíos sin fiarse de cabeceras (`DIMSOP_TRUSTED_PROXIES`). Versión del tema leída de `style.css`. Modo oscuro por defecto simplificado. Comentarios de Odoo eliminados. WordPress en español, zona horaria de Caracas, nombre del sitio "Dimsop" y archivos de autor desactivados. |
 | 7 | Animaciones (GSAP, Lenis), carruseles, contadores, globo 3D | ✅ | `dimsop-motion.js` + `_motion.scss`: Lenis sincronizado con ScrollTrigger; banner con título palabra por palabra, parallax del video y cuadrícula de puntos; títulos de sección palabra por palabra; tarjetas con desvanecido, subida y desenfoque escalonados; contadores en rodillos; botones magnéticos (solo ratón); carruseles que frenan al pasar el ratón. Globo 3D (Globe.gl 2.42.0) con carga diferida, pausa fuera de pantalla y datos propios en `assets/data` y `assets/images/globe`. Todo estático con movimiento reducido. |
-| 8 | Formulario de contacto (AJAX, SMTP, CRM) | ⬜ | |
+| 8 | Formulario de contacto (AJAX, SMTP, CRM) | ✅ | Campo "Otro" que aparece solo con ese servicio y es obligatorio entonces (también en el servidor); se guarda en el prospecto, sale en el panel y en el correo ("Otro: motivo"). Validación en el navegador con mensajes bajo cada campo, `aria-invalid`/`aria-describedby` y foco en el primer error. Avisos del servidor en texto plano. El envío AJAX y los avisos ya venían del Día 5. CRM: los prospectos se quedan solo en WordPress. El SMTP corporativo queda para staging (abajo). |
 | 9 | Postulación con CV | ⬜ | |
 | 10 | Páginas interiores (page, 404, búsqueda, privacidad) | ⬜ | |
 | 11 | Idiomas, parte 1 (Polylang, .pot/.po) | ⬜ | |
@@ -52,6 +52,8 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 | 2026-11-06 | 6 | Yoast publicaba los autores en el sitemap, y el tema oculta los usuarios | Yoast activa los archivos de autor por defecto | Archivos de autor desactivados en Yoast |
 | 2026-11-07 | 7 | El globo 3D no se dibujaba | Globe.gl 2.33.1 no tiene `htmlElementVisibilityModifier`, que usaba el código de Odoo | Versión 2.42.0 y la llamada pasa a ser opcional; si el globo falla queda el mapa y un aviso en consola |
 | 2026-11-09 | 8 | Las animaciones solo se veían la primera vez | Cada revelado usaba `once: true` | `onEachEntry()`: se reproducen cada vez que el bloque entra, bajando o subiendo, y se rearman solo cuando salió del todo de la pantalla. El banner sigue siendo una entrada única |
+| 2026-11-09 | 8 | Los avisos del formulario podían mostrar `&quot;` en vez de comillas | El servidor escapaba el texto como HTML y el JS lo inserta como texto | Las respuestas AJAX van en texto plano |
+| 2026-11-09 | 8 | El nombre aceptaba números y símbolos | Solo se comprobaba que no estuviera vacío | Solo letras (con tildes, ñ, ü) y espacios, en el navegador y en el servidor (`nombre_invalido`) |
 | 2026-11-04 | 5 | Al enviar el formulario la página recargaba y bajaba desde el inicio | Envío por POST con redirección | `initContactForm()` envía por AJAX (adelantado del Día 8); aviso junto al botón que desaparece al minuto |
 | 2026-11-04 | 5 | Correo, teléfono y WhatsApp repetidos en Contacto | Ya están en el footer y el botón flotante | Se elimina la franja; queda solo el formulario, con los opcionales marcados |
 | 2026-11-04 | 5 | Los errores del formulario no mostraban aviso | `?error=` es una variable reservada de WordPress | El handler redirige con `?form_error=` |
@@ -70,6 +72,9 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 - Blog en portada: cuadrícula con las 3 últimas entradas, se actualiza sola al publicar (en Odoo el carrusel también mostraba solo 3).
 - Valores corporativos: tarjetas con icono y frase breve (las frases son propuesta, validar con el cliente).
 - Prospectos: solo administradores y editores. Postulaciones: solo administradores.
+- CRM: los prospectos se quedan solo en WordPress (Prospectos CRM) y llegan por correo a mercadeo; no se integran con Odoo (decisión de David, 2026-11-09).
+- Seguridad del formulario (revisada el 2026-11-09 con ataques de prueba): sin SQL escrito a mano (todo pasa por las funciones de WordPress, que usan consultas preparadas); los datos se limpian al entrar y se escapan al mostrarse en el panel y el correo; el JS inserta los avisos como texto. Además: nonce, honeypot y límite de envíos.
+- Nombre y apellido: solo letras y espacios (decisión de David). Rechaza también guiones y apóstrofos (Ana-María, O'Brien).
 - Modo oscuro por defecto, igual que el sitio original; el modo claro solo si el visitante lo elige.
 - Respaldos con UpdraftPlus (decisión de Claude, gratuito y sin coste de servicio; se puede cambiar antes del Día 19).
 - Animaciones de sección: se repiten al volver a entrar (contadores, títulos, tarjetas, ISO, globo); las tarjetas entran desde abajo al bajar y desde arriba al subir. El banner solo se anima al cargar.
@@ -89,7 +94,7 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 - [ ] Borrar los 3 prospectos de prueba ("Prueba ... Día 5"), las 5 entradas de prueba (meta `_dimsop_test_post`, slug `prueba-*`) y "Hello world!" antes de publicar.
 - [ ] Unidades: la cuadrícula solo cuadra con 7; con otra cantidad deja huecos, y la novena no aparece.
 - [ ] Entrada del blog sin plantilla propia (portada, botones de compartir): previsto para el Día 13.
-- [ ] CRM: ¿Odoo por XML-RPC/webhook o solo leads en WordPress? (Día 8)
+- [ ] SMTP corporativo: configurar WP Mail SMTP con la cuenta real en staging (Día 16). En local los correos van a Mailpit.
 - [ ] Hosting de staging y producción, y acceso al DNS (Días 16, 19, 20).
 - [ ] Página Catálogo y texto legal de la política de privacidad (los entrega el cliente).
 

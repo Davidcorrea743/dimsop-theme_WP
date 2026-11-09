@@ -537,6 +537,153 @@
         var hideDelay = 60000;
         var hideTimer = null;
 
+        /* ---------- Validación en el navegador (el servidor valida igual) ---------- */
+        var fields = {
+            name: form.elements.name,
+            email: form.elements.email,
+            phone: form.elements.phone,
+            service: form.elements.service,
+            other: form.elements.other_reason
+        };
+        var otherWrap = document.getElementById( 'dimsop-f-other-wrap' );
+        var attempted = false; // antes del primer envío no se marcan campos vacíos al salir de ellos
+
+        // Letras de cualquier idioma (tildes, ñ, ü) y espacios; igual que la regla del servidor.
+        var namePattern;
+        try {
+            namePattern = new RegExp( '^[\\p{L}\\p{M}]+(?:\\s+[\\p{L}\\p{M}]+)*$', 'u' );
+        } catch ( e ) {
+            namePattern = /^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:\s+[A-Za-zÀ-ÖØ-öø-ÿ]+)*$/; // navegadores sin \p{}
+        }
+
+        // Los mensajes propios sustituyen a los globos nativos del navegador.
+        form.setAttribute( 'novalidate', '' );
+
+        function describe( input, id, add ) {
+            var ids = ( input.getAttribute( 'aria-describedby' ) || '' ).split( ' ' ).filter( function ( item ) {
+                return item && item !== id;
+            } );
+            if ( add ) {
+                ids.push( id );
+            }
+            if ( ids.length ) {
+                input.setAttribute( 'aria-describedby', ids.join( ' ' ) );
+            } else {
+                input.removeAttribute( 'aria-describedby' );
+            }
+        }
+
+        function setError( input, message ) {
+            var id = input.id + '-error';
+            var error = document.getElementById( id );
+
+            if ( ! message ) {
+                input.removeAttribute( 'aria-invalid' );
+                describe( input, id, false );
+                if ( error ) {
+                    error.remove();
+                }
+                return;
+            }
+
+            if ( ! error ) {
+                error = document.createElement( 'p' );
+                error.id = id;
+                error.className = 'dimsop-field-error mt-1 mb-0';
+                input.closest( '.dimsop-field' ).appendChild( error );
+            }
+            error.textContent = '';
+            var errorIcon = document.createElement( 'i' );
+            errorIcon.className = 'fa fa-exclamation-circle';
+            errorIcon.setAttribute( 'aria-hidden', 'true' );
+            error.appendChild( errorIcon );
+            error.appendChild( document.createTextNode( ' ' + message ) );
+            input.setAttribute( 'aria-invalid', 'true' );
+            describe( input, id, true );
+        }
+
+        function check( input ) {
+            if ( ! input ) {
+                return true;
+            }
+            var value = input.value.trim();
+            var message = '';
+
+            if ( input === fields.name ) {
+                if ( ! value ) {
+                    message = i18n.nameRequired;
+                } else if ( ! namePattern.test( value ) ) {
+                    message = i18n.nameInvalid;
+                }
+            } else if ( input === fields.email ) {
+                if ( ! value ) {
+                    message = i18n.emailRequired;
+                } else if ( ! /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test( value ) ) {
+                    message = i18n.emailInvalid;
+                }
+            } else if ( input === fields.phone && value &&
+                ( ! /^[0-9+()\-.\s]+$/.test( value ) || value.replace( /\D/g, '' ).length < 7 ) ) {
+                message = i18n.phoneInvalid;
+            } else if ( input === fields.other && otherWrap && ! otherWrap.hidden && ! value ) {
+                message = i18n.otherRequired;
+            }
+
+            setError( input, message );
+            return ! message;
+        }
+
+        function firstInvalid() {
+            var first = null;
+            [ fields.name, fields.email, fields.phone, fields.other ].forEach( function ( input ) {
+                if ( ! check( input ) && ! first ) {
+                    first = input;
+                }
+            } );
+            return first;
+        }
+
+        // Campo "Otro": solo aparece si se elige ese servicio.
+        function syncOther() {
+            if ( ! otherWrap || ! fields.service ) {
+                return;
+            }
+            var show = 'other' === fields.service.value;
+            otherWrap.hidden = ! show;
+            if ( fields.other ) {
+                fields.other.required = show;
+                if ( ! show ) {
+                    fields.other.value = '';
+                    setError( fields.other, '' );
+                }
+            }
+        }
+
+        [ fields.name, fields.email, fields.phone, fields.other ].forEach( function ( input ) {
+            if ( ! input ) {
+                return;
+            }
+            input.addEventListener( 'input', function () {
+                if ( attempted || input.hasAttribute( 'aria-invalid' ) ) {
+                    check( input );
+                }
+            } );
+            input.addEventListener( 'blur', function () {
+                if ( attempted || input.value.trim() ) {
+                    check( input );
+                }
+            } );
+        } );
+
+        if ( fields.service ) {
+            fields.service.addEventListener( 'change', function () {
+                syncOther();
+                if ( 'other' === fields.service.value && fields.other ) {
+                    fields.other.focus();
+                }
+            } );
+        }
+        syncOther();
+
         function hideLater( alert ) {
             window.clearTimeout( hideTimer );
             hideTimer = window.setTimeout( function () {
@@ -582,6 +729,15 @@
 
         form.addEventListener( 'submit', function ( e ) {
             e.preventDefault();
+            attempted = true;
+
+            var invalid = firstInvalid();
+            if ( invalid ) {
+                showAlert( false, i18n.fixErrors );
+                invalid.focus();
+                return;
+            }
+
             setLoading( true );
 
             // new FormData incluye action, nonce y honeypot; el campo "action" tapa a form.action.
@@ -594,6 +750,8 @@
                     showAlert( !! result.success, message );
                     if ( result.success ) {
                         form.reset();
+                        attempted = false;
+                        syncOther();
                     }
                 } )
                 .catch( function () {

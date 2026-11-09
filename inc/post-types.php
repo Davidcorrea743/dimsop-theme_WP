@@ -204,6 +204,31 @@ function dimsop_get_service_options() {
 }
 
 /**
+ * Servicio de un prospecto en texto legible; con "Otro" incluye el motivo escrito.
+ *
+ * @param string $service Clave del servicio.
+ * @param string $other   Motivo libre (solo con "other").
+ * @param string $empty   Texto si no eligió servicio.
+ * @return string Sin escapar.
+ */
+function dimsop_lead_service_label( $service, $other = '', $empty = '' ) {
+    $services = dimsop_get_service_options();
+
+    if ( 'other' === $service && '' !== $other ) {
+        /* translators: %s: motivo escrito por el visitante */
+        return sprintf( __( 'Otro: %s', 'dimsop' ), $other );
+    }
+    if ( isset( $services[ $service ] ) ) {
+        return wp_specialchars_decode( $services[ $service ] );
+    }
+    if ( $service ) {
+        return $service;
+    }
+
+    return '' !== $empty ? $empty : __( 'No especificado', 'dimsop' );
+}
+
+/**
  * 3. Meta Boxes de Administración
  */
 function dimsop_register_meta_boxes() {
@@ -303,8 +328,7 @@ function dimsop_render_lead_metabox( $post ) {
     $message  = get_post_meta( $post->ID, '_dimsop_lead_message', true );
     $ip       = get_post_meta( $post->ID, '_dimsop_lead_ip', true );
 
-    $services = dimsop_get_service_options();
-    $service_label = isset( $services[ $service ] ) ? $services[ $service ] : ( $service ? $service : esc_html__( 'No especificado', 'dimsop' ) );
+    $service_label = dimsop_lead_service_label( $service, (string) get_post_meta( $post->ID, '_dimsop_lead_other', true ) );
     ?>
     <table class="form-table" role="presentation">
         <tr>
@@ -475,8 +499,7 @@ add_action( 'manage_dimsop_lead_posts_custom_column', function( $column, $post_i
             break;
         case 'service':
             $service = get_post_meta( $post_id, '_dimsop_lead_service', true );
-            $services = dimsop_get_service_options();
-            echo esc_html( isset( $services[ $service ] ) ? $services[ $service ] : ( $service ? $service : '-' ) );
+            echo esc_html( dimsop_lead_service_label( $service, (string) get_post_meta( $post_id, '_dimsop_lead_other', true ), '-' ) );
             break;
     }
 }, 10, 2 );

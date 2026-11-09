@@ -17,6 +17,8 @@ $dimsop_error = isset( $_GET['form_error'] ) ? sanitize_key( wp_unslash( $_GET['
 
 $dimsop_errors = array(
     'datos_incompletos' => __( 'Por favor completa tu nombre y un correo electrónico válido.', 'dimsop' ),
+    'nombre_invalido'   => __( 'El nombre y apellido solo puede tener letras y espacios.', 'dimsop' ),
+    'motivo_requerido'  => __( 'Elegiste "Otro": indícanos el motivo de tu contacto.', 'dimsop' ),
     'limite'            => __( 'Demasiados envíos recientes. Intenta de nuevo en unos minutos.', 'dimsop' ),
     'invalid_nonce'     => __( 'Tu sesión expiró. Recarga la página e intenta de nuevo.', 'dimsop' ),
     'db_error'          => __( 'No pudimos registrar tu solicitud. Intenta más tarde.', 'dimsop' ),
@@ -70,6 +72,11 @@ $dimsop_errors = array(
                                 <option value="<?php echo esc_attr( $dimsop_value ); ?>"><?php echo esc_html( $dimsop_label ); ?></option>
                             <?php endforeach; ?>
                         </select>
+                    </div>
+                    <?php // Visible sin JS; initContactForm() lo muestra solo cuando el servicio elegido es "Otro". ?>
+                    <div class="col-12 dimsop-field" id="dimsop-f-other-wrap">
+                        <label class="dimsop-label" for="dimsop-f-other"><?php esc_html_e( 'Si elegiste "Otro", indícanos el motivo de tu contacto', 'dimsop' ); ?></label>
+                        <input class="dimsop-input" id="dimsop-f-other" type="text" name="other_reason" maxlength="200" placeholder="<?php esc_attr_e( 'Ej.: soporte técnico, consultoría…', 'dimsop' ); ?>">
                     </div>
                     <div class="col-12 dimsop-field">
                         <label class="dimsop-label" for="dimsop-f-message"><?php esc_html_e( 'Mensaje', 'dimsop' ); ?> <span class="dimsop-label-optional"><?php esc_html_e( '(opcional)', 'dimsop' ); ?></span></label>
