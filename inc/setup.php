@@ -96,3 +96,14 @@ function dimsop_content_width() {
     $GLOBALS['content_width'] = apply_filters( 'dimsop_content_width', 1200 );
 }
 add_action( 'after_setup_theme', 'dimsop_content_width', 0 );
+
+/**
+ * El buscador del sitio solo devuelve entradas del blog y páginas: proyectos,
+ * aliados y unidades no tienen página propia (se ven en la portada).
+ */
+function dimsop_limit_search_post_types( $query ) {
+    if ( ! is_admin() && $query->is_main_query() && $query->is_search() ) {
+        $query->set( 'post_type', array( 'post', 'page' ) );
+    }
+}
+add_action( 'pre_get_posts', 'dimsop_limit_search_post_types' );

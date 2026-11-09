@@ -169,12 +169,111 @@ function dimsop_import_post( $postarr, $meta = array(), $image = '' ) {
 }
 
 /**
+ * Páginas del sitio: se crean solo si no existe ya una con ese slug.
+ *
+ * La política de privacidad parte del texto genérico de Odoo, ampliado con la
+ * postulación con CV. Es un borrador: el texto legal definitivo lo entrega el cliente.
+ *
+ * @return int Cantidad de páginas creadas.
+ */
+function dimsop_seed_pages() {
+    $contact = sanitize_email( dimsop_get_option( 'contact_email', 'mercadeo@dimsop.com' ) );
+    $careers = sanitize_email( dimsop_get_option( 'careers_email', 'talento@dimsop.com' ) );
+
+    $paragraph = function ( $text ) {
+        return "<!-- wp:paragraph -->\n<p>" . $text . "</p>\n<!-- /wp:paragraph -->\n\n";
+    };
+    $heading = function ( $text ) {
+        return "<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">" . esc_html( $text ) . "</h2>\n<!-- /wp:heading -->\n\n";
+    };
+    $list = function ( $items ) {
+        $html = "<!-- wp:list -->\n<ul class=\"wp-block-list\">";
+        foreach ( $items as $item ) {
+            $html .= "<!-- wp:list-item -->\n<li>" . $item . "</li>\n<!-- /wp:list-item -->";
+        }
+        return $html . "</ul>\n<!-- /wp:list -->\n\n";
+    };
+
+    $privacy  = $paragraph( esc_html__( 'Dimsop (Soluciones TIC de Vanguardia) respeta tu privacidad y se compromete a proteger los datos personales que compartes a través de este sitio web. Esta política describe qué datos recopilamos, cómo los usamos y los derechos que te asisten.', 'dimsop' ) );
+    $privacy .= $heading( __( '1. Datos que recopilamos', 'dimsop' ) );
+    $privacy .= $paragraph( esc_html__( 'Solo recopilamos los datos que nos das voluntariamente en nuestros formularios:', 'dimsop' ) );
+    $privacy .= $list( array(
+        esc_html__( 'Formulario de contacto: nombre y apellido, correo electrónico, teléfono, empresa, cargo, servicio de interés y tu mensaje.', 'dimsop' ),
+        esc_html__( 'Postulación "Forma parte de nuestro equipo": nombre y apellido, correo electrónico, teléfono, profesión, ciudad de residencia y tu CV.', 'dimsop' ),
+    ) );
+    $privacy .= $paragraph( esc_html__( 'Por seguridad también registramos la dirección IP desde la que se envía cada formulario, para prevenir el envío masivo de mensajes no deseados.', 'dimsop' ) );
+    $privacy .= $heading( __( '2. Uso de la información', 'dimsop' ) );
+    $privacy .= $paragraph( esc_html__( 'Usamos tus datos únicamente para atender tu solicitud y contactarte, o para evaluar tu postulación en nuestros procesos de selección. No vendemos ni cedemos tu información personal a terceros con fines comerciales.', 'dimsop' ) );
+    $privacy .= $heading( __( '3. Conservación y protección', 'dimsop' ) );
+    $privacy .= $paragraph( esc_html__( 'Los datos se guardan en sistemas protegidos, con acceso restringido a personal autorizado. Los CV se almacenan en una ubicación privada y solo los administradores pueden descargarlos. Conservamos la información solo el tiempo necesario para las finalidades descritas o para cumplir obligaciones legales.', 'dimsop' ) );
+    $privacy .= $heading( __( '4. Cookies y almacenamiento local', 'dimsop' ) );
+    $privacy .= $paragraph( esc_html__( 'Este sitio guarda en tu navegador tu preferencia de modo claro u oscuro. No la usamos para identificarte ni la compartimos.', 'dimsop' ) );
+    $privacy .= $heading( __( '5. Tus derechos', 'dimsop' ) );
+    $privacy .= $paragraph( esc_html__( 'Puedes solicitar en cualquier momento el acceso, la rectificación o la eliminación de tus datos personales escribiéndonos a los correos indicados abajo.', 'dimsop' ) );
+    $privacy .= $heading( __( '6. Contacto', 'dimsop' ) );
+    $privacy .= $paragraph( sprintf(
+        /* translators: 1: correo de contacto, 2: correo de talento */
+        esc_html__( 'Para consultas sobre esta política escríbenos a %1$s. Para temas relacionados con tu postulación, a %2$s.', 'dimsop' ),
+        '<a href="mailto:' . esc_attr( $contact ) . '">' . esc_html( $contact ) . '</a>',
+        '<a href="mailto:' . esc_attr( $careers ) . '">' . esc_html( $careers ) . '</a>'
+    ) );
+
+    $pages = array(
+        array(
+            'post_name'    => 'politica-de-privacidad',
+            'post_title'   => __( 'Política de privacidad', 'dimsop' ),
+            'post_excerpt' => __( 'Cómo recopilamos, usamos y protegemos tus datos personales.', 'dimsop' ),
+            'post_content' => $privacy,
+            'template'     => '',
+        ),
+        array(
+            'post_name'    => 'catalogo',
+            'post_title'   => __( 'Catálogo', 'dimsop' ),
+            'post_excerpt' => '',
+            'post_content' => '',
+            'template'     => 'page-templates/template-catalogo.php',
+        ),
+    );
+
+    $created = 0;
+    foreach ( $pages as $page ) {
+        if ( get_page_by_path( $page['post_name'], OBJECT, 'page' ) ) {
+            continue;
+        }
+        $page_id = wp_insert_post( wp_slash( array(
+            'post_type'    => 'page',
+            'post_status'  => 'publish',
+            'post_name'    => $page['post_name'],
+            'post_title'   => $page['post_title'],
+            'post_excerpt' => $page['post_excerpt'],
+            'post_content' => $page['post_content'],
+        ) ), true );
+
+        if ( ! is_wp_error( $page_id ) ) {
+            if ( $page['template'] ) {
+                update_post_meta( $page_id, '_wp_page_template', $page['template'] );
+            }
+            if ( 'catalogo' === $page['post_name'] ) {
+                // Provisional: fuera del sitemap de Yoast hasta que tenga contenido (la plantilla ya pone noindex).
+                update_post_meta( $page_id, '_yoast_wpseo_meta-robots-noindex', '1' );
+            }
+            if ( 'politica-de-privacidad' === $page['post_name'] ) {
+                update_option( 'wp_page_for_privacy_policy', $page_id ); // La enlaza WordPress (registro, comentarios).
+            }
+            $created++;
+        }
+    }
+
+    return $created;
+}
+
+/**
  * Ejecuta la importación completa.
  *
- * @return array{units: int, partners: int, projects: int} Cantidad creada por tipo.
+ * @return array{units: int, partners: int, projects: int, pages: int} Cantidad creada por tipo.
  */
 function dimsop_import_initial_content() {
-    $created = array( 'units' => 0, 'partners' => 0, 'projects' => 0 );
+    $created = array( 'units' => 0, 'partners' => 0, 'projects' => 0, 'pages' => dimsop_seed_pages() );
 
     foreach ( dimsop_seed_units() as $i => $unit ) {
         $created['units'] += (int) dimsop_import_post(
@@ -219,11 +318,12 @@ function dimsop_handle_import_content() {
 
     $created = dimsop_import_initial_content();
     $message = sprintf(
-        /* translators: 1: unidades, 2: aliados, 3: proyectos */
-        __( 'Importación terminada. Creados: %1$d unidades, %2$d aliados y %3$d proyectos (lo que ya existía no se tocó).', 'dimsop' ),
+        /* translators: 1: unidades, 2: aliados, 3: proyectos, 4: páginas */
+        __( 'Importación terminada. Creados: %1$d unidades, %2$d aliados, %3$d proyectos y %4$d páginas (lo que ya existía no se tocó).', 'dimsop' ),
         $created['units'],
         $created['partners'],
-        $created['projects']
+        $created['projects'],
+        $created['pages']
     );
 
     wp_safe_redirect( add_query_arg( 'dimsop_imported', rawurlencode( $message ), admin_url( 'themes.php?page=dimsop-options' ) ) );

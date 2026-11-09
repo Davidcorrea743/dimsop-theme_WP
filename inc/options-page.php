@@ -206,7 +206,7 @@ function dimsop_render_options_page() {
 
         <hr>
         <h2><?php esc_html_e( 'Contenido inicial', 'dimsop' ); ?></h2>
-        <p><?php esc_html_e( 'Crea las unidades de negocio, los aliados tecnológicos y los proyectos referenciales del sitio Odoo, con sus logos. Se puede ejecutar varias veces: lo que ya existe (mismo título) no se duplica.', 'dimsop' ); ?></p>
+        <p><?php esc_html_e( 'Crea las unidades de negocio, los aliados tecnológicos y los proyectos referenciales del sitio Odoo, con sus logos, y las páginas Política de privacidad y Catálogo. Se puede ejecutar varias veces: lo que ya existe no se duplica.', 'dimsop' ); ?></p>
         <form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
             <input type="hidden" name="action" value="dimsop_import_content">
             <?php wp_nonce_field( 'dimsop_import_content' ); ?>

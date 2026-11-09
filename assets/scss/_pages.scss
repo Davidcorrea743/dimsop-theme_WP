@@ -1,0 +1,366 @@
+/* =====================================================================
+ * DIMSOP - PÁGINAS INTERIORES
+ * Cabecera con fondo de ondas (404, Catálogo, páginas, búsqueda), texto
+ * legible para páginas, buscador, tarjetas de enlace y skeleton del Catálogo.
+ * ===================================================================== */
+
+/* ------------------------- Cabecera de página ------------------------ */
+/* El fondo es oscuro en los dos modos: el texto siempre va en blanco */
+.dimsop-page-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 5.5rem 0 5rem;
+    background: #170e51;
+    color: #fff;
+
+    @media (max-width: 767.98px) {
+        padding: 3.5rem 0 3.25rem;
+    }
+
+    // Capa para el contraste del texto y fundido con la sección siguiente
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(ellipse 60% 70% at 50% 45%, rgba(23, 14, 81, 0.55), transparent 75%),
+            linear-gradient(180deg, rgba(10, 25, 47, 0.15) 0%, rgba(10, 25, 47, 0.55) 100%);
+        pointer-events: none;
+    }
+
+    .container {
+        z-index: 1;
+    }
+}
+
+.dimsop-page-hero--compact {
+    padding: 3.75rem 0 3.25rem;
+
+    @media (max-width: 767.98px) {
+        padding: 2.75rem 0 2.5rem;
+    }
+}
+
+.dimsop-page-hero-bg img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.dimsop-page-hero-badge {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+}
+
+.dimsop-page-hero-kicker {
+    margin: 0;
+    background: linear-gradient(180deg, #fff 35%, #9fe07f);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-family: var(--dimsop-font-heading);
+    font-size: clamp(6rem, 18vw, 11rem);
+    line-height: 0.9;
+    letter-spacing: 4px;
+}
+
+.dimsop-page-hero-title {
+    margin-bottom: 0.75rem;
+    color: #fff;
+    font-family: var(--dimsop-font-heading);
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    letter-spacing: 1px;
+    overflow-wrap: anywhere;
+}
+
+.dimsop-page-hero-lead {
+    max-width: 640px;
+    margin-bottom: 0;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+.dimsop-page-hero-actions {
+    margin-top: 2rem;
+}
+
+// Botón de contorno legible sobre el fondo oscuro también en modo claro
+.dimsop-page-hero-outline {
+    border-color: rgba(255, 255, 255, 0.45);
+    color: #fff;
+
+    &:hover {
+        border-color: var(--dimsop-accent);
+        background: var(--dimsop-accent);
+        color: #fff;
+    }
+}
+
+.dimsop-page-hero-search {
+    max-width: 520px;
+}
+
+/* ------------------------------ Buscador ----------------------------- */
+.dimsop-search-form {
+    position: relative;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.dimsop-search-form-icon {
+    position: absolute;
+    top: 50%;
+    left: 0.9rem;
+    z-index: 1;
+    color: var(--dimsop-text-muted);
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.dimsop-search-form-input {
+    flex: 1;
+    min-width: 0;
+    padding-left: 2.4rem;
+}
+
+.dimsop-search-form-button {
+    flex: 0 0 auto;
+}
+
+/* ------------------------- Texto de una página ----------------------- */
+.dimsop-prose {
+    max-width: 760px;
+    color: var(--dimsop-text);
+    font-size: 1.02rem;
+    line-height: 1.8;
+
+    h2,
+    h3,
+    h4 {
+        margin: 2.25rem 0 0.75rem;
+        color: var(--dimsop-primary);
+        font-family: var(--dimsop-font-heading);
+        letter-spacing: 0.5px;
+        scroll-margin-top: 6rem; // anclas visibles bajo el header fijo
+    }
+
+    h2 {
+        font-size: 1.85rem;
+    }
+
+    h3 {
+        font-size: 1.45rem;
+    }
+
+    > :first-child {
+        margin-top: 0;
+    }
+
+    p,
+    ul,
+    ol {
+        margin-bottom: 1.1rem;
+    }
+
+    li + li {
+        margin-top: 0.35rem;
+    }
+
+    a {
+        color: var(--dimsop-accent);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+
+        &:hover {
+            text-decoration-thickness: 2px;
+        }
+    }
+
+    table {
+        width: 100%;
+        margin-bottom: 1.25rem;
+        border-collapse: collapse;
+
+        th,
+        td {
+            padding: 0.6rem 0.75rem;
+            border: 1px solid var(--dimsop-surface-border);
+        }
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+        border-radius: var(--dimsop-radius-sm);
+    }
+}
+
+[data-theme="dark"] .dimsop-prose {
+    h2,
+    h3,
+    h4 {
+        color: var(--dimsop-white);
+    }
+}
+
+.dimsop-prose-updated {
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--dimsop-border-subtle);
+    color: var(--dimsop-text-muted);
+    font-size: 0.85rem;
+}
+
+/* ------------------------- Tarjetas de enlace ------------------------ */
+.dimsop-link-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    color: var(--dimsop-text);
+    text-align: center;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+        color: var(--dimsop-text);
+    }
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: var(--dimsop-ring);
+    }
+
+    .dimsop-ui-card-title {
+        display: block;
+        margin-top: 0.25rem;
+    }
+}
+
+/* ------------------------- Búsqueda sin resultados ------------------- */
+.dimsop-empty-state {
+    max-width: 560px;
+}
+
+.dimsop-pagination {
+    margin-top: 3rem;
+
+    .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.4rem;
+    }
+
+    .page-numbers {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.5rem;
+        height: 2.5rem;
+        padding: 0 0.75rem;
+        border: 1px solid var(--dimsop-surface-border);
+        border-radius: var(--dimsop-radius-sm);
+        color: var(--dimsop-text);
+        text-decoration: none;
+
+        &.current,
+        &:hover {
+            border-color: var(--dimsop-accent);
+            background: var(--dimsop-accent);
+            color: #fff;
+        }
+    }
+}
+
+/* ------------------------- Skeleton del Catálogo --------------------- */
+.dimsop-skeleton-note {
+    color: var(--dimsop-text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.dimsop-skeleton-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    height: 100%;
+    padding: 1.25rem;
+    border: 1px solid var(--dimsop-border-subtle);
+    border-radius: var(--dimsop-radius);
+    background: var(--dimsop-surface);
+    box-shadow: var(--dimsop-shadow-sm);
+}
+
+// Bloque gris con un brillo que lo recorre
+.dimsop-skeleton {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    height: 0.85rem;
+    border-radius: 999px;
+    background: rgba(0, 51, 98, 0.08);
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+        transform: translateX(-100%);
+        animation: dimsop-shimmer 1.6s ease-in-out infinite;
+    }
+}
+
+[data-theme="dark"] .dimsop-skeleton {
+    background: rgba(255, 255, 255, 0.07);
+
+    &::after {
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+    }
+}
+
+.dimsop-skeleton--media {
+    height: auto;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--dimsop-radius-sm);
+}
+
+.dimsop-skeleton--chip {
+    width: 30%;
+    height: 1.25rem;
+}
+
+.dimsop-skeleton--title {
+    width: 75%;
+    height: 1.35rem;
+    border-radius: var(--dimsop-radius-sm);
+}
+
+.dimsop-skeleton--short {
+    width: 55%;
+}
+
+.dimsop-skeleton--button {
+    width: 40%;
+    height: 2.25rem;
+    margin-top: auto;
+    border-radius: var(--dimsop-radius-sm);
+}
+
+@keyframes dimsop-shimmer {
+    to {
+        transform: translateX(100%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dimsop-skeleton::after {
+        animation: none;
+        opacity: 0;
+    }
+}

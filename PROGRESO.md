@@ -1,6 +1,6 @@
 # Control de avance: migración Dimsop (Odoo → WordPress)
 
-**Día actual:** 10 de 20 (Semana 2) · Día 9 cerrado el 2026-11-09
+**Día actual:** 11 de 20 (Semana 3) · Día 10 cerrado el 2026-11-09
 **Sitio local:** http://dimsop-theme.localhost/ · Mailpit: http://localhost:10000
 **Plan completo:** `C:\Users\jdcor\.claude\plans\te-explico-un-poco-graceful-clock.md`
 
@@ -19,7 +19,7 @@ Estados: ✅ hecho · 🟡 en curso · ⬜ pendiente
 | 7 | Animaciones (GSAP, Lenis), carruseles, contadores, globo 3D | ✅ | `dimsop-motion.js` + `_motion.scss`: Lenis sincronizado con ScrollTrigger; banner con título palabra por palabra, parallax del video y cuadrícula de puntos; títulos de sección palabra por palabra; tarjetas con desvanecido, subida y desenfoque escalonados; contadores en rodillos; botones magnéticos (solo ratón); carruseles que frenan al pasar el ratón. Globo 3D (Globe.gl 2.42.0) con carga diferida, pausa fuera de pantalla y datos propios en `assets/data` y `assets/images/globe`. Todo estático con movimiento reducido. |
 | 8 | Formulario de contacto (AJAX, SMTP, CRM) | ✅ | Campo "Otro" que aparece solo con ese servicio y es obligatorio entonces (también en el servidor); se guarda en el prospecto, sale en el panel y en el correo ("Otro: motivo"). Validación en el navegador con mensajes bajo cada campo, `aria-invalid`/`aria-describedby` y foco en el primer error. Avisos del servidor en texto plano. El envío AJAX y los avisos ya venían del Día 5. CRM: los prospectos se quedan solo en WordPress. El SMTP corporativo queda para staging (abajo). |
 | 9 | Postulación con CV | ✅ | Ventana "Forma parte de nuestro equipo" (`template-parts/modals/modal-careers.php`, `_careers.scss`) que abren el header, el menú móvil y el footer. `inc/forms/careers-handler.php`: CV obligatorio, solo PDF/DOC/DOCX de hasta 5 MB comprobando extensión y contenido real; guardado con nombre aleatorio en una carpeta privada fuera de la web pública; aviso a talento@ con el CV adjunto; límite de 3 envíos en 10 minutos. Panel: estado Recibida / En revisión / Contratada. Al borrar una postulación se borra su CV. La validación y el envío AJAX ahora son un componente común (`bindAjaxForm`) para contacto y postulación. |
-| 10 | Páginas interiores (page, 404, búsqueda, privacidad) | ⬜ | |
+| 10 | Páginas interiores (page, 404, búsqueda, privacidad) | ✅ | Cabecera común con fondo de ondas (recorte sin texto de "elementos webinar (3)", WebP de 61 KB). `404.php` (404 grande, inicio, contacto, buscador y accesos), `page.php` (texto legible), `search.php` (tarjetas, paginación, estado vacío; solo entradas y páginas), `searchform.php`. Catálogo provisional (`template-catalogo.php`): "Próximamente", botón de contacto y 6 tarjetas skeleton, con noindex y fuera del sitemap. Política de privacidad creada desde el texto de Odoo, ampliada con la postulación y el almacenamiento local. Las páginas se crean con el botón de importar de Opciones Dimsop. |
 | 11 | Idiomas, parte 1 (Polylang, .pot/.po) | ⬜ | |
 | 12 | Idiomas, parte 2 (contenido, hreflang) | ⬜ | |
 | 13 | Blog (listado, entrada, compartir en LinkedIn) | ⬜ | |
@@ -56,6 +56,7 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 | 2026-11-09 | 8 | El nombre aceptaba números y símbolos | Solo se comprobaba que no estuviera vacío | Solo letras (con tildes, ñ, ü) y espacios, en el navegador y en el servidor (`nombre_invalido`) |
 | 2026-11-09 | 9 | La ruta del CV se guardaba rota en Windows | WordPress quita las barras invertidas al guardar metadatos | Se guarda la ruta relativa a la carpeta privada (también sirve al cambiar de servidor) |
 | 2026-11-09 | 9 | El aviso de postulación enviada nunca se veía en Odoo | Error del sitio original | Aviso dentro de la ventana, por AJAX; sin JS la ventana se reabre con el aviso |
+| 2026-11-09 | 10 | Los títulos de Yoast del 404 y la búsqueda salían en inglés | Yoast se instaló antes de pasar WordPress al español | Traducidos en Yoast (en la base de datos; viaja a staging con ella) |
 | 2026-11-04 | 5 | Al enviar el formulario la página recargaba y bajaba desde el inicio | Envío por POST con redirección | `initContactForm()` envía por AJAX (adelantado del Día 8); aviso junto al botón que desaparece al minuto |
 | 2026-11-04 | 5 | Correo, teléfono y WhatsApp repetidos en Contacto | Ya están en el footer y el botón flotante | Se elimina la franja; queda solo el formulario, con los opcionales marcados |
 | 2026-11-04 | 5 | Los errores del formulario no mostraban aviso | `?error=` es una variable reservada de WordPress | El handler redirige con `?form_error=` |
@@ -79,6 +80,7 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 - Nombre y apellido: solo letras y espacios (decisión de David). Rechaza también guiones y apóstrofos (Ana-María, O'Brien).
 - Postulaciones: el CV es obligatorio (en Odoo era opcional). El aviso a talento@ lleva el CV adjunto, porque las postulaciones solo las ven administradores en el panel.
 - CV guardados en `app/dimsop-private/cv/` (junto a la carpeta pública, no dentro). Se puede cambiar con `define( 'DIMSOP_CV_DIR', '/ruta/privada' );` en `wp-config.php`.
+- 404 y cabeceras de páginas: se usa solo el fondo de "elementos webinar (3)"; su texto ("El servicio no estará disponible temporalmente") no corresponde a un 404 y no se podría traducir (decisión de David).
 - Modo oscuro por defecto, igual que el sitio original; el modo claro solo si el visitante lo elige.
 - Respaldos con UpdraftPlus (decisión de Claude, gratuito y sin coste de servicio; se puede cambiar antes del Día 19).
 - Animaciones de sección: se repiten al volver a entrar (contadores, títulos, tarjetas, ISO, globo); las tarjetas entran desde abajo al bajar y desde arriba al subir. El banner solo se anima al cargar.
@@ -95,13 +97,13 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 - [ ] Día 15: medir con Lighthouse el peso de Globe.gl en móvil; si penaliza, cargar el globo solo desde 768 px.
 - [ ] Desactivar WPForms Lite (no se usa).
 - [ ] Borrar los PNG/JPG originales de `assets/images` (ya existen los WebP).
-- [ ] Catálogo: el enlace del menú sigue dando 404 hasta decidir la página (Día 10).
+- [ ] Catálogo: página provisional con skeleton. Cuando el cliente entregue el contenido, cambiar la plantilla y quitar el noindex (meta de Yoast "Permitir a los motores de búsqueda…").
 - [ ] Borrar los 3 prospectos de prueba ("Prueba ... Día 5"), las 5 entradas de prueba (meta `_dimsop_test_post`, slug `prueba-*`) y "Hello world!" antes de publicar.
 - [ ] Unidades: la cuadrícula solo cuadra con 7; con otra cantidad deja huecos, y la novena no aparece.
 - [ ] Entrada del blog sin plantilla propia (portada, botones de compartir): previsto para el Día 13.
 - [ ] SMTP corporativo: configurar WP Mail SMTP con la cuenta real en staging (Día 16). En local los correos van a Mailpit.
 - [ ] Hosting de staging y producción, y acceso al DNS (Días 16, 19, 20).
-- [ ] Página Catálogo y texto legal de la política de privacidad (los entrega el cliente).
+- [ ] Texto legal definitivo de la política de privacidad (lo entrega el cliente): hoy está el borrador basado en Odoo, en Páginas › Política de privacidad.
 
 ## Referencia rápida
 
