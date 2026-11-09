@@ -920,7 +920,6 @@
                     var frame = document.createElement( 'iframe' );
                     frame.src = wrap.getAttribute( 'data-src' );
                     frame.title = wrap.getAttribute( 'data-title' ) || '';
-                    frame.loading = 'lazy';
                     frame.referrerPolicy = 'no-referrer-when-downgrade';
                     frame.setAttribute( 'allowfullscreen', '' );
                     wrap.appendChild( frame );

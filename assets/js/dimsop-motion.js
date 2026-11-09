@@ -297,7 +297,6 @@
             '#metodologia .d-md-none',
             '.dimsop-cobertura-text',
             '#contacto form',
-            '.dimsop-footer-cta-inner',
             '.dimsop-footer-col'
         ].join( ',' );
         var items = toArray( document.querySelectorAll( selector ) );

@@ -1,5 +1,5 @@
 /* =====================================================================
- * DIMSOP - FRANJA DE CIERRE, PIE DE PÁGINA Y BOTÓN DE WHATSAPP
+ * DIMSOP - PIE DE PÁGINA
  * El footer usa el azul corporativo fijo en los dos modos: en oscuro el
  * token --dimsop-primary coincide con el fondo de la página y se perdería.
  * ===================================================================== */
@@ -9,91 +9,6 @@ $footer-bg-bottom: #021d3a;
 $footer-text: rgba(255, 255, 255, 0.72);
 $footer-muted: rgba(255, 255, 255, 0.55);
 $footer-line: rgba(255, 255, 255, 0.1);
-
-/* --------------------------- Franja de cierre ------------------------ */
-.dimsop-footer-cta {
-    padding: 4rem 0 0;
-    background: var(--dimsop-bg);
-
-    @media (max-width: 767.98px) {
-        padding-top: 3rem;
-    }
-}
-
-.dimsop-footer-cta-inner {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem 2rem;
-    overflow: hidden;
-    margin-bottom: -3.5rem; // monta sobre el footer
-    padding: 2.5rem 3rem;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: var(--dimsop-radius-lg);
-    background:
-        radial-gradient(ellipse 60% 120% at 100% 0%, rgba(77, 163, 47, 0.35), transparent 60%),
-        linear-gradient(120deg, #003362 0%, #0a3d73 55%, #0f4c81 100%);
-    box-shadow: var(--dimsop-shadow-lg);
-    color: #fff;
-    z-index: 1;
-
-    // Cuadrícula de puntos, como en el banner
-    &::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1.5px);
-        background-size: 20px 20px;
-        -webkit-mask-image: linear-gradient(90deg, transparent 30%, #000);
-        mask-image: linear-gradient(90deg, transparent 30%, #000);
-        pointer-events: none;
-    }
-
-    > * {
-        position: relative;
-        z-index: 1;
-    }
-
-    @media (max-width: 767.98px) {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 2rem 1.5rem;
-    }
-}
-
-.dimsop-footer-cta-title {
-    margin: 0 0 0.35rem;
-    color: #fff;
-    font-family: var(--dimsop-font-heading);
-    font-size: clamp(1.75rem, 3.5vw, 2.4rem);
-    letter-spacing: 1px;
-}
-
-.dimsop-footer-cta-text {
-    max-width: 520px;
-    margin: 0;
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.dimsop-footer-cta-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-}
-
-.dimsop-footer-cta-outline {
-    border-color: rgba(255, 255, 255, 0.45);
-    color: #fff;
-
-    &:hover,
-    &:focus-visible {
-        border-color: #25d366;
-        background: #25d366;
-        color: #fff;
-    }
-}
 
 /* ------------------------------- Footer ------------------------------ */
 .dimsop-footer {
@@ -142,11 +57,6 @@ $footer-line: rgba(255, 255, 255, 0.1);
         border-radius: 4px;
         box-shadow: var(--dimsop-ring);
     }
-}
-
-// Con la franja de cierre el contenido baja para dejar sitio a la tarjeta que monta encima
-.dimsop-footer-cta + .dimsop-footer .dimsop-footer-main {
-    padding-top: 7rem;
 }
 
 .dimsop-footer-main {
@@ -278,6 +188,9 @@ $footer-line: rgba(255, 255, 255, 0.1);
 
 .dimsop-footer-sede-name {
     display: flex;
+    flex-wrap: wrap;
+    column-gap: 0.5rem;
+    row-gap: 0;
     align-items: center;
     gap: 0.5rem;
     margin-bottom: 0.4rem;
@@ -295,6 +208,11 @@ $footer-line: rgba(255, 255, 255, 0.1);
 }
 
 .dimsop-footer-sede-city {
+    // Siempre en su propia línea, alineada con el nombre (punto 8 px + separación)
+    flex-basis: 100%;
+    padding-left: calc(8px + 0.5rem);
+    font-size: 0.8rem;
+    white-space: nowrap;
     color: $footer-muted;
     font-weight: 400;
 }
@@ -354,10 +272,10 @@ $footer-line: rgba(255, 255, 255, 0.1);
     }
 }
 
-// Mapa bajo demanda, oscurecido para que no sea una mancha blanca
+// Mapa bajo demanda (colores originales de Google para que se lea bien)
 .dimsop-footer-map-wrap {
     overflow: hidden;
-    height: 170px;
+    height: 200px;
     margin-top: 0.75rem;
     border: 1px solid $footer-line;
     border-radius: var(--dimsop-radius-sm);
@@ -372,7 +290,6 @@ $footer-line: rgba(255, 255, 255, 0.1);
         width: 100%;
         height: 100%;
         border: 0;
-        filter: invert(0.9) hue-rotate(180deg) saturate(0.8) brightness(0.95);
     }
 }
 
@@ -392,6 +309,11 @@ $footer-line: rgba(255, 255, 255, 0.1);
     gap: 1rem 1.5rem;
     padding-top: 1.1rem;
     padding-bottom: 1.1rem;
+
+    // A la derecha queda sitio para el botón flotante de WhatsApp (60 px + 25 px)
+    @media (min-width: 768px) {
+        padding-right: calc(var(--bs-gutter-x, 1.5rem) * 0.5 + 80px);
+    }
 
     @media (max-width: 767.98px) {
         flex-direction: column-reverse;
@@ -477,10 +399,6 @@ $footer-line: rgba(255, 255, 255, 0.1);
 /* ------------------------------- Móvil -------------------------------- */
 /* Compacto: marca centrada sin el párrafo largo, navegación y soluciones lado a lado */
 @media (max-width: 575.98px) {
-    .dimsop-footer-cta + .dimsop-footer .dimsop-footer-main {
-        padding-top: 5.5rem;
-    }
-
     .dimsop-footer-main {
         padding-top: 3rem;
         padding-bottom: 2rem;

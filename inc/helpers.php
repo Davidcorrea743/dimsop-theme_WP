@@ -29,11 +29,13 @@ function dimsop_get_option_defaults() {
         'address_ve'       => 'Calle Sanatorio del Avila, Centro Empresarial Ciudad Center, Torre C, Piso 4, Ofic. 41-C, Municipio Sucre – Estado Miranda',
         'address_us'       => '4995 NW 72 Nd AVE STE 205, Miami, Florida',
         'rif_ve'           => 'J-41137726-0',
-        // Mapas de las sedes: enlace "Cómo llegar" y mapa incrustado (se carga solo si se pide)
-        'maps_url_ve'      => 'https://www.google.com/maps/place/DIMSOP+TECHNOLOGY+VE/@10.4967188,-66.8227312,17z',
-        'maps_embed_ve'    => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3922.7!2d-66.8227312!3d10.4967188!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8c2a57469c306ea3%3A0xe03812c021d2fc41!2sDIMSOP%20TECHNOLOGY%20VE!5e0!3m2!1ses!2sve!4v1700000000000',
-        'maps_url_us'      => 'https://www.google.com/maps/place/4995+NW+72nd+Ave+%23205,+Miami,+FL+33166/@25.8184393,-80.31312,17z',
-        'maps_embed_us'    => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3585.5!2d-80.31312!3d25.8184393!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9ba2ed7a89c0f%3A0x19d982c9a758f0ce!2s4995%20NW%2072nd%20Ave%20%23205%2C%20Miami%2C%20FL%2033166!5e0!3m2!1ses!2sus!4v1700000000000',
+        // Ubicación de cada sede en Google Maps: coordenadas "lat,lng" o dirección.
+        // De aquí salen el enlace "Cómo llegar" y el mapa de "Ver mapa".
+        'maps_query_ve'    => '10.4967188,-66.8227312',
+        'maps_query_us'    => '25.8184393,-80.31312',
+        // Enlace "Cómo llegar": la ficha del lugar en Google Maps (con su botón de ruta).
+        'maps_url_ve'      => 'https://www.google.com/maps/place//@10.4967188,-66.8227312,17z',
+        'maps_url_us'      => 'https://www.google.com/maps/place/4995+NW+72nd+Ave+%23205,+Miami,+FL+33166/@25.818439,-80.31312,15z/data=!4m6!3m5!1s0x88d9ba2ed7a89c0f:0x19d982c9a758f0ce!8m2!3d25.8184393!4d-80.31312!16s%2Fg%2F11nsscpscp',
         'linkedin_url'     => 'https://www.linkedin.com/company/dimsop',
         'instagram_url'    => 'https://www.instagram.com/dimsop',
     );
@@ -181,6 +183,25 @@ function dimsop_is_rate_limited( $action_context = 'general', $max_attempts = 5,
     set_transient( $transient_key, $new_hits, $window_seconds );
 
     return false;
+}
+
+/**
+ * Enlaces de Google Maps de una sede a partir de su ubicación (coordenadas o dirección).
+ * Usa las URLs públicas de Google Maps, que no requieren clave de API.
+ *
+ * @param string $query Coordenadas "lat,lng" o dirección.
+ * @return array{directions: string, embed: string}
+ */
+function dimsop_map_links( $query ) {
+    $query = trim( (string) $query );
+    if ( '' === $query ) {
+        return array( 'directions' => '', 'embed' => '' );
+    }
+    $is_coords = (bool) preg_match( '/^-?\d{1,2}(\.\d+)?\s*,\s*-?\d{1,3}(\.\d+)?$/', $query );
+    return array(
+        'directions' => 'https://www.google.com/maps/dir/?api=1&destination=' . rawurlencode( $query ),
+        'embed'      => 'https://maps.google.com/maps?q=' . rawurlencode( $query ) . '&z=' . ( $is_coords ? 17 : 16 ) . '&hl=' . substr( get_locale(), 0, 2 ) . '&output=embed',
+    );
 }
 
 /**

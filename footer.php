@@ -2,8 +2,6 @@
 /**
  * Pie de página del Tema Dimsop
  *
- * - Franja de cierre "¿Tienes un proyecto en mente?" (no se muestra en la portada,
- *   que ya termina con el formulario de contacto).
  * - Cuatro columnas: Marca, Navegación, Soluciones (unidades de negocio) y Sedes.
  * - Las sedes son tarjetas compactas; el mapa de Google se carga solo si el
  *   visitante pulsa "Ver mapa" (sin peso ni cookies de Google por defecto).
@@ -27,8 +25,8 @@ $dimsop_sedes = array(
         'city'    => __( 'Caracas', 'dimsop' ),
         'address' => dimsop_get_option( 'address_ve' ),
         'phone'   => dimsop_get_option( 'contact_phone_ve' ),
+        'map'     => dimsop_map_links( dimsop_get_option( 'maps_query_ve' ) ),
         'url'     => dimsop_get_option( 'maps_url_ve' ),
-        'embed'   => dimsop_get_option( 'maps_embed_ve' ),
     ),
     array(
         'id'      => 'us',
@@ -36,36 +34,11 @@ $dimsop_sedes = array(
         'city'    => __( 'Miami', 'dimsop' ),
         'address' => dimsop_get_option( 'address_us' ),
         'phone'   => dimsop_get_option( 'contact_phone_us' ),
+        'map'     => dimsop_map_links( dimsop_get_option( 'maps_query_us' ) ),
         'url'     => dimsop_get_option( 'maps_url_us' ),
-        'embed'   => dimsop_get_option( 'maps_embed_us' ),
     ),
 );
 ?>
-
-<?php if ( ! is_front_page() ) : ?>
-    <!-- Franja de cierre -->
-    <section class="dimsop-footer-cta" aria-labelledby="dimsop-footer-cta-title">
-        <div class="container">
-            <div class="dimsop-footer-cta-inner">
-                <div>
-                    <h2 id="dimsop-footer-cta-title" class="dimsop-footer-cta-title"><?php esc_html_e( '¿Tienes un proyecto en mente?', 'dimsop' ); ?></h2>
-                    <p class="dimsop-footer-cta-text"><?php esc_html_e( 'Cuéntanos qué necesitas y te ayudamos a encontrar la solución tecnológica adecuada.', 'dimsop' ); ?></p>
-                </div>
-                <div class="dimsop-footer-cta-actions">
-                    <a class="dimsop-button" href="<?php echo esc_url( home_url( '/#contacto' ) ); ?>">
-                        <?php esc_html_e( 'Contáctanos', 'dimsop' ); ?> <i class="fa fa-arrow-right dimsop-button-arrow" aria-hidden="true"></i>
-                    </a>
-                    <?php if ( $dimsop_whatsapp ) : ?>
-                        <a class="dimsop-button dimsop-button--outline dimsop-footer-cta-outline" href="<?php echo esc_url( 'https://wa.me/' . $dimsop_whatsapp ); ?>" target="_blank" rel="noopener noreferrer">
-                            <i class="fa fa-whatsapp" aria-hidden="true"></i> <?php esc_html_e( 'WhatsApp', 'dimsop' ); ?>
-                            <span class="visually-hidden"><?php esc_html_e( '(se abre en una pestaña nueva)', 'dimsop' ); ?></span>
-                        </a>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
-    </section>
-<?php endif; ?>
 
 <footer id="dimsop_footer" class="dimsop-footer">
     <div class="container dimsop-footer-main">
@@ -124,15 +97,16 @@ $dimsop_sedes = array(
                 <div class="dimsop-footer-sedes">
                     <?php foreach ( $dimsop_sedes as $dimsop_sede ) : ?>
                         <?php
-                        // Solo se acepta un mapa incrustado de Google Maps.
-                        $dimsop_embed = 0 === strpos( $dimsop_sede['embed'], 'https://www.google.com/maps/embed' ) ? $dimsop_sede['embed'] : '';
+                        $dimsop_embed = $dimsop_sede['map']['embed'];
+                        // "Cómo llegar": la ficha de Google Maps indicada en Opciones; si no hay, la ruta a la ubicación.
+                        $dimsop_directions = $dimsop_sede['url'] ? $dimsop_sede['url'] : $dimsop_sede['map']['directions'];
                         $dimsop_map_id = 'dimsop-footer-map-' . $dimsop_sede['id'];
                         ?>
                         <div class="dimsop-footer-sede">
                             <p class="dimsop-footer-sede-name">
                                 <span class="dimsop-footer-sede-dot" aria-hidden="true"></span>
                                 <?php echo esc_html( $dimsop_sede['title'] ); ?>
-                                <span class="dimsop-footer-sede-city">· <?php echo esc_html( $dimsop_sede['city'] ); ?></span>
+                                <span class="dimsop-footer-sede-city"><?php echo esc_html( $dimsop_sede['city'] ); ?></span>
                             </p>
                             <?php if ( $dimsop_sede['address'] ) : ?>
                                 <address class="dimsop-footer-sede-address"><?php echo esc_html( $dimsop_sede['address'] ); ?></address>
@@ -143,8 +117,8 @@ $dimsop_sedes = array(
                                 </a>
                             <?php endif; ?>
                             <div class="dimsop-footer-sede-actions">
-                                <?php if ( $dimsop_sede['url'] ) : ?>
-                                    <a href="<?php echo esc_url( $dimsop_sede['url'] ); ?>" target="_blank" rel="noopener noreferrer">
+                                <?php if ( $dimsop_directions ) : ?>
+                                    <a href="<?php echo esc_url( $dimsop_directions ); ?>" target="_blank" rel="noopener noreferrer">
                                         <?php esc_html_e( 'Cómo llegar', 'dimsop' ); ?> <i class="fa fa-external-link" aria-hidden="true"></i>
                                         <span class="visually-hidden"><?php esc_html_e( '(se abre en una pestaña nueva)', 'dimsop' ); ?></span>
                                     </a>

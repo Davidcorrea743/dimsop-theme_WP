@@ -10,7 +10,10 @@ html.lenis body {
     height: auto;
 }
 
-/* Lenis ya suaviza: el scroll-behavior nativo lo haría ir a trompicones */
+/* Lenis ya suaviza: el scroll-behavior nativo lo haría ir a trompicones y,
+   peor, ScrollTrigger mediría mal al recalcular (su salto al inicio dejaría de
+   ser instantáneo). Lenis 1.1 solo añade la clase .lenis, no .lenis-smooth. */
+html.lenis,
 .lenis.lenis-smooth {
     scroll-behavior: auto !important;
 }
