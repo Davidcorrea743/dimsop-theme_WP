@@ -181,6 +181,8 @@ function dimsop_enqueue_scripts() {
                 'emailInvalid'    => esc_html__( 'Revisa el correo: debe tener el formato nombre@empresa.com.', 'dimsop' ),
                 'phoneInvalid'    => esc_html__( 'Revisa el teléfono: usa solo números, espacios, guiones, paréntesis o +.', 'dimsop' ),
                 'otherRequired'   => esc_html__( 'Indícanos el motivo de tu contacto.', 'dimsop' ),
+                'cvRequired'      => esc_html__( 'Adjunta tu CV en PDF, DOC o DOCX.', 'dimsop' ),
+                'fileEmpty'       => esc_html__( 'El archivo está vacío.', 'dimsop' ),
                 'fixErrors'       => esc_html__( 'Revisa los campos marcados para poder enviar el formulario.', 'dimsop' ),
             ),
         )

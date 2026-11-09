@@ -170,7 +170,14 @@ function dimsop_send_lead_notification( $name, $email, $phone, $company, $positi
 /**
  * Despachador de respuesta adaptable (AJAX / Redirección HTTP)
  */
-function dimsop_form_response( $success, $message, $code, $status_code = 200, $is_ajax = true ) {
+function dimsop_form_response( $success, $message, $code, $status_code = 200, $is_ajax = true, $redirect = array() ) {
+    // Sin JS: parámetros y ancla de la redirección (por defecto, los del formulario de contacto).
+    $redirect = wp_parse_args( $redirect, array(
+        'success_key' => 'mensaje',
+        'error_key'   => 'form_error',
+        'anchor'      => 'contacto',
+    ) );
+
     if ( $is_ajax ) {
         // El JS lo inserta con textContent: va como texto plano, sin entidades HTML (&quot;).
         $message = wp_specialchars_decode( $message, ENT_QUOTES );
@@ -190,12 +197,12 @@ function dimsop_form_response( $success, $message, $code, $status_code = 200, $i
         // Redirección para POST sin Javascript
         $redirect_url = home_url( '/' );
         if ( $success ) {
-            $redirect_url = add_query_arg( 'mensaje', $code, $redirect_url );
+            $redirect_url = add_query_arg( $redirect['success_key'], $code, $redirect_url );
         } else {
             // "error" es una variable de consulta reservada de WordPress.
-            $redirect_url = add_query_arg( 'form_error', $code, $redirect_url );
+            $redirect_url = add_query_arg( $redirect['error_key'], $code, $redirect_url );
         }
-        $redirect_url .= '#contacto';
+        $redirect_url .= '#' . $redirect['anchor'];
         wp_safe_redirect( $redirect_url );
         exit;
     }

@@ -426,6 +426,20 @@ function dimsop_render_app_metabox( $post ) {
             <th><strong><?php esc_html_e( 'IP de Postulación:', 'dimsop' ); ?></strong></th>
             <td><code><?php echo esc_html( $ip ? $ip : '-' ); ?></code></td>
         </tr>
+        <?php if ( function_exists( 'dimsop_job_app_statuses' ) ) : ?>
+            <tr>
+                <th><label for="dimsop_app_status"><strong><?php esc_html_e( 'Estado:', 'dimsop' ); ?></strong></label></th>
+                <td>
+                    <?php wp_nonce_field( 'dimsop_app_save', 'dimsop_app_nonce' ); ?>
+                    <select id="dimsop_app_status" name="dimsop_app_status">
+                        <?php foreach ( dimsop_job_app_statuses() as $dimsop_key => $dimsop_label ) : ?>
+                            <option value="<?php echo esc_attr( $dimsop_key ); ?>" <?php selected( $status ? $status : 'draft', $dimsop_key ); ?>><?php echo esc_html( $dimsop_label ); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <p class="description"><?php esc_html_e( 'Se guarda con el botón Actualizar.', 'dimsop' ); ?></p>
+                </td>
+            </tr>
+        <?php endif; ?>
     </table>
     <?php
 }
@@ -454,6 +468,15 @@ function dimsop_save_custom_meta( $post_id ) {
         }
         if ( isset( $_POST['dimsop_project_tech'] ) ) {
             update_post_meta( $post_id, '_dimsop_project_tech', sanitize_text_field( wp_unslash( $_POST['dimsop_project_tech'] ) ) );
+        }
+    }
+
+    // Estado de una postulación (solo valores de la lista)
+    if ( isset( $_POST['dimsop_app_nonce'], $_POST['dimsop_app_status'] ) && function_exists( 'dimsop_job_app_statuses' )
+        && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['dimsop_app_nonce'] ) ), 'dimsop_app_save' ) ) {
+        $status = sanitize_key( wp_unslash( $_POST['dimsop_app_status'] ) );
+        if ( array_key_exists( $status, dimsop_job_app_statuses() ) ) {
+            update_post_meta( $post_id, '_dimsop_app_status', $status );
         }
     }
 
@@ -512,6 +535,7 @@ add_filter( 'manage_dimsop_job_app_posts_columns', function( $columns ) {
         'profession' => esc_html__( 'Profesión', 'dimsop' ),
         'city'       => esc_html__( 'Ciudad', 'dimsop' ),
         'cv'         => esc_html__( 'CV Adjunto', 'dimsop' ),
+        'status'     => esc_html__( 'Estado', 'dimsop' ),
         'date'       => esc_html__( 'Fecha de Recepción', 'dimsop' ),
     );
 } );
@@ -525,6 +549,11 @@ add_action( 'manage_dimsop_job_app_posts_custom_column', function( $column, $pos
         case 'city':
             $city = get_post_meta( $post_id, '_dimsop_app_city', true );
             echo esc_html( $city ? $city : '-' );
+            break;
+        case 'status':
+            $statuses = function_exists( 'dimsop_job_app_statuses' ) ? dimsop_job_app_statuses() : array();
+            $status   = get_post_meta( $post_id, '_dimsop_app_status', true );
+            echo esc_html( $statuses[ $status ? $status : 'draft' ] ?? '-' );
             break;
         case 'cv':
             $cv_file = get_post_meta( $post_id, '_dimsop_app_cv_file', true );
@@ -563,8 +592,15 @@ function dimsop_handle_secure_cv_download() {
     $file_path = get_post_meta( $app_id, '_dimsop_app_cv_file', true );
     $file_name = get_post_meta( $app_id, '_dimsop_app_cv_filename', true );
 
-    if ( empty( $file_path ) || ! file_exists( $file_path ) ) {
+    $file_path = function_exists( 'dimsop_cv_absolute_path' ) ? dimsop_cv_absolute_path( $file_path ) : '';
+    if ( 'dimsop_job_app' !== get_post_type( $app_id ) || empty( $file_path ) || ! file_exists( $file_path ) ) {
         wp_die( esc_html__( 'El archivo solicitado ya no existe en el servidor.', 'dimsop' ), 404 );
+    }
+
+    // Defensa adicional: solo se sirven archivos de la carpeta privada de CV.
+    $file_path = dimsop_cv_safe_path( $file_path );
+    if ( ! $file_path ) {
+        wp_die( esc_html__( 'Acceso denegado.', 'dimsop' ), 403 );
     }
 
     // Servir el archivo con cabeceras estrictas

@@ -517,18 +517,107 @@
         } );
     }
 
-    /**
-     * Formulario de contacto: envía por AJAX y muestra el aviso junto al botón, sin recargar.
-     * El aviso desaparece solo tras un minuto. Sin JS, el formulario envía por POST.
-     */
-    function initContactForm() {
-        var form = document.querySelector( '#contacto .dimsop-form' );
-        var feedback = document.getElementById( 'dimsop-contact-feedback' );
-        if ( ! form || ! feedback || ! settings.ajaxUrl || ! window.fetch ) {
+    /* ==================================================================
+     * Formularios (contacto y postulación)
+     * Validación en el navegador con mensajes por campo y envío por AJAX
+     * con aviso junto al botón. El servidor vuelve a validar todo.
+     * ================================================================== */
+
+    // Letras de cualquier idioma (tildes, ñ, ü) y espacios; igual que la regla del servidor.
+    var NAME_PATTERN = ( function () {
+        try {
+            return new RegExp( '^[\\p{L}\\p{M}]+(?:\\s+[\\p{L}\\p{M}]+)*$', 'u' );
+        } catch ( e ) {
+            return /^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:\s+[A-Za-zÀ-ÖØ-öø-ÿ]+)*$/; // navegadores sin \p{}
+        }
+    }() );
+    var EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+    /** Mensajes comunes: nombre, correo y teléfono. Devuelve '' si el campo es válido. */
+    function commonFieldMessage( kind, value, i18n ) {
+        if ( 'name' === kind ) {
+            if ( ! value ) {
+                return i18n.nameRequired;
+            }
+            return NAME_PATTERN.test( value ) ? '' : i18n.nameInvalid;
+        }
+        if ( 'email' === kind ) {
+            if ( ! value ) {
+                return i18n.emailRequired;
+            }
+            return EMAIL_PATTERN.test( value ) ? '' : i18n.emailInvalid;
+        }
+        if ( 'phone' === kind && value &&
+            ( ! /^[0-9+()\-.\s]+$/.test( value ) || value.replace( /\D/g, '' ).length < 7 ) ) {
+            return i18n.phoneInvalid;
+        }
+        return '';
+    }
+
+    function describe( input, id, add ) {
+        var ids = ( input.getAttribute( 'aria-describedby' ) || '' ).split( ' ' ).filter( function ( item ) {
+            return item && item !== id;
+        } );
+        if ( add ) {
+            ids.push( id );
+        }
+        if ( ids.length ) {
+            input.setAttribute( 'aria-describedby', ids.join( ' ' ) );
+        } else {
+            input.removeAttribute( 'aria-describedby' );
+        }
+    }
+
+    /** Muestra (o quita, con message vacío) el error bajo un campo, enlazado con aria. */
+    function setFieldError( input, message ) {
+        var id = input.id + '-error';
+        var error = document.getElementById( id );
+
+        if ( ! message ) {
+            input.removeAttribute( 'aria-invalid' );
+            describe( input, id, false );
+            if ( error ) {
+                error.remove();
+            }
             return;
         }
 
+        if ( ! error ) {
+            error = document.createElement( 'p' );
+            error.id = id;
+            error.className = 'dimsop-field-error mt-1 mb-0';
+            input.closest( '.dimsop-field' ).appendChild( error );
+        }
+        error.textContent = '';
+        var errorIcon = document.createElement( 'i' );
+        errorIcon.className = 'fa fa-exclamation-circle';
+        errorIcon.setAttribute( 'aria-hidden', 'true' );
+        error.appendChild( errorIcon );
+        error.appendChild( document.createTextNode( ' ' + message ) );
+        input.setAttribute( 'aria-invalid', 'true' );
+        describe( input, id, true );
+    }
+
+    /**
+     * Conecta un formulario: validación, envío por AJAX, estado de carga y aviso.
+     *
+     * @param {Object}   options
+     * @param {Element}  options.form
+     * @param {Element}  options.feedback Contenedor aria-live del aviso.
+     * @param {Element[]} options.inputs  Campos que se validan, en orden.
+     * @param {Function} options.message  ( input ) => mensaje de error o ''.
+     * @param {Function} [options.onSuccess] Tras un envío correcto (el formulario ya se vació).
+     * @return {Object|null} { check, reset }
+     */
+    function bindAjaxForm( options ) {
+        var form = options.form;
+        var feedback = options.feedback;
+        if ( ! form || ! feedback || ! settings.ajaxUrl || ! window.fetch || ! window.FormData ) {
+            return null;
+        }
+
         var i18n = settings.i18n || {};
+        var inputs = options.inputs.filter( Boolean );
         var submit = form.querySelector( '[type="submit"]' );
         var label = submit.querySelector( '.dimsop-button-label' );
         var icon = submit.querySelector( '.fa' );
@@ -536,105 +625,20 @@
         var iconClass = icon.className;
         var hideDelay = 60000;
         var hideTimer = null;
-
-        /* ---------- Validación en el navegador (el servidor valida igual) ---------- */
-        var fields = {
-            name: form.elements.name,
-            email: form.elements.email,
-            phone: form.elements.phone,
-            service: form.elements.service,
-            other: form.elements.other_reason
-        };
-        var otherWrap = document.getElementById( 'dimsop-f-other-wrap' );
         var attempted = false; // antes del primer envío no se marcan campos vacíos al salir de ellos
-
-        // Letras de cualquier idioma (tildes, ñ, ü) y espacios; igual que la regla del servidor.
-        var namePattern;
-        try {
-            namePattern = new RegExp( '^[\\p{L}\\p{M}]+(?:\\s+[\\p{L}\\p{M}]+)*$', 'u' );
-        } catch ( e ) {
-            namePattern = /^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:\s+[A-Za-zÀ-ÖØ-öø-ÿ]+)*$/; // navegadores sin \p{}
-        }
 
         // Los mensajes propios sustituyen a los globos nativos del navegador.
         form.setAttribute( 'novalidate', '' );
 
-        function describe( input, id, add ) {
-            var ids = ( input.getAttribute( 'aria-describedby' ) || '' ).split( ' ' ).filter( function ( item ) {
-                return item && item !== id;
-            } );
-            if ( add ) {
-                ids.push( id );
-            }
-            if ( ids.length ) {
-                input.setAttribute( 'aria-describedby', ids.join( ' ' ) );
-            } else {
-                input.removeAttribute( 'aria-describedby' );
-            }
-        }
-
-        function setError( input, message ) {
-            var id = input.id + '-error';
-            var error = document.getElementById( id );
-
-            if ( ! message ) {
-                input.removeAttribute( 'aria-invalid' );
-                describe( input, id, false );
-                if ( error ) {
-                    error.remove();
-                }
-                return;
-            }
-
-            if ( ! error ) {
-                error = document.createElement( 'p' );
-                error.id = id;
-                error.className = 'dimsop-field-error mt-1 mb-0';
-                input.closest( '.dimsop-field' ).appendChild( error );
-            }
-            error.textContent = '';
-            var errorIcon = document.createElement( 'i' );
-            errorIcon.className = 'fa fa-exclamation-circle';
-            errorIcon.setAttribute( 'aria-hidden', 'true' );
-            error.appendChild( errorIcon );
-            error.appendChild( document.createTextNode( ' ' + message ) );
-            input.setAttribute( 'aria-invalid', 'true' );
-            describe( input, id, true );
-        }
-
         function check( input ) {
-            if ( ! input ) {
-                return true;
-            }
-            var value = input.value.trim();
-            var message = '';
-
-            if ( input === fields.name ) {
-                if ( ! value ) {
-                    message = i18n.nameRequired;
-                } else if ( ! namePattern.test( value ) ) {
-                    message = i18n.nameInvalid;
-                }
-            } else if ( input === fields.email ) {
-                if ( ! value ) {
-                    message = i18n.emailRequired;
-                } else if ( ! /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test( value ) ) {
-                    message = i18n.emailInvalid;
-                }
-            } else if ( input === fields.phone && value &&
-                ( ! /^[0-9+()\-.\s]+$/.test( value ) || value.replace( /\D/g, '' ).length < 7 ) ) {
-                message = i18n.phoneInvalid;
-            } else if ( input === fields.other && otherWrap && ! otherWrap.hidden && ! value ) {
-                message = i18n.otherRequired;
-            }
-
-            setError( input, message );
+            var message = options.message( input ) || '';
+            setFieldError( input, message );
             return ! message;
         }
 
         function firstInvalid() {
             var first = null;
-            [ fields.name, fields.email, fields.phone, fields.other ].forEach( function ( input ) {
+            inputs.forEach( function ( input ) {
                 if ( ! check( input ) && ! first ) {
                     first = input;
                 }
@@ -642,47 +646,20 @@
             return first;
         }
 
-        // Campo "Otro": solo aparece si se elige ese servicio.
-        function syncOther() {
-            if ( ! otherWrap || ! fields.service ) {
-                return;
-            }
-            var show = 'other' === fields.service.value;
-            otherWrap.hidden = ! show;
-            if ( fields.other ) {
-                fields.other.required = show;
-                if ( ! show ) {
-                    fields.other.value = '';
-                    setError( fields.other, '' );
-                }
-            }
-        }
-
-        [ fields.name, fields.email, fields.phone, fields.other ].forEach( function ( input ) {
-            if ( ! input ) {
-                return;
-            }
-            input.addEventListener( 'input', function () {
+        inputs.forEach( function ( input ) {
+            var live = function () {
                 if ( attempted || input.hasAttribute( 'aria-invalid' ) ) {
                     check( input );
                 }
-            } );
+            };
+            input.addEventListener( 'input', live );
+            input.addEventListener( 'change', live );
             input.addEventListener( 'blur', function () {
-                if ( attempted || input.value.trim() ) {
+                if ( attempted || ( 'file' !== input.type && input.value.trim() ) ) {
                     check( input );
                 }
             } );
         } );
-
-        if ( fields.service ) {
-            fields.service.addEventListener( 'change', function () {
-                syncOther();
-                if ( 'other' === fields.service.value && fields.other ) {
-                    fields.other.focus();
-                }
-            } );
-        }
-        syncOther();
 
         function hideLater( alert ) {
             window.clearTimeout( hideTimer );
@@ -714,8 +691,17 @@
 
         function setLoading( loading ) {
             submit.disabled = loading;
+            form.setAttribute( 'aria-busy', loading ? 'true' : 'false' );
             label.textContent = loading ? ( i18n.submitting || labelText ) : labelText;
             icon.className = loading ? 'fa fa-circle-o-notch fa-spin' : iconClass;
+        }
+
+        function reset() {
+            form.reset();
+            attempted = false;
+            inputs.forEach( function ( input ) {
+                setFieldError( input, '' );
+            } );
         }
 
         // Aviso del envío sin JS: se limpia la URL para que no reaparezca al recargar.
@@ -740,7 +726,7 @@
 
             setLoading( true );
 
-            // new FormData incluye action, nonce y honeypot; el campo "action" tapa a form.action.
+            // new FormData incluye action, nonce, honeypot y archivos; el campo "action" tapa a form.action.
             window.fetch( settings.ajaxUrl, { method: 'POST', body: new FormData( form ), credentials: 'same-origin' } )
                 .then( function ( response ) {
                     return response.json();
@@ -749,9 +735,10 @@
                     var message = result.data && result.data.message ? result.data.message : i18n.errorGeneric;
                     showAlert( !! result.success, message );
                     if ( result.success ) {
-                        form.reset();
-                        attempted = false;
-                        syncOther();
+                        reset();
+                        if ( options.onSuccess ) {
+                            options.onSuccess();
+                        }
                     }
                 } )
                 .catch( function () {
@@ -760,6 +747,131 @@
                 .then( function () {
                     setLoading( false );
                 } );
+        } );
+
+        return { check: check, reset: reset };
+    }
+
+    /**
+     * Formulario de contacto, con el campo "Otro" que solo aparece al elegir ese servicio.
+     */
+    function initContactForm() {
+        var form = document.querySelector( '#contacto .dimsop-form' );
+        if ( ! form ) {
+            return;
+        }
+        var i18n = settings.i18n || {};
+        var fields = form.elements;
+        var otherWrap = document.getElementById( 'dimsop-f-other-wrap' );
+        var other = fields.other_reason;
+
+        function syncOther() {
+            if ( ! otherWrap || ! fields.service ) {
+                return;
+            }
+            var show = 'other' === fields.service.value;
+            otherWrap.hidden = ! show;
+            if ( other ) {
+                other.required = show;
+                if ( ! show ) {
+                    other.value = '';
+                    setFieldError( other, '' );
+                }
+            }
+        }
+
+        var bound = bindAjaxForm( {
+            form: form,
+            feedback: document.getElementById( 'dimsop-contact-feedback' ),
+            inputs: [ fields.name, fields.email, fields.phone, other ],
+            message: function ( input ) {
+                var value = input.value.trim();
+                if ( input === other ) {
+                    return otherWrap && ! otherWrap.hidden && ! value ? i18n.otherRequired : '';
+                }
+                return commonFieldMessage( input.name, value, i18n );
+            },
+            onSuccess: syncOther
+        } );
+
+        if ( ! bound ) {
+            return;
+        }
+        if ( fields.service ) {
+            fields.service.addEventListener( 'change', function () {
+                syncOther();
+                if ( 'other' === fields.service.value && other ) {
+                    other.focus();
+                }
+            } );
+        }
+        syncOther();
+    }
+
+    /**
+     * Ventana "Forma parte de nuestro equipo": postulación con CV.
+     */
+    function initCareersForm() {
+        var modalEl = document.getElementById( 'dimsop-carreras-modal' );
+        var form = document.getElementById( 'dimsop-carreras-form' );
+        if ( ! modalEl || ! form ) {
+            return;
+        }
+        var i18n = settings.i18n || {};
+        var fields = form.elements;
+        var cv = fields.cv;
+        var fileWrap = cv ? cv.closest( '.dimsop-file' ) : null;
+        var fileName = fileWrap ? fileWrap.querySelector( '.dimsop-file-name' ) : null;
+        var maxBytes = 5 * 1024 * 1024;
+
+        function cvMessage() {
+            var file = cv.files && cv.files[ 0 ];
+            if ( ! file ) {
+                return i18n.cvRequired;
+            }
+            if ( ! /\.(pdf|docx?)$/i.test( file.name ) ) {
+                return i18n.invalidFileType;
+            }
+            if ( file.size > maxBytes ) {
+                return i18n.fileTooLarge;
+            }
+            return file.size ? '' : i18n.fileEmpty;
+        }
+
+        function syncFileName() {
+            if ( ! fileName ) {
+                return;
+            }
+            var file = cv.files && cv.files[ 0 ];
+            fileName.textContent = file ? file.name : fileName.getAttribute( 'data-empty' );
+            fileWrap.classList.toggle( 'has-file', !! file );
+        }
+
+        var bound = bindAjaxForm( {
+            form: form,
+            feedback: document.getElementById( 'dimsop-careers-feedback' ),
+            inputs: [ fields.name, fields.email, fields.phone, cv ],
+            message: function ( input ) {
+                return input === cv ? cvMessage() : commonFieldMessage( input.name, input.value.trim(), i18n );
+            },
+            onSuccess: syncFileName
+        } );
+
+        if ( cv ) {
+            cv.addEventListener( 'change', syncFileName );
+        }
+
+        // Sin JS se vuelve con ?postulacion= o ?postulacion_error=: se reabre la ventana con el aviso.
+        if ( bound && window.bootstrap && window.bootstrap.Modal &&
+            document.querySelector( '#dimsop-careers-feedback .dimsop-alert' ) ) {
+            window.bootstrap.Modal.getOrCreateInstance( modalEl ).show();
+        }
+
+        // Al abrir, el foco va al primer campo.
+        modalEl.addEventListener( 'shown.bs.modal', function () {
+            if ( fields.name ) {
+                fields.name.focus();
+            }
         } );
     }
 
@@ -796,6 +908,7 @@
         initSpotlight();
         initMarquees();
         initContactForm();
+        initCareersForm();
         initHeaderScroll();
         initSmoothScroll();
         initActiveNav();

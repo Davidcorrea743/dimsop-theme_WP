@@ -1,6 +1,6 @@
 # Control de avance: migración Dimsop (Odoo → WordPress)
 
-**Día actual:** 9 de 20 (Semana 2) · Día 8 cerrado el 2026-11-09
+**Día actual:** 10 de 20 (Semana 2) · Día 9 cerrado el 2026-11-09
 **Sitio local:** http://dimsop-theme.localhost/ · Mailpit: http://localhost:10000
 **Plan completo:** `C:\Users\jdcor\.claude\plans\te-explico-un-poco-graceful-clock.md`
 
@@ -18,7 +18,7 @@ Estados: ✅ hecho · 🟡 en curso · ⬜ pendiente
 | 6 | SEO, respaldo y correcciones de base | ✅ | Yoast SEO y UpdraftPlus instalados (sin programar respaldos aún). Prospectos solo para administradores y editores. IP del límite de envíos sin fiarse de cabeceras (`DIMSOP_TRUSTED_PROXIES`). Versión del tema leída de `style.css`. Modo oscuro por defecto simplificado. Comentarios de Odoo eliminados. WordPress en español, zona horaria de Caracas, nombre del sitio "Dimsop" y archivos de autor desactivados. |
 | 7 | Animaciones (GSAP, Lenis), carruseles, contadores, globo 3D | ✅ | `dimsop-motion.js` + `_motion.scss`: Lenis sincronizado con ScrollTrigger; banner con título palabra por palabra, parallax del video y cuadrícula de puntos; títulos de sección palabra por palabra; tarjetas con desvanecido, subida y desenfoque escalonados; contadores en rodillos; botones magnéticos (solo ratón); carruseles que frenan al pasar el ratón. Globo 3D (Globe.gl 2.42.0) con carga diferida, pausa fuera de pantalla y datos propios en `assets/data` y `assets/images/globe`. Todo estático con movimiento reducido. |
 | 8 | Formulario de contacto (AJAX, SMTP, CRM) | ✅ | Campo "Otro" que aparece solo con ese servicio y es obligatorio entonces (también en el servidor); se guarda en el prospecto, sale en el panel y en el correo ("Otro: motivo"). Validación en el navegador con mensajes bajo cada campo, `aria-invalid`/`aria-describedby` y foco en el primer error. Avisos del servidor en texto plano. El envío AJAX y los avisos ya venían del Día 5. CRM: los prospectos se quedan solo en WordPress. El SMTP corporativo queda para staging (abajo). |
-| 9 | Postulación con CV | ⬜ | |
+| 9 | Postulación con CV | ✅ | Ventana "Forma parte de nuestro equipo" (`template-parts/modals/modal-careers.php`, `_careers.scss`) que abren el header, el menú móvil y el footer. `inc/forms/careers-handler.php`: CV obligatorio, solo PDF/DOC/DOCX de hasta 5 MB comprobando extensión y contenido real; guardado con nombre aleatorio en una carpeta privada fuera de la web pública; aviso a talento@ con el CV adjunto; límite de 3 envíos en 10 minutos. Panel: estado Recibida / En revisión / Contratada. Al borrar una postulación se borra su CV. La validación y el envío AJAX ahora son un componente común (`bindAjaxForm`) para contacto y postulación. |
 | 10 | Páginas interiores (page, 404, búsqueda, privacidad) | ⬜ | |
 | 11 | Idiomas, parte 1 (Polylang, .pot/.po) | ⬜ | |
 | 12 | Idiomas, parte 2 (contenido, hreflang) | ⬜ | |
@@ -54,6 +54,8 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 | 2026-11-09 | 8 | Las animaciones solo se veían la primera vez | Cada revelado usaba `once: true` | `onEachEntry()`: se reproducen cada vez que el bloque entra, bajando o subiendo, y se rearman solo cuando salió del todo de la pantalla. El banner sigue siendo una entrada única |
 | 2026-11-09 | 8 | Los avisos del formulario podían mostrar `&quot;` en vez de comillas | El servidor escapaba el texto como HTML y el JS lo inserta como texto | Las respuestas AJAX van en texto plano |
 | 2026-11-09 | 8 | El nombre aceptaba números y símbolos | Solo se comprobaba que no estuviera vacío | Solo letras (con tildes, ñ, ü) y espacios, en el navegador y en el servidor (`nombre_invalido`) |
+| 2026-11-09 | 9 | La ruta del CV se guardaba rota en Windows | WordPress quita las barras invertidas al guardar metadatos | Se guarda la ruta relativa a la carpeta privada (también sirve al cambiar de servidor) |
+| 2026-11-09 | 9 | El aviso de postulación enviada nunca se veía en Odoo | Error del sitio original | Aviso dentro de la ventana, por AJAX; sin JS la ventana se reabre con el aviso |
 | 2026-11-04 | 5 | Al enviar el formulario la página recargaba y bajaba desde el inicio | Envío por POST con redirección | `initContactForm()` envía por AJAX (adelantado del Día 8); aviso junto al botón que desaparece al minuto |
 | 2026-11-04 | 5 | Correo, teléfono y WhatsApp repetidos en Contacto | Ya están en el footer y el botón flotante | Se elimina la franja; queda solo el formulario, con los opcionales marcados |
 | 2026-11-04 | 5 | Los errores del formulario no mostraban aviso | `?error=` es una variable reservada de WordPress | El handler redirige con `?form_error=` |
@@ -75,6 +77,8 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 - CRM: los prospectos se quedan solo en WordPress (Prospectos CRM) y llegan por correo a mercadeo; no se integran con Odoo (decisión de David, 2026-11-09).
 - Seguridad del formulario (revisada el 2026-11-09 con ataques de prueba): sin SQL escrito a mano (todo pasa por las funciones de WordPress, que usan consultas preparadas); los datos se limpian al entrar y se escapan al mostrarse en el panel y el correo; el JS inserta los avisos como texto. Además: nonce, honeypot y límite de envíos.
 - Nombre y apellido: solo letras y espacios (decisión de David). Rechaza también guiones y apóstrofos (Ana-María, O'Brien).
+- Postulaciones: el CV es obligatorio (en Odoo era opcional). El aviso a talento@ lleva el CV adjunto, porque las postulaciones solo las ven administradores en el panel.
+- CV guardados en `app/dimsop-private/cv/` (junto a la carpeta pública, no dentro). Se puede cambiar con `define( 'DIMSOP_CV_DIR', '/ruta/privada' );` en `wp-config.php`.
 - Modo oscuro por defecto, igual que el sitio original; el modo claro solo si el visitante lo elige.
 - Respaldos con UpdraftPlus (decisión de Claude, gratuito y sin coste de servicio; se puede cambiar antes del Día 19).
 - Animaciones de sección: se repiten al volver a entrar (contadores, títulos, tarjetas, ISO, globo); las tarjetas entran desde abajo al bajar y desde arriba al subir. El banner solo se anima al cargar.
@@ -85,6 +89,7 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 
 - [ ] **Antes de staging (Día 16):** si el hosting va detrás de Cloudflare o un balanceador, definir `DIMSOP_TRUSTED_PROXIES` en `wp-config.php`. Sin eso todos los visitantes comparten la IP del proxy y el límite de 5 envíos en 10 minutos se vuelve global.
 - [ ] UpdraftPlus: programar los respaldos y elegir dónde se guardan (Día 19). Hoy no hace ninguno.
+- [ ] Staging (Día 16): confirmar que la carpeta privada de CV queda fuera de la web pública. Si el hosting no deja escribir ahí, el tema usa `wp-content/uploads/dimsop-private/cv` y en nginx hay que bloquearla con `location ^~ /wp-content/uploads/dimsop-private/ { deny all; }`. Incluir esa carpeta en los respaldos.
 - [ ] Revisar la cabecera HSTS del tema con `preload` e `includeSubDomains` antes de publicar (Día 19): afecta a todos los subdominios de dimsop.com.
 - [ ] Meta descripción de la portada y Open Graph en Yoast (Día 15). Sacar del sitemap `sample-page` y `guia-componentes` al borrarlas.
 - [ ] Día 15: medir con Lighthouse el peso de Globe.gl en móvil; si penaliza, cargar el globo solo desde 768 px.

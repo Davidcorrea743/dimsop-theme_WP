@@ -44,7 +44,7 @@
             smoothWheel: true,
             // Dentro del buscador y del menú móvil el desplazamiento es el nativo.
             prevent: function ( node ) {
-                return !! ( node.closest && node.closest( '#dimsop-search-overlay, #dimsop-mobile-nav, [data-lenis-prevent]' ) );
+                return !! ( node.closest && node.closest( '#dimsop-search-overlay, #dimsop-mobile-nav, .modal, [data-lenis-prevent]' ) );
             }
         } );
 
@@ -57,7 +57,7 @@
         // Con el menú móvil o el buscador abiertos la página no debe moverse.
         var body = document.body;
         new window.MutationObserver( function () {
-            var locked = body.classList.contains( 'dimsop-menu-open' ) || 'hidden' === body.style.overflow;
+            var locked = body.classList.contains( 'dimsop-menu-open' ) || body.classList.contains( 'modal-open' ) || 'hidden' === body.style.overflow;
             if ( locked ) {
                 lenis.stop();
             } else {
