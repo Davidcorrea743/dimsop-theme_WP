@@ -642,11 +642,19 @@
         controls.autoRotate = ! reduceMotion;
         controls.autoRotateSpeed = 0.8;
         if ( ! finePointer ) {
-            // En pantallas táctiles el dedo debe desplazar la página, no girar el globo.
-            // Los controles siguen activos: Globe.gl solo actualiza la cámara (y el giro
-            // automático) si controls.enabled es true; desactivarlos dejaba la caja en negro.
-            controls.enableRotate = false;
+            // En pantallas táctiles: deslizar a los lados gira el globo y deslizar
+            // arriba/abajo sigue moviendo la página (touch-action: pan-y deja el gesto
+            // vertical al navegador). La inclinación queda fija para que el dedo no
+            // "pelee" con el scroll. Los controles siguen activos: Globe.gl solo
+            // actualiza la cámara si controls.enabled es true.
             controls.enablePan = false;
+            controls.rotateSpeed = 0.6;
+            // Se calcula desde la posición real de la cámara (getPolarAngle() aún no está
+            // actualizado en este momento y fijaría el ecuador, no la vista elegida).
+            var cam = world.camera().position;
+            var polar = Math.acos( Math.max( -1, Math.min( 1, cam.y / ( cam.length() || 1 ) ) ) );
+            controls.minPolarAngle = polar;
+            controls.maxPolarAngle = polar;
             var canvas = container.querySelector( 'canvas' );
             if ( canvas ) {
                 canvas.style.touchAction = 'pan-y';
