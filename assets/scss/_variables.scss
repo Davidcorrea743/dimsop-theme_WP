@@ -76,7 +76,11 @@ body {
     line-height: var(--dimsop-line-height);
     color: var(--dimsop-text);
     background-color: var(--dimsop-bg);
-    overflow-x: hidden;
+    // "clip" recorta el desborde horizontal sin convertir el body en contenedor de
+    // scroll. Con "hidden", al bloquear el scroll (html overflow:hidden con el menú
+    // móvil abierto) el header sticky perdía su referencia y quedaba fuera de pantalla.
+    overflow-x: hidden; // navegadores sin soporte de clip
+    overflow-x: clip;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 

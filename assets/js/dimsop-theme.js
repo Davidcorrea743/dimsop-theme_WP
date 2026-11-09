@@ -139,7 +139,8 @@
             e.preventDefault();
             if ( window.dimsopLenis ) {
                 // Con Lenis activo (dimsop-motion.js) el desplazamiento lo hace él para no pelear con su inercia.
-                window.dimsopLenis.scrollTo( target, { offset: -headerOffset() } );
+                // force: el menú móvil se acaba de cerrar y Lenis aún puede estar detenido.
+                window.dimsopLenis.scrollTo( target, { offset: -headerOffset(), force: true } );
             } else {
                 var top = target.getBoundingClientRect().top + window.pageYOffset - headerOffset();
                 window.scrollTo( { top: top, behavior: 'smooth' } );
@@ -205,12 +206,23 @@
             return;
         }
 
+        var header = document.getElementById( 'dimsop_header' );
+
         function setOpen( open ) {
+            // Con el menú abierto el header (y su botón de cerrar) siempre queda a la vista.
+            if ( open && header ) {
+                header.classList.remove( 'dimsop-header-hidden' );
+            }
             panel.classList.toggle( 'dimsop-mobile-open', open );
             burger.classList.toggle( 'dimsop-burger-active', open );
             document.body.classList.toggle( 'dimsop-menu-open', open );
             burger.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
             panel.setAttribute( 'aria-hidden', open ? 'false' : 'true' );
+            // Al cerrar, Lenis se reactiva ya (no cuando lo note el observador de dimsop-motion.js):
+            // si un enlace del menú pide desplazarse justo después, ese start() tardío lo cancelaría.
+            if ( ! open && window.dimsopLenis && ! document.body.classList.contains( 'modal-open' ) ) {
+                window.dimsopLenis.start();
+            }
         }
 
         burger.addEventListener( 'click', function () {

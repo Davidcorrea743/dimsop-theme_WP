@@ -181,10 +181,24 @@ body.dimsop-search-open {
     overflow: hidden;
 }
 
-/* Panel Móvil */
+/* Panel Móvil
+ * Flota debajo del header (no forma parte de su flujo): si el header creciera al
+ * abrirlo, el navegador compensaría desplazando la página y el header quedaría
+ * fuera de la pantalla con el scroll bloqueado. Tiene su propio scroll si no cabe. */
 .dimsop-mobile-panel {
-    background: var(--dimsop-surface);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: calc(100vh - 72px); // 72 px ≈ alto del header
+    max-height: calc(100dvh - 72px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    // --dimsop-surface es translúcido en oscuro: se apoya sobre el fondo opaco de la página
+    background: linear-gradient(var(--dimsop-surface), var(--dimsop-surface)), var(--dimsop-bg);
     border-bottom: 1px solid var(--dimsop-surface-border);
+    box-shadow: var(--dimsop-shadow-lg);
     padding: 1.5rem;
     display: none;
 }
