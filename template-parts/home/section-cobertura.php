@@ -71,6 +71,16 @@ defined( 'ABSPATH' ) || exit;
                          src="<?php echo esc_url( dimsop_asset_url( 'images/banners/MAPA_clean.webp' ) ); ?>"
                          alt="<?php esc_attr_e( 'Mapa de cobertura Dimsop', 'dimsop' ); ?>" loading="lazy" decoding="async" />
                     <div id="dimsop-globe" class="dimsop-globe-container" aria-hidden="true"></div>
+                    <?php /* Indicador de carga: solo lo muestra el JS mientras descarga el globo; sin JS o sin WebGL queda el mapa. */ ?>
+                    <div class="dimsop-globe-loader" role="status" hidden>
+                        <span class="dimsop-globe-loader-mark" aria-hidden="true">
+                            <span class="dimsop-globe-loader-orbit"><span class="dimsop-globe-loader-satellite"></span></span>
+                            <span class="dimsop-globe-loader-disc">
+                                <img src="<?php echo esc_url( dimsop_asset_url( 'images/logos/logo-loader.webp' ) ); ?>" alt="" width="100" height="160" decoding="async" />
+                            </span>
+                        </span>
+                        <span class="dimsop-globe-loader-text"><?php esc_html_e( 'Cargando el globo de cobertura…', 'dimsop' ); ?></span>
+                    </div>
                 </div>
             </div>
         </div>

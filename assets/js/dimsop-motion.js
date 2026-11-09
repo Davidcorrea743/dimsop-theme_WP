@@ -506,11 +506,36 @@
             return; // Se queda el mapa estático.
         }
 
+        // Indicador de carga: aparece solo si la descarga tarda (evita un destello si es rápida).
+        var loader = wrap.querySelector( '.dimsop-globe-loader' );
+        var loaderTimer = null;
+
+        function showLoader() {
+            loaderTimer = window.setTimeout( function () {
+                if ( loader && ! wrap.classList.contains( 'is-globe-ready' ) ) {
+                    loader.hidden = false;
+                }
+            }, 250 );
+        }
+
+        function hideLoader() {
+            window.clearTimeout( loaderTimer );
+            if ( ! loader || loader.hidden ) {
+                return;
+            }
+            loader.classList.add( 'is-leaving' );
+            window.setTimeout( function () {
+                loader.hidden = true;
+                loader.classList.remove( 'is-leaving' );
+            }, 650 );
+        }
+
         var lazy = new window.IntersectionObserver( function ( entries ) {
             if ( ! entries[ 0 ].isIntersecting ) {
                 return;
             }
             lazy.disconnect();
+            showLoader();
             // Algunos paquetes de Globe.gl consultan process.env.
             window.process = window.process || { env: { NODE_ENV: 'production' } };
             Promise.all( [
@@ -522,8 +547,9 @@
                     return res.json();
                 } )
             ] ).then( function ( results ) {
-                buildGlobe( wrap, container, settings, results[ 1 ] );
+                buildGlobe( wrap, container, settings, results[ 1 ], hideLoader );
             } ).catch( function ( error ) {
+                hideLoader();
                 // Sin red o sin WebGL utilizable: el mapa estático sigue visible.
                 if ( window.console ) {
                     window.console.warn( 'Dimsop: el globo 3D no se pudo cargar.', error );
@@ -534,8 +560,9 @@
         lazy.observe( wrap );
     }
 
-    function buildGlobe( wrap, container, settings, countries ) {
+    function buildGlobe( wrap, container, settings, countries, onReady ) {
         if ( 'function' !== typeof window.Globe ) {
+            onReady();
             return;
         }
         var projects = settings.projects || {};
@@ -558,9 +585,12 @@
             return { type: 'hq', name: hq.name, lat: hq.lat, lng: hq.lng };
         } );
 
+        // Se mide la caja visible (wrap): el contenedor está oculto mientras no tiene canvas y
+        // mide 0 × 0; con 0, Globe.gl usa el tamaño de la ventana y en móvil (vertical) el
+        // globo quedaba dibujado por debajo de la caja, que se veía vacía.
         var world = new window.Globe( container, { animateIn: ! reduceMotion } )
-            .width( container.clientWidth )
-            .height( container.clientHeight )
+            .width( wrap.clientWidth )
+            .height( wrap.clientHeight )
             .backgroundColor( 'rgba(0,0,0,0)' )
             .globeImageUrl( settings.image )
             .showAtmosphere( true )
@@ -605,20 +635,38 @@
             } );
         }
 
+        window.dimsopGlobe = world; // referencia para depurar desde la consola
+
         var controls = world.controls();
         controls.enableZoom = false; // la rueda sigue moviendo la página
         controls.autoRotate = ! reduceMotion;
         controls.autoRotateSpeed = 0.8;
         if ( ! finePointer ) {
             // En pantallas táctiles el dedo debe desplazar la página, no girar el globo.
-            controls.enabled = false;
+            // Los controles siguen activos: Globe.gl solo actualiza la cámara (y el giro
+            // automático) si controls.enabled es true; desactivarlos dejaba la caja en negro.
+            controls.enableRotate = false;
+            controls.enablePan = false;
             var canvas = container.querySelector( 'canvas' );
             if ( canvas ) {
                 canvas.style.touchAction = 'pan-y';
             }
         }
 
-        wrap.classList.add( 'is-globe-ready' );
+        // El mapa estático se sustituye cuando el globo ya tiene su textura (no una esfera vacía).
+        var revealed = false;
+        function reveal() {
+            if ( revealed ) {
+                return;
+            }
+            revealed = true;
+            wrap.classList.add( 'is-globe-ready' );
+            onReady();
+        }
+        if ( 'function' === typeof world.onGlobeReady ) {
+            world.onGlobeReady( reveal );
+        }
+        window.setTimeout( reveal, 8000 ); // por si la textura no llega
 
         // No dibujar mientras la sección está fuera de pantalla.
         new window.IntersectionObserver( function ( entries ) {
@@ -631,8 +679,10 @@
 
         if ( window.ResizeObserver ) {
             new window.ResizeObserver( function () {
-                world.width( container.clientWidth ).height( container.clientHeight );
-            } ).observe( container );
+                if ( wrap.clientWidth && wrap.clientHeight ) {
+                    world.width( wrap.clientWidth ).height( wrap.clientHeight );
+                }
+            } ).observe( wrap );
         }
     }
 
