@@ -1,117 +1,198 @@
 <?php
 /**
- * Pie de página estándar del Tema Dimsop
+ * Pie de página del Tema Dimsop
+ *
+ * - Franja de cierre "¿Tienes un proyecto en mente?" (no se muestra en la portada,
+ *   que ya termina con el formulario de contacto).
+ * - Cuatro columnas: Marca, Navegación, Soluciones (unidades de negocio) y Sedes.
+ * - Las sedes son tarjetas compactas; el mapa de Google se carga solo si el
+ *   visitante pulsa "Ver mapa" (sin peso ni cookies de Google por defecto).
+ * - Barra legal: copyright, RIF, privacidad, redes y "Volver arriba".
  *
  * @package Dimsop
- * @version 1.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
+
+$dimsop_whatsapp = dimsop_sanitize_phone( dimsop_get_option( 'whatsapp_number', '582128195400' ) );
+$dimsop_email    = dimsop_get_option( 'contact_email' );
+
+// Unidades de negocio para la columna Soluciones (no tienen página propia: llevan a la sección).
+$dimsop_footer_units = dimsop_get_units( 8 )->posts;
+
+$dimsop_sedes = array(
+    array(
+        'id'      => 've',
+        'title'   => __( 'Venezuela', 'dimsop' ),
+        'city'    => __( 'Caracas', 'dimsop' ),
+        'address' => dimsop_get_option( 'address_ve' ),
+        'phone'   => dimsop_get_option( 'contact_phone_ve' ),
+        'url'     => dimsop_get_option( 'maps_url_ve' ),
+        'embed'   => dimsop_get_option( 'maps_embed_ve' ),
+    ),
+    array(
+        'id'      => 'us',
+        'title'   => __( 'Estados Unidos', 'dimsop' ),
+        'city'    => __( 'Miami', 'dimsop' ),
+        'address' => dimsop_get_option( 'address_us' ),
+        'phone'   => dimsop_get_option( 'contact_phone_us' ),
+        'url'     => dimsop_get_option( 'maps_url_us' ),
+        'embed'   => dimsop_get_option( 'maps_embed_us' ),
+    ),
+);
 ?>
 
-<footer id="dimsop_footer" class="dimsop-footer text-white">
-    <div class="container py-5">
-        <div class="row g-4">
-            <!-- Columna 1: Logo + Contacto general -->
-            <div class="col-lg-3 col-md-6">
-                <a class="dimsop-logo d-inline-block mb-3" href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php bloginfo( 'name' ); ?>">
-                    <img src="<?php echo esc_url( dimsop_asset_url( 'images/logos/logo_Dimsop_D_Degradado.webp' ) ); ?>"
-                         alt="<?php bloginfo( 'name' ); ?>" class="img-fluid dimsop-footer-logo-img" loading="lazy">
+<?php if ( ! is_front_page() ) : ?>
+    <!-- Franja de cierre -->
+    <section class="dimsop-footer-cta" aria-labelledby="dimsop-footer-cta-title">
+        <div class="container">
+            <div class="dimsop-footer-cta-inner">
+                <div>
+                    <h2 id="dimsop-footer-cta-title" class="dimsop-footer-cta-title"><?php esc_html_e( '¿Tienes un proyecto en mente?', 'dimsop' ); ?></h2>
+                    <p class="dimsop-footer-cta-text"><?php esc_html_e( 'Cuéntanos qué necesitas y te ayudamos a encontrar la solución tecnológica adecuada.', 'dimsop' ); ?></p>
+                </div>
+                <div class="dimsop-footer-cta-actions">
+                    <a class="dimsop-button" href="<?php echo esc_url( home_url( '/#contacto' ) ); ?>">
+                        <?php esc_html_e( 'Contáctanos', 'dimsop' ); ?> <i class="fa fa-arrow-right dimsop-button-arrow" aria-hidden="true"></i>
+                    </a>
+                    <?php if ( $dimsop_whatsapp ) : ?>
+                        <a class="dimsop-button dimsop-button--outline dimsop-footer-cta-outline" href="<?php echo esc_url( 'https://wa.me/' . $dimsop_whatsapp ); ?>" target="_blank" rel="noopener noreferrer">
+                            <i class="fa fa-whatsapp" aria-hidden="true"></i> <?php esc_html_e( 'WhatsApp', 'dimsop' ); ?>
+                            <span class="visually-hidden"><?php esc_html_e( '(se abre en una pestaña nueva)', 'dimsop' ); ?></span>
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </section>
+<?php endif; ?>
+
+<footer id="dimsop_footer" class="dimsop-footer">
+    <div class="container dimsop-footer-main">
+        <div class="row gy-4 gy-lg-5 gx-4">
+            <!-- Marca -->
+            <div class="col-12 col-lg-4 dimsop-footer-col dimsop-footer-brand">
+                <a class="dimsop-footer-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+                    <img src="<?php echo esc_url( dimsop_asset_url( 'images/logos/logo-footer-white.webp' ) ); ?>"
+                         alt="<?php bloginfo( 'name' ); ?>" class="dimsop-footer-logo-img" width="480" height="178" loading="lazy">
                 </a>
-                <p class="mb-2 dimsop-footer-contact-item">
-                    <i class="fa fa-envelope me-2" aria-hidden="true"></i>
-                    <a href="mailto:<?php echo esc_attr( dimsop_get_option( 'contact_email' ) ); ?>" class="text-white text-decoration-none">
-                        <?php echo esc_html( dimsop_get_option( 'contact_email' ) ); ?>
+                <p class="dimsop-footer-tagline"><?php esc_html_e( 'Soluciones TIC de Vanguardia', 'dimsop' ); ?></p>
+                <p class="dimsop-footer-about"><?php esc_html_e( 'Integramos nube, redes, ciberseguridad e inteligencia artificial para que tu empresa crezca con tecnología confiable.', 'dimsop' ); ?></p>
+                <span class="dimsop-footer-iso">
+                    <i class="fa fa-certificate" aria-hidden="true"></i>
+                    <?php esc_html_e( 'Rumbo a la certificación ISO 9001', 'dimsop' ); ?>
+                </span>
+                <?php if ( $dimsop_email ) : ?>
+                    <a class="dimsop-footer-email" href="<?php echo esc_attr( 'mailto:' . $dimsop_email ); ?>">
+                        <i class="fa fa-envelope-o" aria-hidden="true"></i> <?php echo esc_html( $dimsop_email ); ?>
                     </a>
-                </p>
-                <p class="mb-0 dimsop-footer-contact-item">
-                    <i class="fa fa-phone me-2" aria-hidden="true"></i>
-                    <a href="tel:<?php echo esc_attr( dimsop_sanitize_phone( dimsop_get_option( 'contact_phone_ve' ) ) ); ?>" class="text-white text-decoration-none">
-                        <?php echo esc_html( dimsop_get_option( 'contact_phone_ve' ) ); ?>
-                    </a>
-                </p>
+                <?php endif; ?>
             </div>
 
-            <!-- Columna 2: Navegación -->
-            <div class="col-lg-3 col-md-6">
-                <h5 class="dimsop-footer-title"><?php esc_html_e( 'Navegación', 'dimsop' ); ?></h5>
-                <ul class="list-unstyled">
+            <!-- Navegación -->
+            <nav class="col-6 col-lg-2 dimsop-footer-col" aria-labelledby="dimsop-footer-nav-title">
+                <h2 id="dimsop-footer-nav-title" class="dimsop-footer-title"><?php esc_html_e( 'Navegación', 'dimsop' ); ?></h2>
+                <ul class="dimsop-footer-links">
                     <li><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Inicio', 'dimsop' ); ?></a></li>
                     <li><a href="<?php echo esc_url( home_url( '/#nosotros' ) ); ?>"><?php esc_html_e( 'Nosotros', 'dimsop' ); ?></a></li>
-                    <li><a href="<?php echo esc_url( home_url( '/#unidades' ) ); ?>"><?php esc_html_e( 'Unidades de Negocio', 'dimsop' ); ?></a></li>
+                    <li><a href="<?php echo esc_url( home_url( '/catalogo/' ) ); ?>"><?php esc_html_e( 'Catálogo', 'dimsop' ); ?></a></li>
                     <li><a href="<?php echo esc_url( home_url( '/#blog' ) ); ?>"><?php esc_html_e( 'Blog', 'dimsop' ); ?></a></li>
                     <li><a href="<?php echo esc_url( home_url( '/#contacto' ) ); ?>"><?php esc_html_e( 'Contacto', 'dimsop' ); ?></a></li>
-                    <li><a href="<?php echo esc_url( home_url( '/politica-de-privacidad' ) ); ?>"><?php esc_html_e( 'Políticas de Privacidad', 'dimsop' ); ?></a></li>
                     <li>
                         <a href="#carreras" data-bs-toggle="modal" data-bs-target="#dimsop-carreras-modal">
                             <?php esc_html_e( 'Forma parte de nuestro equipo', 'dimsop' ); ?>
                         </a>
                     </li>
                 </ul>
-            </div>
+            </nav>
 
-            <!-- Columna 3: Sede Venezuela -->
-            <div class="col-lg-3 col-md-6 dimsop-footer-map-col">
-                <h5 class="dimsop-footer-title"><?php esc_html_e( 'Venezuela', 'dimsop' ); ?></h5>
-                <p class="dimsop-footer-address">
-                    <?php echo esc_html( dimsop_get_option( 'address_ve' ) ); ?>
-                </p>
-                <div class="dimsop-footer-map-wrap">
-                    <iframe class="dimsop-footer-map"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3922.7!2d-66.8227312!3d10.4967188!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8c2a57469c306ea3%3A0xe03812c021d2fc41!2sDIMSOP%20TECHNOLOGY%20VE!5e0!3m2!1ses!2sve!4v1700000000000"
-                            allowfullscreen="" loading="lazy"
-                            title="<?php esc_attr_e( 'Ubicación Venezuela', 'dimsop' ); ?>"></iframe>
-                </div>
-                <a href="https://www.google.com/maps/place/DIMSOP+TECHNOLOGY+VE/@10.4967188,-66.8227312,17z"
-                   target="_blank" rel="noopener noreferrer" class="dimsop-footer-map-link">
-                    <?php esc_html_e( 'Abrir en Google Maps →', 'dimsop' ); ?>
-                </a>
-                <p class="mt-2 mb-0 dimsop-footer-meta">
-                    <i class="fa fa-phone me-1" aria-hidden="true"></i>
-                    <?php echo esc_html( dimsop_get_option( 'contact_phone_ve' ) ); ?>
-                </p>
-                <p class="mt-1 mb-0 dimsop-footer-meta">
-                    <i class="fa fa-id-card me-1" aria-hidden="true"></i>
-                    RIF: <?php echo esc_html( dimsop_get_option( 'rif_ve' ) ); ?>
-                </p>
-            </div>
+            <!-- Soluciones -->
+            <?php if ( $dimsop_footer_units ) : ?>
+                <nav class="col-6 col-lg-3 dimsop-footer-col" aria-labelledby="dimsop-footer-units-title">
+                    <h2 id="dimsop-footer-units-title" class="dimsop-footer-title"><?php esc_html_e( 'Soluciones', 'dimsop' ); ?></h2>
+                    <ul class="dimsop-footer-links">
+                        <?php foreach ( $dimsop_footer_units as $dimsop_unit ) : ?>
+                            <li><a href="<?php echo esc_url( home_url( '/#unidades' ) ); ?>"><?php echo esc_html( get_the_title( $dimsop_unit ) ); ?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </nav>
+            <?php endif; ?>
 
-            <!-- Columna 4: Sede Estados Unidos -->
-            <div class="col-lg-3 col-md-6 dimsop-footer-map-col">
-                <h5 class="dimsop-footer-title"><?php esc_html_e( 'Estados Unidos', 'dimsop' ); ?></h5>
-                <p class="dimsop-footer-address">
-                    <?php echo esc_html( dimsop_get_option( 'address_us' ) ); ?>
-                </p>
-                <div class="dimsop-footer-map-wrap">
-                    <iframe class="dimsop-footer-map"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3585.5!2d-80.31312!3d25.8184393!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9ba2ed7a89c0f%3A0x19d982c9a758f0ce!2s4995%20NW%2072nd%20Ave%20%23205%2C%20Miami%2C%20FL%2033166!5e0!3m2!1ses!2sus!4v1700000000000"
-                            allowfullscreen="" loading="lazy"
-                            title="<?php esc_attr_e( 'Ubicación Estados Unidos', 'dimsop' ); ?>"></iframe>
+            <!-- Sedes -->
+            <div class="col-12 col-lg-3 dimsop-footer-col">
+                <h2 class="dimsop-footer-title"><?php esc_html_e( 'Sedes', 'dimsop' ); ?></h2>
+                <div class="dimsop-footer-sedes">
+                    <?php foreach ( $dimsop_sedes as $dimsop_sede ) : ?>
+                        <?php
+                        // Solo se acepta un mapa incrustado de Google Maps.
+                        $dimsop_embed = 0 === strpos( $dimsop_sede['embed'], 'https://www.google.com/maps/embed' ) ? $dimsop_sede['embed'] : '';
+                        $dimsop_map_id = 'dimsop-footer-map-' . $dimsop_sede['id'];
+                        ?>
+                        <div class="dimsop-footer-sede">
+                            <p class="dimsop-footer-sede-name">
+                                <span class="dimsop-footer-sede-dot" aria-hidden="true"></span>
+                                <?php echo esc_html( $dimsop_sede['title'] ); ?>
+                                <span class="dimsop-footer-sede-city">· <?php echo esc_html( $dimsop_sede['city'] ); ?></span>
+                            </p>
+                            <?php if ( $dimsop_sede['address'] ) : ?>
+                                <address class="dimsop-footer-sede-address"><?php echo esc_html( $dimsop_sede['address'] ); ?></address>
+                            <?php endif; ?>
+                            <?php if ( $dimsop_sede['phone'] ) : ?>
+                                <a class="dimsop-footer-sede-phone" href="<?php echo esc_attr( 'tel:' . dimsop_sanitize_phone( $dimsop_sede['phone'] ) ); ?>">
+                                    <i class="fa fa-phone" aria-hidden="true"></i> <?php echo esc_html( $dimsop_sede['phone'] ); ?>
+                                </a>
+                            <?php endif; ?>
+                            <div class="dimsop-footer-sede-actions">
+                                <?php if ( $dimsop_sede['url'] ) : ?>
+                                    <a href="<?php echo esc_url( $dimsop_sede['url'] ); ?>" target="_blank" rel="noopener noreferrer">
+                                        <?php esc_html_e( 'Cómo llegar', 'dimsop' ); ?> <i class="fa fa-external-link" aria-hidden="true"></i>
+                                        <span class="visually-hidden"><?php esc_html_e( '(se abre en una pestaña nueva)', 'dimsop' ); ?></span>
+                                    </a>
+                                <?php endif; ?>
+                                <?php if ( $dimsop_embed ) : ?>
+                                    <button type="button" class="dimsop-footer-map-toggle" aria-expanded="false" aria-controls="<?php echo esc_attr( $dimsop_map_id ); ?>" hidden>
+                                        <span class="dimsop-footer-map-toggle-show"><?php esc_html_e( 'Ver mapa', 'dimsop' ); ?></span>
+                                        <span class="dimsop-footer-map-toggle-hide"><?php esc_html_e( 'Ocultar mapa', 'dimsop' ); ?></span>
+                                    </button>
+                                <?php endif; ?>
+                            </div>
+                            <?php if ( $dimsop_embed ) : ?>
+                                <div id="<?php echo esc_attr( $dimsop_map_id ); ?>" class="dimsop-footer-map-wrap" hidden
+                                     data-src="<?php echo esc_url( $dimsop_embed ); ?>"
+                                     data-title="<?php /* translators: %s: país de la sede */ echo esc_attr( sprintf( __( 'Mapa de la sede de %s', 'dimsop' ), $dimsop_sede['title'] ) ); ?>"></div>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
-                <a href="https://www.google.com/maps/place/4995+NW+72nd+Ave+%23205,+Miami,+FL+33166/@25.8184393,-80.31312,17z"
-                   target="_blank" rel="noopener noreferrer" class="dimsop-footer-map-link">
-                    <?php esc_html_e( 'Abrir en Google Maps →', 'dimsop' ); ?>
-                </a>
-                <p class="mt-2 mb-0 dimsop-footer-meta">
-                    <i class="fa fa-phone me-1" aria-hidden="true"></i>
-                    <?php echo esc_html( dimsop_get_option( 'contact_phone_us' ) ); ?>
-                </p>
             </div>
         </div>
     </div>
 
-    <!-- Barra inferior (Copyright + Redes sociales) -->
+    <!-- Barra legal -->
     <div class="dimsop-footer-bottom">
-        <div class="container d-flex flex-wrap justify-content-between align-items-center py-3">
-            <span>&copy; <?php echo esc_html( date( 'Y' ) ); ?> Dimsop. <?php esc_html_e( 'Todos los derechos reservados.', 'dimsop' ); ?></span>
-            <div class="dimsop-social d-flex gap-2">
-                <a href="<?php echo esc_url( dimsop_get_option( 'linkedin_url' ) ); ?>"
-                   target="_blank" rel="noopener noreferrer" class="dimsop-social-btn" title="LinkedIn" aria-label="LinkedIn">
-                    <i class="fa fa-linkedin" aria-hidden="true"></i>
-                </a>
-                <a href="<?php echo esc_url( dimsop_get_option( 'instagram_url' ) ); ?>"
-                   target="_blank" rel="noopener noreferrer" class="dimsop-social-btn" title="Instagram" aria-label="Instagram">
-                    <i class="fa fa-instagram" aria-hidden="true"></i>
+        <div class="container dimsop-footer-bottom-inner">
+            <p class="dimsop-footer-legal">
+                &copy; <?php echo esc_html( wp_date( 'Y' ) ); ?> Dimsop Technology.
+                <?php esc_html_e( 'Todos los derechos reservados.', 'dimsop' ); ?>
+                <?php if ( dimsop_get_option( 'rif_ve' ) ) : ?>
+                    <span class="dimsop-footer-rif">RIF <?php echo esc_html( dimsop_get_option( 'rif_ve' ) ); ?></span>
+                <?php endif; ?>
+            </p>
+            <div class="dimsop-footer-bottom-end">
+                <a class="dimsop-footer-privacy" href="<?php echo esc_url( home_url( '/politica-de-privacidad/' ) ); ?>"><?php esc_html_e( 'Política de privacidad', 'dimsop' ); ?></a>
+                <?php /* Día 11: aquí irá el selector de idioma ES/EN. */ ?>
+                <div class="dimsop-social">
+                    <a href="<?php echo esc_url( dimsop_get_option( 'linkedin_url' ) ); ?>"
+                       target="_blank" rel="noopener noreferrer" class="dimsop-social-btn" aria-label="<?php esc_attr_e( 'LinkedIn (se abre en una pestaña nueva)', 'dimsop' ); ?>">
+                        <i class="fa fa-linkedin" aria-hidden="true"></i>
+                    </a>
+                    <a href="<?php echo esc_url( dimsop_get_option( 'instagram_url' ) ); ?>"
+                       target="_blank" rel="noopener noreferrer" class="dimsop-social-btn" aria-label="<?php esc_attr_e( 'Instagram (se abre en una pestaña nueva)', 'dimsop' ); ?>">
+                        <i class="fa fa-instagram" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <a class="dimsop-back-to-top" href="#page-top" aria-label="<?php esc_attr_e( 'Volver arriba', 'dimsop' ); ?>">
+                    <i class="fa fa-arrow-up" aria-hidden="true"></i>
                 </a>
             </div>
         </div>
@@ -119,12 +200,9 @@ defined( 'ABSPATH' ) || exit;
 </footer>
 
 <!-- Botón flotante persistente de WhatsApp -->
-<?php
-$whatsapp_num = dimsop_sanitize_phone( dimsop_get_option( 'whatsapp_number', '582128195400' ) );
-if ( ! empty( $whatsapp_num ) ) :
-?>
+<?php if ( ! empty( $dimsop_whatsapp ) ) : ?>
     <a id="dimsop-whatsapp-float"
-       href="<?php echo esc_url( 'https://wa.me/' . $whatsapp_num ); ?>"
+       href="<?php echo esc_url( 'https://wa.me/' . $dimsop_whatsapp ); ?>"
        target="_blank" rel="noopener noreferrer"
        title="<?php esc_attr_e( 'Contáctanos por WhatsApp', 'dimsop' ); ?>"
        aria-label="<?php esc_attr_e( 'WhatsApp', 'dimsop' ); ?>">

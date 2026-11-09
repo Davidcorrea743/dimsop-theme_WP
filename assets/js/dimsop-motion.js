@@ -154,39 +154,89 @@
      * La animación se reproduce cada vez que el bloque entra en pantalla,
      * bajando o subiendo. Solo se rearma (vuelve a su estado inicial) cuando
      * el bloque salió del todo de la pantalla, así nunca se ve desaparecer.
+     *
+     * Mientras ScrollTrigger recalcula (cambio de tamaño de ventana, giro del
+     * móvil, contenido que crece como el mapa del footer) sus callbacks pueden
+     * dispararse con posiciones intermedias: se ignoran y, al terminar, cada
+     * bloque se sincroniza con la posición real.
      * ------------------------------------------------------------------ */
+    var entries = [];
+    var refreshing = false;
+    var refreshListening = false;
+
+    function syncEntries() {
+        // Tras el evento ScrollTrigger aún restaura el scroll: se espera un turno.
+        window.setTimeout( function () {
+            refreshing = false;
+            entries.forEach( function ( entry ) {
+                entry.sync();
+            } );
+        }, 0 );
+    }
+
     function onEachEntry( ScrollTrigger, trigger, play, reset, start ) {
         var armed = true;
 
-        ScrollTrigger.create( {
+        if ( ! refreshListening ) {
+            refreshListening = true;
+            ScrollTrigger.addEventListener( 'refreshInit', function () {
+                refreshing = true;
+            } );
+            ScrollTrigger.addEventListener( 'refresh', syncEntries );
+        }
+
+        var playTrigger = ScrollTrigger.create( {
             trigger: trigger,
             start: start || 'top 88%',
             end: 'bottom 12%',
             onEnter: function () {
-                if ( armed ) {
+                if ( armed && ! refreshing ) {
                     armed = false;
                     play( 1 );
                 }
             },
             onEnterBack: function () {
-                if ( armed ) {
+                if ( armed && ! refreshing ) {
                     armed = false;
                     play( -1 );
                 }
             }
         } );
 
-        ScrollTrigger.create( {
+        var resetTrigger = ScrollTrigger.create( {
             trigger: trigger,
             start: 'top bottom',
             end: 'bottom top',
             onLeave: function () {
-                armed = true;
-                reset( -1 ); // quedó por encima: al volver entrará desde arriba
+                if ( ! refreshing ) {
+                    armed = true;
+                    reset( -1 ); // quedó por encima: al volver entrará desde arriba
+                }
             },
             onLeaveBack: function () {
-                armed = true;
-                reset( 1 ); // quedó por debajo: entrará desde abajo
+                if ( ! refreshing ) {
+                    armed = true;
+                    reset( 1 ); // quedó por debajo: entrará desde abajo
+                }
+            }
+        } );
+
+        // Se compara con la posición real del scroll (isActive aún puede reflejar
+        // las posiciones intermedias del recálculo).
+        entries.push( {
+            sync: function () {
+                var y = resetTrigger.scroll();
+                var inPlay = y >= playTrigger.start && y <= playTrigger.end;
+                var onScreen = y > resetTrigger.start && y < resetTrigger.end;
+                if ( inPlay && armed ) {
+                    // Está en pantalla y no se había mostrado: se muestra.
+                    armed = false;
+                    play( 1 );
+                } else if ( ! onScreen && ! armed ) {
+                    // Quedó fuera de la pantalla ya mostrado: se rearma.
+                    armed = true;
+                    reset( y >= resetTrigger.end ? -1 : 1 );
+                }
             }
         } );
     }
@@ -246,7 +296,9 @@
             '.dimsop-metodologia-container',
             '#metodologia .d-md-none',
             '.dimsop-cobertura-text',
-            '#contacto form'
+            '#contacto form',
+            '.dimsop-footer-cta-inner',
+            '.dimsop-footer-col'
         ].join( ',' );
         var items = toArray( document.querySelectorAll( selector ) );
         if ( ! items.length ) {

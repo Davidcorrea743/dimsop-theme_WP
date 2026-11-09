@@ -902,7 +902,68 @@
         } );
     }
 
+    /**
+     * Footer: el mapa de cada sede se crea solo cuando el visitante pulsa "Ver mapa".
+     * Así la página no descarga Google Maps ni sus cookies si nadie lo pide.
+     */
+    function initFooterMaps() {
+        var toggles = document.querySelectorAll( '.dimsop-footer-map-toggle' );
+        Array.prototype.forEach.call( toggles, function ( toggle ) {
+            var wrap = document.getElementById( toggle.getAttribute( 'aria-controls' ) );
+            if ( ! wrap || ! wrap.getAttribute( 'data-src' ) ) {
+                return;
+            }
+            toggle.hidden = false;
+            toggle.addEventListener( 'click', function () {
+                var open = 'true' !== toggle.getAttribute( 'aria-expanded' );
+                if ( open && ! wrap.querySelector( 'iframe' ) ) {
+                    var frame = document.createElement( 'iframe' );
+                    frame.src = wrap.getAttribute( 'data-src' );
+                    frame.title = wrap.getAttribute( 'data-title' ) || '';
+                    frame.loading = 'lazy';
+                    frame.referrerPolicy = 'no-referrer-when-downgrade';
+                    frame.setAttribute( 'allowfullscreen', '' );
+                    wrap.appendChild( frame );
+                }
+                wrap.hidden = ! open;
+                toggle.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
+                // La altura de la página cambió: que ScrollTrigger recalcule.
+                if ( window.ScrollTrigger ) {
+                    window.ScrollTrigger.refresh();
+                }
+            } );
+        } );
+    }
+
+    /**
+     * "Volver arriba": desplazamiento suave hasta el inicio, sin dejar #page-top en la URL.
+     * Corta la propagación para que el manejador general de anclas (en document) no actúe.
+     */
+    function initBackToTop() {
+        var button = document.querySelector( '.dimsop-back-to-top' );
+        if ( ! button ) {
+            return;
+        }
+        button.addEventListener( 'click', function ( e ) {
+            e.preventDefault();
+            e.stopPropagation();
+            var reduce = window.matchMedia && window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
+            if ( window.dimsopLenis ) {
+                window.dimsopLenis.scrollTo( 0, { immediate: reduce } );
+            } else {
+                window.scrollTo( { top: 0, behavior: reduce ? 'auto' : 'smooth' } );
+            }
+            // El foco vuelve al principio para quien navega con teclado.
+            var skip = document.querySelector( '.dimsop-logo' );
+            if ( skip ) {
+                skip.focus( { preventScroll: true } );
+            }
+        } );
+    }
+
     function init() {
+        initFooterMaps();
+        initBackToTop();
         initDarkMode();
         initBannerMedia();
         initSpotlight();

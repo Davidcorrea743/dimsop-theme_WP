@@ -1,125 +1,533 @@
 /* =====================================================================
- * DIMSOP - PIE DE PÁGINA (FOOTER) Y COMPONENTES RELACIONADOS
- * Reemplaza completamente los estilos en línea del footer original
+ * DIMSOP - FRANJA DE CIERRE, PIE DE PÁGINA Y BOTÓN DE WHATSAPP
+ * El footer usa el azul corporativo fijo en los dos modos: en oscuro el
+ * token --dimsop-primary coincide con el fondo de la página y se perdería.
  * ===================================================================== */
 
-.dimsop-footer {
-    background-color: var(--dimsop-primary-dark);
+$footer-bg-top: #003362;
+$footer-bg-bottom: #021d3a;
+$footer-text: rgba(255, 255, 255, 0.72);
+$footer-muted: rgba(255, 255, 255, 0.55);
+$footer-line: rgba(255, 255, 255, 0.1);
+
+/* --------------------------- Franja de cierre ------------------------ */
+.dimsop-footer-cta {
+    padding: 4rem 0 0;
+    background: var(--dimsop-bg);
+
+    @media (max-width: 767.98px) {
+        padding-top: 3rem;
+    }
+}
+
+.dimsop-footer-cta-inner {
     position: relative;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem 2rem;
+    overflow: hidden;
+    margin-bottom: -3.5rem; // monta sobre el footer
+    padding: 2.5rem 3rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--dimsop-radius-lg);
+    background:
+        radial-gradient(ellipse 60% 120% at 100% 0%, rgba(77, 163, 47, 0.35), transparent 60%),
+        linear-gradient(120deg, #003362 0%, #0a3d73 55%, #0f4c81 100%);
+    box-shadow: var(--dimsop-shadow-lg);
+    color: #fff;
+    z-index: 1;
+
+    // Cuadrícula de puntos, como en el banner
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1.5px);
+        background-size: 20px 20px;
+        -webkit-mask-image: linear-gradient(90deg, transparent 30%, #000);
+        mask-image: linear-gradient(90deg, transparent 30%, #000);
+        pointer-events: none;
+    }
+
+    > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    @media (max-width: 767.98px) {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 2rem 1.5rem;
+    }
+}
+
+.dimsop-footer-cta-title {
+    margin: 0 0 0.35rem;
+    color: #fff;
+    font-family: var(--dimsop-font-heading);
+    font-size: clamp(1.75rem, 3.5vw, 2.4rem);
+    letter-spacing: 1px;
+}
+
+.dimsop-footer-cta-text {
+    max-width: 520px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.dimsop-footer-cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.dimsop-footer-cta-outline {
+    border-color: rgba(255, 255, 255, 0.45);
+    color: #fff;
+
+    &:hover,
+    &:focus-visible {
+        border-color: #25d366;
+        background: #25d366;
+        color: #fff;
+    }
+}
+
+/* ------------------------------- Footer ------------------------------ */
+.dimsop-footer {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, $footer-bg-top 0%, $footer-bg-bottom 100%);
+    color: $footer-text;
+    font-size: 0.92rem;
+
+    // Línea superior en degradado verde → azul claro
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--dimsop-accent), #2f8fd8 60%, transparent);
+    }
+
+    // Puntos muy tenues en la parte alta
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1.5px);
+        background-size: 22px 22px;
+        -webkit-mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, #000 10%, transparent 70%);
+        mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, #000 10%, transparent 70%);
+        pointer-events: none;
+    }
+
+    > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+        outline: none;
+        border-radius: 4px;
+        box-shadow: var(--dimsop-ring);
+    }
+}
+
+// Con la franja de cierre el contenido baja para dejar sitio a la tarjeta que monta encima
+.dimsop-footer-cta + .dimsop-footer .dimsop-footer-main {
+    padding-top: 7rem;
+}
+
+.dimsop-footer-main {
+    padding-top: 4.5rem;
+    padding-bottom: 3.5rem;
+
+    @media (max-width: 991.98px) {
+        padding-bottom: 2.5rem;
+    }
+}
+
+/* Marca */
+.dimsop-footer-logo {
+    display: inline-block;
+    margin-bottom: 1rem;
 }
 
 .dimsop-footer-logo-img {
-    max-height: 140px;
     width: auto;
+    height: 56px;
 }
 
-.dimsop-footer-title {
-    font-family: var(--dimsop-font-heading);
-    font-size: 1.25rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--dimsop-white);
-    margin-bottom: 1.25rem;
-    position: relative;
-    padding-bottom: 0.5rem;
-}
-
-.dimsop-footer-title::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 35px;
-    height: 2px;
-    background-color: var(--dimsop-accent);
-}
-
-.dimsop-footer ul li {
-    margin-bottom: 0.65rem;
-}
-
-.dimsop-footer ul li a {
-    color: rgba(255, 255, 255, 0.75);
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: color 0.2s ease, padding-left 0.2s ease;
-}
-
-.dimsop-footer ul li a:hover {
-    color: var(--dimsop-accent);
-    padding-left: 4px;
-}
-
-.dimsop-footer-contact-item {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.85);
-}
-
-.dimsop-footer-address {
-    font-size: 0.85rem;
-    line-height: 1.5;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 0.75rem;
-}
-
-.dimsop-footer-meta {
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.dimsop-footer-map-wrap {
-    width: 100%;
-    height: 130px;
-    border-radius: 8px;
-    overflow: hidden;
+.dimsop-footer-tagline {
     margin-bottom: 0.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-family: var(--dimsop-font-heading);
+    font-size: 1.15rem;
+    letter-spacing: 1px;
 }
 
-.dimsop-footer-map {
-    width: 100%;
-    height: 100%;
-    border: 0;
+.dimsop-footer-about {
+    max-width: 340px;
+    margin-bottom: 1.25rem;
+    line-height: 1.65;
 }
 
-.dimsop-footer-map-link {
+.dimsop-footer-iso {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid rgba(77, 163, 47, 0.45);
+    border-radius: 999px;
+    background: rgba(77, 163, 47, 0.12);
+    color: #c9efb8;
     font-size: 0.8rem;
-    color: var(--dimsop-accent);
-    text-decoration: none;
-    display: inline-block;
-    transition: color 0.2s ease;
+    font-weight: 600;
+
+    .fa {
+        color: var(--dimsop-accent);
+    }
 }
 
-.dimsop-footer-map-link:hover {
-    color: #7dd956;
-    text-decoration: underline;
+.dimsop-footer-email {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    width: fit-content;
+    color: #fff !important;
+    font-weight: 600;
+
+    .fa {
+        color: var(--dimsop-accent);
+    }
+
+    &:hover {
+        color: var(--dimsop-accent) !important;
+    }
 }
 
+/* Títulos de columna */
+.dimsop-footer-title {
+    margin-bottom: 1.1rem;
+    color: #fff;
+    font-family: var(--dimsop-font-heading);
+    font-size: 1.15rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+/* Listas de enlaces: el subrayado crece sin mover el texto */
+.dimsop-footer-links {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li + li {
+        margin-top: 0.55rem;
+    }
+
+    a {
+        display: inline-block;
+        background: linear-gradient(var(--dimsop-accent), var(--dimsop-accent)) no-repeat 0 100% / 0 1px;
+        line-height: 1.45;
+        transition: color 0.2s ease, background-size 0.3s var(--dimsop-ease-out);
+
+        &:hover,
+        &:focus-visible {
+            background-size: 100% 1px;
+            color: #fff;
+        }
+    }
+}
+
+/* Sedes */
+.dimsop-footer-sedes {
+    display: grid;
+    gap: 0.85rem;
+
+    // En tablet las dos sedes van lado a lado
+    @media (min-width: 576px) and (max-width: 991.98px) {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.dimsop-footer-sede {
+    padding: 1rem 1.1rem;
+    border: 1px solid $footer-line;
+    border-radius: var(--dimsop-radius);
+    background: rgba(255, 255, 255, 0.04);
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+
+    &:hover {
+        border-color: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.06);
+    }
+}
+
+.dimsop-footer-sede-name {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
+    color: #fff;
+    font-weight: 700;
+}
+
+.dimsop-footer-sede-dot {
+    flex: 0 0 auto;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--dimsop-accent);
+    box-shadow: 0 0 0 3px rgba(77, 163, 47, 0.25);
+}
+
+.dimsop-footer-sede-city {
+    color: $footer-muted;
+    font-weight: 400;
+}
+
+.dimsop-footer-sede-address {
+    margin-bottom: 0.4rem;
+    color: $footer-text;
+    font-size: 0.84rem;
+    font-style: normal;
+    line-height: 1.5;
+}
+
+.dimsop-footer-sede-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.84rem;
+
+    &:hover {
+        color: #fff !important;
+    }
+}
+
+.dimsop-footer-sede-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1rem;
+    margin-top: 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    a,
+    button {
+        padding: 0;
+        border: 0;
+        background: none;
+        color: var(--dimsop-accent) !important;
+        font: inherit;
+        cursor: pointer;
+
+        &:hover {
+            color: #8fd96f !important;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+    }
+
+    .fa {
+        font-size: 0.75em;
+    }
+}
+
+.dimsop-footer-map-toggle {
+    &[aria-expanded="false"] .dimsop-footer-map-toggle-hide,
+    &[aria-expanded="true"] .dimsop-footer-map-toggle-show {
+        display: none;
+    }
+}
+
+// Mapa bajo demanda, oscurecido para que no sea una mancha blanca
+.dimsop-footer-map-wrap {
+    overflow: hidden;
+    height: 170px;
+    margin-top: 0.75rem;
+    border: 1px solid $footer-line;
+    border-radius: var(--dimsop-radius-sm);
+    background: rgba(255, 255, 255, 0.04);
+
+    &[hidden] {
+        display: none;
+    }
+
+    iframe {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        filter: invert(0.9) hue-rotate(180deg) saturate(0.8) brightness(0.95);
+    }
+}
+
+/* ----------------------------- Barra legal --------------------------- */
 .dimsop-footer-bottom {
-    background-color: rgba(0, 0, 0, 0.25);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.6);
+    border-top: 1px solid $footer-line;
+    background: rgba(0, 0, 0, 0.18);
+    color: $footer-muted;
+    font-size: 0.82rem;
 }
 
-.dimsop-social-btn {
+.dimsop-footer-bottom-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 1.5rem;
+    padding-top: 1.1rem;
+    padding-bottom: 1.1rem;
+
+    @media (max-width: 767.98px) {
+        flex-direction: column-reverse;
+        text-align: center;
+        // Deja sitio al botón flotante de WhatsApp
+        padding-bottom: 5.5rem;
+    }
+}
+
+.dimsop-footer-legal {
+    margin: 0;
+}
+
+.dimsop-footer-rif {
+    white-space: nowrap;
+
+    &::before {
+        content: "·";
+        margin: 0 0.4rem;
+    }
+}
+
+.dimsop-footer-bottom-end {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem 1.25rem;
+}
+
+.dimsop-footer-privacy:hover {
+    color: #fff !important;
+    text-decoration: underline !important;
+    text-underline-offset: 3px;
+}
+
+.dimsop-social {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.dimsop-social-btn,
+.dimsop-back-to-top {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: 38px;
+    height: 38px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    color: var(--dimsop-white);
-    text-decoration: none;
-    border: 1px solid var(--dimsop-white);
-    transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff !important;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s var(--dimsop-ease-out);
+
+    &:hover {
+        border-color: var(--dimsop-accent);
+        background: var(--dimsop-accent);
+        transform: translateY(-2px);
+    }
+
+    &:focus-visible {
+        border-radius: 50% !important;
+    }
 }
 
-.dimsop-social-btn:hover {
-    background: var(--dimsop-accent);
-    color: var(--dimsop-white);
-    border-color: var(--dimsop-accent);
-    transform: translateY(-2px);
+.dimsop-back-to-top {
+    border-radius: var(--dimsop-radius-sm);
+
+    &:focus-visible {
+        border-radius: var(--dimsop-radius-sm) !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dimsop-footer-links a,
+    .dimsop-social-btn,
+    .dimsop-back-to-top {
+        transition: none;
+    }
+}
+
+/* ------------------------------- Móvil -------------------------------- */
+/* Compacto: marca centrada sin el párrafo largo, navegación y soluciones lado a lado */
+@media (max-width: 575.98px) {
+    .dimsop-footer-cta + .dimsop-footer .dimsop-footer-main {
+        padding-top: 5.5rem;
+    }
+
+    .dimsop-footer-main {
+        padding-top: 3rem;
+        padding-bottom: 2rem;
+    }
+
+    .dimsop-footer-brand {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .dimsop-footer-logo {
+        margin-bottom: 0.6rem;
+    }
+
+    .dimsop-footer-logo-img {
+        height: 48px;
+    }
+
+    .dimsop-footer-about {
+        display: none;
+    }
+
+    .dimsop-footer-iso {
+        margin-bottom: 0.9rem;
+    }
+
+    .dimsop-footer-title {
+        margin-bottom: 0.75rem;
+        font-size: 1.05rem;
+    }
+
+    .dimsop-footer-links {
+        font-size: 0.86rem;
+
+        li + li {
+            margin-top: 0.4rem;
+        }
+    }
+
+    .dimsop-footer-sede {
+        padding: 0.85rem 0.95rem;
+    }
+
+    .dimsop-footer-bottom-inner {
+        gap: 0.75rem;
+        padding-bottom: 4.75rem;
+    }
 }

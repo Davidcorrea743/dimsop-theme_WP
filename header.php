@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
     <?php wp_head(); ?>
 </head>
 
-<body <?php body_class( 'dimsop-body' ); ?>>
+<body id="page-top" <?php body_class( 'dimsop-body' ); ?>>
 <?php wp_body_open(); ?>
 
 <!-- Header corporativo Dimsop -->

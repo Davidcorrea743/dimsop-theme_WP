@@ -36,6 +36,10 @@ function dimsop_get_option_fields() {
                 'address_ve' => array( 'label' => __( 'Dirección Venezuela', 'dimsop' ), 'type' => 'textarea' ),
                 'address_us' => array( 'label' => __( 'Dirección Estados Unidos', 'dimsop' ), 'type' => 'textarea' ),
                 'rif_ve'     => array( 'label' => __( 'RIF', 'dimsop' ), 'type' => 'text' ),
+                'maps_url_ve'   => array( 'label' => __( 'Enlace "Cómo llegar" Venezuela', 'dimsop' ), 'type' => 'url', 'help' => __( 'Enlace de Google Maps que se abre en una pestaña nueva.', 'dimsop' ) ),
+                'maps_embed_ve' => array( 'label' => __( 'Mapa incrustado Venezuela', 'dimsop' ), 'type' => 'url', 'help' => __( 'En Google Maps: Compartir › Insertar un mapa, y copiar solo la dirección del atributo src. Debe empezar por https://www.google.com/maps/embed', 'dimsop' ) ),
+                'maps_url_us'   => array( 'label' => __( 'Enlace "Cómo llegar" Estados Unidos', 'dimsop' ), 'type' => 'url' ),
+                'maps_embed_us' => array( 'label' => __( 'Mapa incrustado Estados Unidos', 'dimsop' ), 'type' => 'url', 'help' => __( 'Debe empezar por https://www.google.com/maps/embed', 'dimsop' ) ),
             ),
         ),
         'redes'    => array(
