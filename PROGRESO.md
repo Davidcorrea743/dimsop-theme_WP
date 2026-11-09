@@ -51,6 +51,7 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 | 2026-11-06 | 6 | Autores y colaboradores podían ver los Prospectos | Usaba los permisos normales de entradas | Solo administradores y editores (`edit_others_posts`), también por URL directa |
 | 2026-11-06 | 6 | Yoast publicaba los autores en el sitemap, y el tema oculta los usuarios | Yoast activa los archivos de autor por defecto | Archivos de autor desactivados en Yoast |
 | 2026-11-07 | 7 | El globo 3D no se dibujaba | Globe.gl 2.33.1 no tiene `htmlElementVisibilityModifier`, que usaba el código de Odoo | Versión 2.42.0 y la llamada pasa a ser opcional; si el globo falla queda el mapa y un aviso en consola |
+| 2026-11-09 | 8 | Las animaciones solo se veían la primera vez | Cada revelado usaba `once: true` | `onEachEntry()`: se reproducen cada vez que el bloque entra, bajando o subiendo, y se rearman solo cuando salió del todo de la pantalla. El banner sigue siendo una entrada única |
 | 2026-11-04 | 5 | Al enviar el formulario la página recargaba y bajaba desde el inicio | Envío por POST con redirección | `initContactForm()` envía por AJAX (adelantado del Día 8); aviso junto al botón que desaparece al minuto |
 | 2026-11-04 | 5 | Correo, teléfono y WhatsApp repetidos en Contacto | Ya están en el footer y el botón flotante | Se elimina la franja; queda solo el formulario, con los opcionales marcados |
 | 2026-11-04 | 5 | Los errores del formulario no mostraban aviso | `?error=` es una variable reservada de WordPress | El handler redirige con `?form_error=` |
@@ -71,6 +72,7 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 - Prospectos: solo administradores y editores. Postulaciones: solo administradores.
 - Modo oscuro por defecto, igual que el sitio original; el modo claro solo si el visitante lo elige.
 - Respaldos con UpdraftPlus (decisión de Claude, gratuito y sin coste de servicio; se puede cambiar antes del Día 19).
+- Animaciones de sección: se repiten al volver a entrar (contadores, títulos, tarjetas, ISO, globo); las tarjetas entran desde abajo al bajar y desde arriba al subir. El banner solo se anima al cargar.
 - Animación: con "reducir movimiento" no hay Lenis, revelados ni giro del globo. En pantallas táctiles no hay botones magnéticos ni desenfoque, y el dedo desplaza la página en vez de girar el globo.
 - Globo: datos de países y textura servidos desde el tema (no desde GitHub, como en Odoo). Globe.gl se descarga de jsDelivr solo al acercarse a Sedes (~1,7 MB).
 

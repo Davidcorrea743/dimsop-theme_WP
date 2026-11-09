@@ -149,9 +149,61 @@
     }
 
     /* ------------------------------------------------------------------
+     * Repetición al volver a entrar
+     *
+     * La animación se reproduce cada vez que el bloque entra en pantalla,
+     * bajando o subiendo. Solo se rearma (vuelve a su estado inicial) cuando
+     * el bloque salió del todo de la pantalla, así nunca se ve desaparecer.
+     * ------------------------------------------------------------------ */
+    function onEachEntry( ScrollTrigger, trigger, play, reset, start ) {
+        var armed = true;
+
+        ScrollTrigger.create( {
+            trigger: trigger,
+            start: start || 'top 88%',
+            end: 'bottom 12%',
+            onEnter: function () {
+                if ( armed ) {
+                    armed = false;
+                    play( 1 );
+                }
+            },
+            onEnterBack: function () {
+                if ( armed ) {
+                    armed = false;
+                    play( -1 );
+                }
+            }
+        } );
+
+        ScrollTrigger.create( {
+            trigger: trigger,
+            start: 'top bottom',
+            end: 'bottom top',
+            onLeave: function () {
+                armed = true;
+                reset( -1 ); // quedó por encima: al volver entrará desde arriba
+            },
+            onLeaveBack: function () {
+                armed = true;
+                reset( 1 ); // quedó por debajo: entrará desde abajo
+            }
+        } );
+    }
+
+    /** Atajo para una línea de tiempo en pausa: se reproduce al entrar y vuelve a 0 al salir. */
+    function replayTimeline( ScrollTrigger, trigger, timeline, start ) {
+        onEachEntry( ScrollTrigger, trigger, function () {
+            timeline.restart();
+        }, function () {
+            timeline.pause( 0 );
+        }, start );
+    }
+
+    /* ------------------------------------------------------------------
      * Encabezados de sección
      * ------------------------------------------------------------------ */
-    function initSectionHeads( gsap ) {
+    function initSectionHeads( gsap, ScrollTrigger ) {
         toArray( document.querySelectorAll( '.dimsop-section h2.dimsop-h2' ) ).forEach( function ( title ) {
             var badge = title.previousElementSibling;
             var lead = title.nextElementSibling;
@@ -159,7 +211,7 @@
             lead = lead && 'P' === lead.tagName ? lead : null;
 
             var words = splitWords( title );
-            var tl = gsap.timeline( { scrollTrigger: { trigger: title, start: 'top 88%', once: true } } );
+            var tl = gsap.timeline( { paused: true } );
 
             if ( badge ) {
                 tl.from( badge, { y: 12, autoAlpha: 0, duration: 0.5, ease: 'power2.out' } );
@@ -179,6 +231,8 @@
                     clearProps: 'filter'
                 }, '-=0.5' );
             }
+
+            replayTimeline( ScrollTrigger, title, tl );
         } );
     }
 
@@ -201,50 +255,65 @@
         // El desenfoque cuesta en móviles: solo con ratón.
         var blur = finePointer ? 'blur(6px)' : 'blur(0px)';
 
-        gsap.set( items, { autoAlpha: 0, y: 36, filter: blur } );
-        ScrollTrigger.batch( items, {
-            start: 'top 90%',
-            once: true,
-            onEnter: function ( batch ) {
-                gsap.to( batch, {
-                    autoAlpha: 1,
-                    y: 0,
-                    filter: 'blur(0px)',
-                    duration: 0.85,
-                    ease: 'power3.out',
-                    stagger: 0.09,
-                    overwrite: true,
-                    // Al terminar se devuelve el control al CSS (hover de las tarjetas).
-                    clearProps: 'transform,filter,opacity,visibility'
-                } );
-            }
+        function hide( item, direction ) {
+            gsap.killTweensOf( item );
+            gsap.set( item, { autoAlpha: 0, y: 36 * direction, filter: blur } );
+        }
+
+        // Las tarjetas que entran a la vez se escalonan entre sí.
+        var queue = [];
+        var flushId = null;
+
+        function flush() {
+            flushId = null;
+            gsap.to( queue.splice( 0 ), {
+                autoAlpha: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                duration: 0.85,
+                ease: 'power3.out',
+                stagger: 0.09,
+                overwrite: true,
+                // Al terminar se devuelve el control al CSS (hover de las tarjetas).
+                clearProps: 'transform,filter,opacity,visibility'
+            } );
+        }
+
+        items.forEach( function ( item ) {
+            hide( item, 1 );
+            onEachEntry( ScrollTrigger, item, function () {
+                queue.push( item );
+                if ( null === flushId ) {
+                    flushId = window.setTimeout( flush, 0 );
+                }
+            }, function ( direction ) {
+                hide( item, direction );
+            }, 'top 90%' );
         } );
 
         var iso = document.querySelector( '.dimsop-iso' );
         if ( iso ) {
-            gsap.from( iso, {
+            replayTimeline( ScrollTrigger, iso, gsap.timeline( { paused: true } ).from( iso, {
                 x: -60,
                 autoAlpha: 0,
                 duration: 0.8,
                 ease: 'power3.out',
-                clearProps: 'transform,opacity,visibility',
-                scrollTrigger: { trigger: iso, start: 'top 95%', once: true }
-            } );
+                clearProps: 'transform,opacity,visibility'
+            } ), 'top 95%' );
         }
 
         var globe = document.getElementById( 'dimsop-globe-wrap' );
         if ( globe ) {
-            gsap.fromTo( globe,
+            replayTimeline( ScrollTrigger, globe, gsap.timeline( { paused: true } ).fromTo( globe,
                 { clipPath: 'inset(10% 18% 10% 18% round 1.5rem)', autoAlpha: 0 },
                 {
                     clipPath: 'inset(0% 0% 0% 0% round 0rem)',
                     autoAlpha: 1,
                     duration: 1.2,
                     ease: 'power3.out',
-                    clearProps: 'clipPath,opacity,visibility',
-                    scrollTrigger: { trigger: globe, start: 'top 85%', once: true }
+                    clearProps: 'clipPath,opacity,visibility'
                 }
-            );
+            ), 'top 85%' );
         }
     }
 
@@ -291,20 +360,22 @@
                 strips.push( { strip: strip, stop: 10 + Number( digit ) } );
             } );
 
-            ScrollTrigger.create( {
-                trigger: el,
-                start: 'top 85%',
-                once: true,
-                onEnter: function () {
-                    strips.forEach( function ( item, index ) {
-                        gsap.to( item.strip, {
-                            yPercent: -( item.stop / 20 ) * 100,
-                            duration: 1.6 + index * 0.25,
-                            ease: 'power3.out'
-                        } );
+            // Gira cada vez que la sección entra en pantalla; fuera de ella vuelve a 0.
+            onEachEntry( ScrollTrigger, el, function () {
+                strips.forEach( function ( item, index ) {
+                    gsap.fromTo( item.strip, { yPercent: 0 }, {
+                        yPercent: -( item.stop / 20 ) * 100,
+                        duration: 1.6 + index * 0.25,
+                        ease: 'power3.out',
+                        overwrite: true
                     } );
-                }
-            } );
+                } );
+            }, function () {
+                strips.forEach( function ( item ) {
+                    gsap.killTweensOf( item.strip );
+                    gsap.set( item.strip, { yPercent: 0 } );
+                } );
+            }, 'top 85%' );
         } );
     }
 
@@ -524,7 +595,7 @@
         try {
             initLenis();
             initBanner( gsap );
-            initSectionHeads( gsap );
+            initSectionHeads( gsap, ScrollTrigger );
             initReveals( gsap, ScrollTrigger );
             initCounters( gsap, ScrollTrigger );
             initMagnetic( gsap );
