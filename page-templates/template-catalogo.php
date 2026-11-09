@@ -16,7 +16,7 @@ add_filter( 'wp_robots', 'wp_robots_no_robots' );
 get_header();
 
 $dimsop_actions = sprintf(
-    '<div class="d-flex flex-wrap justify-content-center gap-2"><a class="dimsop-button dimsop-button--lg" href="%1$s">%2$s <i class="fa fa-arrow-right dimsop-button-arrow" aria-hidden="true"></i></a><a class="dimsop-button dimsop-button--lg dimsop-button--outline dimsop-page-hero-outline" href="%3$s">%4$s</a></div>',
+    '<div class="d-flex flex-wrap justify-content-center gap-3"><a class="dimsop-button dimsop-button--lg" href="%1$s">%2$s <i class="fa fa-arrow-right dimsop-button-arrow" aria-hidden="true"></i></a><a class="dimsop-button dimsop-button--lg dimsop-button--outline dimsop-page-hero-outline" href="%3$s">%4$s</a></div>',
     esc_url( home_url( '/#contacto' ) ),
     esc_html__( 'Solicitar información', 'dimsop' ),
     esc_url( home_url( '/#unidades' ) ),

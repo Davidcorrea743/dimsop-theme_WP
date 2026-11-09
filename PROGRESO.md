@@ -57,6 +57,7 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 | 2026-11-09 | 9 | La ruta del CV se guardaba rota en Windows | WordPress quita las barras invertidas al guardar metadatos | Se guarda la ruta relativa a la carpeta privada (también sirve al cambiar de servidor) |
 | 2026-11-09 | 9 | El aviso de postulación enviada nunca se veía en Odoo | Error del sitio original | Aviso dentro de la ventana, por AJAX; sin JS la ventana se reabre con el aviso |
 | 2026-11-09 | 10 | Los títulos de Yoast del 404 y la búsqueda salían en inglés | Yoast se instaló antes de pasar WordPress al español | Traducidos en Yoast (en la base de datos; viaja a staging con ella) |
+| 2026-11-09 | 11 | Los botones del Catálogo y del 404 se cruzaban al pasar el ratón | El efecto magnético movía cada botón hasta el 30 % de su ancho (unos 35 px) y la separación era de 8 px | Movimiento con tope de 6 px en horizontal y 4 px en vertical (también en el banner) y separación de 16 px |
 | 2026-11-04 | 5 | Al enviar el formulario la página recargaba y bajaba desde el inicio | Envío por POST con redirección | `initContactForm()` envía por AJAX (adelantado del Día 8); aviso junto al botón que desaparece al minuto |
 | 2026-11-04 | 5 | Correo, teléfono y WhatsApp repetidos en Contacto | Ya están en el footer y el botón flotante | Se elimina la franja; queda solo el formulario, con los opcionales marcados |
 | 2026-11-04 | 5 | Los errores del formulario no mostraban aviso | `?error=` es una variable reservada de WordPress | El handler redirige con `?form_error=` |

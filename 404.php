@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 get_header();
 
 $dimsop_actions = sprintf(
-    '<div class="d-flex flex-wrap justify-content-center gap-2 mb-4"><a class="dimsop-button dimsop-button--lg" href="%1$s"><i class="fa fa-home" aria-hidden="true"></i> %2$s</a><a class="dimsop-button dimsop-button--lg dimsop-button--outline dimsop-page-hero-outline" href="%3$s">%4$s</a></div>',
+    '<div class="d-flex flex-wrap justify-content-center gap-3 mb-4"><a class="dimsop-button dimsop-button--lg" href="%1$s"><i class="fa fa-home" aria-hidden="true"></i> %2$s</a><a class="dimsop-button dimsop-button--lg dimsop-button--outline dimsop-page-hero-outline" href="%3$s">%4$s</a></div>',
     esc_url( home_url( '/' ) ),
     esc_html__( 'Ir al inicio', 'dimsop' ),
     esc_url( home_url( '/#contacto' ) ),

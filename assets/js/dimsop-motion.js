@@ -383,6 +383,9 @@
      * Botones magnéticos (solo ratón). Usa la propiedad CSS `translate`
      * para no pisar el `transform` del :active de los botones.
      * ------------------------------------------------------------------ */
+    var MAGNET_X = 6; // px máximos en horizontal
+    var MAGNET_Y = 4; // px máximos en vertical
+
     function initMagnetic( gsap ) {
         if ( ! finePointer ) {
             return;
@@ -403,11 +406,15 @@
                 } );
             }
 
+            // Desplazamiento proporcional a la posición del cursor (-1 a 1) y con tope
+            // en píxeles: así un botón ancho no invade al de al lado.
             btn.addEventListener( 'pointermove', function ( e ) {
                 var rect = btn.getBoundingClientRect();
+                var nx = ( e.clientX - ( rect.left + rect.width / 2 ) ) / ( rect.width / 2 );
+                var ny = ( e.clientY - ( rect.top + rect.height / 2 ) ) / ( rect.height / 2 );
                 moveTo(
-                    ( e.clientX - ( rect.left + rect.width / 2 ) ) * 0.3,
-                    ( e.clientY - ( rect.top + rect.height / 2 ) ) * 0.4
+                    Math.max( -1, Math.min( 1, nx ) ) * MAGNET_X,
+                    Math.max( -1, Math.min( 1, ny ) ) * MAGNET_Y
                 );
             } );
             btn.addEventListener( 'pointerleave', function () {
