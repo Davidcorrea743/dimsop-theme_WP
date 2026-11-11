@@ -128,7 +128,7 @@
         position: absolute;
         inset: 0;
         z-index: -1;
-        background: radial-gradient(420px circle at var(--mx) var(--my), var(--dimsop-spotlight), transparent 60%);
+        background: radial-gradient(360px circle at var(--mx) var(--my), var(--dimsop-spotlight), transparent 65%);
         opacity: 0;
         transition: opacity 0.35s ease;
         pointer-events: none;
@@ -213,7 +213,7 @@
     border-radius: 999px;
     background: rgba(77, 163, 47, 0.12);
     color: var(--dimsop-accent);
-    font-size: 0.75rem;
+    font-size: 0.95rem;
     font-weight: 600;
     letter-spacing: 0.3px;
     line-height: 1.2;
