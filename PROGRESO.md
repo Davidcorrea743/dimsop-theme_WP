@@ -1,6 +1,6 @@
 # Control de avance: migración Dimsop (Odoo → WordPress)
 
-**Día actual:** 11 de 20 (Semana 3) · Día 10 cerrado el 2026-11-09
+**Día actual:** 13 de 20 (Semana 3) · Día 12 cerrado el 2026-11-13
 **Sitio local:** http://dimsop-theme.localhost/ · Mailpit: http://localhost:10000
 **Plan completo:** `C:\Users\jdcor\.claude\plans\te-explico-un-poco-graceful-clock.md`
 
@@ -20,8 +20,8 @@ Estados: ✅ hecho · 🟡 en curso · ⬜ pendiente
 | 8 | Formulario de contacto (AJAX, SMTP, CRM) | ✅ | Campo "Otro" que aparece solo con ese servicio y es obligatorio entonces (también en el servidor); se guarda en el prospecto, sale en el panel y en el correo ("Otro: motivo"). Validación en el navegador con mensajes bajo cada campo, `aria-invalid`/`aria-describedby` y foco en el primer error. Avisos del servidor en texto plano. El envío AJAX y los avisos ya venían del Día 5. CRM: los prospectos se quedan solo en WordPress. El SMTP corporativo queda para staging (abajo). |
 | 9 | Postulación con CV | ✅ | Ventana "Forma parte de nuestro equipo" (`template-parts/modals/modal-careers.php`, `_careers.scss`) que abren el header, el menú móvil y el footer. `inc/forms/careers-handler.php`: CV obligatorio, solo PDF/DOC/DOCX de hasta 5 MB comprobando extensión y contenido real; guardado con nombre aleatorio en una carpeta privada fuera de la web pública; aviso a talento@ con el CV adjunto; límite de 3 envíos en 10 minutos. Panel: estado Recibida / En revisión / Contratada. Al borrar una postulación se borra su CV. La validación y el envío AJAX ahora son un componente común (`bindAjaxForm`) para contacto y postulación. |
 | 10 | Páginas interiores (page, 404, búsqueda, privacidad) | ✅ | Cabecera común con fondo de ondas (recorte sin texto de "elementos webinar (3)", WebP de 61 KB). `404.php` (404 grande, inicio, contacto, buscador y accesos), `page.php` (texto legible), `search.php` (tarjetas, paginación, estado vacío; solo entradas y páginas), `searchform.php`. Catálogo provisional (`template-catalogo.php`): "Próximamente", botón de contacto y 6 tarjetas skeleton, con noindex y fuera del sitemap. Política de privacidad creada desde el texto de Odoo, ampliada con la postulación y el almacenamiento local. Las páginas se crean con el botón de importar de Opciones Dimsop. |
-| 11 | Idiomas, parte 1 (Polylang, .pot/.po) | ⬜ | |
-| 12 | Idiomas, parte 2 (contenido, hreflang) | ⬜ | |
+| 11 | Idiomas, parte 1 (Polylang, .pot/.po) | ✅ | Polylang ES (sin prefijo) / EN (`/en/`); `languages/dimsop.pot` con 372 cadenas, `en_US.po` y `en_US.mo` completos; selector propio con los dos idiomas siempre visibles; enlaces internos en el idioma actual (`dimsop_home_url()`, `dimsop_page_url()`); formularios AJAX con campo `lang`; nombre, lema, formato de fecha y títulos de Yoast en inglés |
+| 12 | Idiomas, parte 2 (contenido, hreflang) | ✅ | Unidades de negocio traducibles (`pll_get_post_types`) con sus 7 versiones en inglés; páginas Privacy policy (`/en/privacy/`) y Catalog (`/en/catalog/`, noindex) enlazadas; `dimsop_seed_translations()` en "Importar contenido inicial" (repetible en staging); hreflang ES/EN + x-default; `/en/` en el sitemap; enlaces a Blog ocultos mientras el idioma no tenga entradas |
 | 13 | Blog (listado, entrada, compartir en LinkedIn) | ⬜ | |
 | 14 | QA visual y navegadores | ⬜ | |
 | 15 | Rendimiento, SEO y accesibilidad | ⬜ | |
@@ -70,6 +70,13 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 | 2026-11-09 | 11 | En el móvil real el globo seguía sin verse: tras el indicador quedaba una caja negra | En pantallas táctiles se hacía `controls.enabled = false` para que el dedo moviera la página, y Globe.gl solo actualiza la cámara en cada fotograma si los controles están activos: la cámara nunca apuntaba al globo. En la emulación de escritorio no se veía porque ahí los controles siguen activos | Controles activos y en táctil solo `enableRotate`/`enablePan` en false; el canvas mantiene `touch-action: pan-y`. `window.dimsopGlobe` queda como referencia para depurar |
 | 2026-11-09 | 11 | En móvil no se podía girar el globo con el dedo | El giro manual estaba desactivado en táctil para no bloquear el scroll de la página | Deslizar a los lados gira el globo y arriba/abajo mueve la página (`touch-action: pan-y`); la inclinación queda fija en la vista inicial, calculada desde la cámara (`getPolarAngle()` aún no está listo y fijaba el ecuador) |
 | 2026-11-11 | 11 | Pidieron más intensidad en la luz que sigue al puntero en las tarjetas | Brillo muy tenue: verde al 10 % (claro) y 16 % (oscuro) en un círculo de 420 px | `--dimsop-spotlight` al 20 % en claro y 30 % en oscuro; círculo de 360 px que se desvanece al 65 % (`_variables.scss`, `_ui.scss`) |
+| 2026-11-13 | 11 | En /en/ los enlaces del menú, el footer, el 404 y la búsqueda volvían a la portada en español | `home_url()` no lleva el idioma | `dimsop_home_url()` (portada y anclas del idioma actual) y `dimsop_page_url()` (traducción de la página o, si aún no existe, la española) en todas las plantillas |
+| 2026-11-13 | 11 | El selector solo mostraba ES | Polylang oculta los idiomas sin contenido y su HTML no llevaba las clases del menú | Selector propio con `pll_the_languages( raw )`: los dos idiomas siempre, con nombre, `lang`/`hreflang` y `aria-current`; si la página no tiene traducción lleva a la portada del otro idioma |
+| 2026-11-13 | 11 | En /en/ el título decía "Dimsop-Theme" y la fecha salía en formato español | Traducciones de Polylang de cuando el sitio se llamaba así | Traducciones EN en Polylang: Dimsop, Cutting-Edge ICT Solutions, `F j, Y` y el título de búsqueda de Yoast |
+| 2026-11-13 | 11 | Los avisos de los formularios saldrían en español en /en/ | admin-ajax.php no lleva el idioma en la URL | Campo oculto `lang` (`dimsop_lang_field()`) en contacto y postulación |
+| 2026-11-13 | 12 | Sin hreflang x-default | Polylang solo añade los idiomas existentes | Filtro `pll_rel_hreflang_attributes`: x-default apunta al español |
+| 2026-11-13 | 12 | La portada en inglés (/en/) no estaba en el sitemap | Yoast solo incluye la portada principal | Filtro `wpseo_sitemap_page_content` añade la portada de cada idioma |
+| 2026-11-13 | 12 | En /en/ el enlace Blog del menú no llevaba a ningún sitio | La sección Blog no se imprime sin entradas en ese idioma | `dimsop_has_blog_posts()`: el enlace se oculta en menú, footer y búsqueda, y en el 404 la tarjeta pasa a Contacto |
 | 2026-11-04 | 5 | Al enviar el formulario la página recargaba y bajaba desde el inicio | Envío por POST con redirección | `initContactForm()` envía por AJAX (adelantado del Día 8); aviso junto al botón que desaparece al minuto |
 | 2026-11-04 | 5 | Correo, teléfono y WhatsApp repetidos en Contacto | Ya están en el footer y el botón flotante | Se elimina la franja; queda solo el formulario, con los opcionales marcados |
 | 2026-11-04 | 5 | Los errores del formulario no mostraban aviso | `?error=` es una variable reservada de WordPress | El handler redirige con `?form_error=` |
@@ -102,6 +109,11 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 
 ## Pendientes y decisiones abiertas
 
+- **Blog en inglés (Día 13):** hasta que haya entradas en inglés la sección Blog no aparece en /en/ y sus enlaces se ocultan solos; al publicar la primera vuelven a aparecer.
+- **Detección de idioma de Polylang:** al entrar a la portada desde fuera del sitio, Polylang lleva a /en/ si el navegador está en inglés o si el visitante eligió inglés antes (cookie). Desde los enlaces del propio sitio no redirige. Se puede desactivar en Idiomas › Ajustes › URL › "Detectar el idioma del navegador".
+- **Nuevas unidades de negocio:** se traducen desde el panel con el "+" de la columna de idiomas (Polylang).
+- **Correos internos** (aviso de nuevo lead y de postulación) se quedan en español: los recibe el equipo.
+
 - [ ] **Antes de staging (Día 16):** si el hosting va detrás de Cloudflare o un balanceador, definir `DIMSOP_TRUSTED_PROXIES` en `wp-config.php`. Sin eso todos los visitantes comparten la IP del proxy y el límite de 5 envíos en 10 minutos se vuelve global.
 - [ ] UpdraftPlus: programar los respaldos y elegir dónde se guardan (Día 19). Hoy no hace ninguno.
 - [ ] Staging (Día 16): confirmar que la carpeta privada de CV queda fuera de la web pública. Si el hosting no deja escribir ahí, el tema usa `wp-content/uploads/dimsop-private/cv` y en nginx hay que bloquearla con `location ^~ /wp-content/uploads/dimsop-private/ { deny all; }`. Incluir esa carpeta en los respaldos.
@@ -119,6 +131,15 @@ Cada día empieza corrigiendo los fallos reportados; cada corrección se anota a
 - [ ] Texto legal definitivo de la política de privacidad (lo entrega el cliente): hoy está el borrador basado en Odoo, en Páginas › Política de privacidad.
 
 ## Referencia rápida
+
+Regenerar las traducciones del tema (desde la carpeta del tema) tras añadir o cambiar textos con `__()`: actualizar `tools/i18n/en_US.json` y ejecutar
+
+```bash
+ELECTRON_RUN_AS_NODE=1 "$LOCALAPPDATA/Programs/Local/Local.exe" tools/i18n/make-pot.js . languages/dimsop.pot "$TEMP/strings.json"
+ELECTRON_RUN_AS_NODE=1 "$LOCALAPPDATA/Programs/Local/Local.exe" tools/i18n/make-po.js languages/dimsop.pot tools/i18n/en_US.json en_US languages
+```
+
+`make-po.js` avisa si falta alguna traducción o si los marcadores (`%s`, `%1$d`) no coinciden.
 
 Compilar el SCSS (desde la carpeta `wordpress`):
 

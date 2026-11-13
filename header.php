@@ -27,7 +27,7 @@ defined( 'ABSPATH' ) || exit;
 
     <div class="dimsop-header-main container d-flex align-items-center justify-content-between py-2">
         <!-- Logo de marca -->
-        <a class="dimsop-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php bloginfo( 'name' ); ?>">
+        <a class="dimsop-logo" href="<?php echo esc_url( dimsop_home_url( '/' ) ); ?>" title="<?php bloginfo( 'name' ); ?>">
             <?php
             if ( has_custom_logo() ) {
                 the_custom_logo();
@@ -68,32 +68,35 @@ defined( 'ABSPATH' ) || exit;
                 <i class="fa fa-users me-1" aria-hidden="true"></i> <?php esc_html_e( 'Trabaja con nosotros', 'dimsop' ); ?>
             </a>
 
-            <!-- Selector de Idioma (ES / EN) preparado para Polylang -->
-            <div class="dropdown dimsop-lang-dropdown ms-1">
+            <!-- Selector de idioma (ES / EN) con los datos de Polylang -->
+            <?php $dimsop_languages = dimsop_get_language_switcher(); ?>
+            <?php if ( count( $dimsop_languages ) > 1 ) : ?>
                 <?php
-                $current_lang = 'es';
-                if ( function_exists( 'pll_current_language' ) ) {
-                    $current_lang = pll_current_language( 'slug' );
-                }
+                $dimsop_current_lang = wp_list_filter( $dimsop_languages, array( 'current' => true ) );
+                $dimsop_current_lang = $dimsop_current_lang ? reset( $dimsop_current_lang ) : reset( $dimsop_languages );
                 ?>
-                <button class="dimsop-lang-btn" type="button" id="dimsop-lang-toggle"
-                        data-bs-toggle="dropdown" aria-expanded="false" aria-label="<?php esc_attr_e( 'Seleccionar Idioma', 'dimsop' ); ?>">
-                    <span class="dimsop-lang-code"><?php echo esc_html( strtoupper( $current_lang ) ); ?></span>
-                    <i class="fa fa-caret-down" aria-hidden="true"></i>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dimsop-lang-toggle">
-                    <?php
-                    if ( function_exists( 'pll_the_languages' ) ) {
-                        pll_the_languages( array( 'dropdown' => 0, 'show_flags' => 0, 'show_names' => 1, 'display_names_as' => 'slug' ) );
-                    } else {
-                        ?>
-                        <li><a class="dropdown-item dimsop-lang-option <?php echo ( $current_lang === 'es' ) ? 'active' : ''; ?>" href="<?php echo esc_url( home_url( '/' ) ); ?>">ES</a></li>
-                        <li><a class="dropdown-item dimsop-lang-option <?php echo ( $current_lang === 'en' ) ? 'active' : ''; ?>" href="<?php echo esc_url( home_url( '/en/' ) ); ?>">EN</a></li>
-                        <?php
-                    }
-                    ?>
-                </ul>
-            </div>
+                <div class="dropdown dimsop-lang-dropdown ms-1">
+                    <button class="dimsop-lang-btn" type="button" id="dimsop-lang-toggle"
+                            data-bs-toggle="dropdown" aria-expanded="false"
+                            aria-label="<?php echo esc_attr( sprintf( /* translators: %s: idioma actual */ __( 'Idioma: %s. Cambiar idioma', 'dimsop' ), $dimsop_current_lang['name'] ) ); ?>">
+                        <span class="dimsop-lang-code"><?php echo esc_html( strtoupper( $dimsop_current_lang['slug'] ) ); ?></span>
+                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dimsop-lang-toggle">
+                        <?php foreach ( $dimsop_languages as $dimsop_lang ) : ?>
+                            <li>
+                                <a class="dropdown-item dimsop-lang-option<?php echo $dimsop_lang['current'] ? ' active' : ''; ?>"
+                                   href="<?php echo esc_url( $dimsop_lang['url'] ); ?>"
+                                   lang="<?php echo esc_attr( $dimsop_lang['w3c'] ); ?>" hreflang="<?php echo esc_attr( $dimsop_lang['w3c'] ); ?>"
+                                   <?php echo $dimsop_lang['current'] ? 'aria-current="true"' : ''; ?>>
+                                    <span class="dimsop-lang-option-code"><?php echo esc_html( strtoupper( $dimsop_lang['slug'] ) ); ?></span>
+                                    <span class="dimsop-lang-option-name"><?php echo esc_html( $dimsop_lang['name'] ); ?></span>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
 
             <!-- Botón hamburguesa para móvil -->
             <button class="dimsop-burger d-lg-none ms-2" type="button"
@@ -124,7 +127,7 @@ defined( 'ABSPATH' ) || exit;
     <div class="dimsop-search-overlay" id="dimsop-search-overlay" role="dialog" aria-label="<?php esc_attr_e( 'Buscar', 'dimsop' ); ?>" aria-hidden="true">
         <div class="dimsop-search-overlay-backdrop" id="dimsop-search-close"></div>
         <div class="dimsop-search-overlay-content">
-            <form action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get" role="search" class="dimsop-search-overlay-form">
+            <form action="<?php echo esc_url( dimsop_home_url( '/' ) ); ?>" method="get" role="search" class="dimsop-search-overlay-form">
                 <i class="fa fa-search dimsop-search-overlay-icon" aria-hidden="true"></i>
                 <input type="text" class="dimsop-search-overlay-input" name="s"
                        placeholder="<?php esc_attr_e( 'Buscar en Dimsop...', 'dimsop' ); ?>"

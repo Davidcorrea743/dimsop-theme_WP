@@ -778,6 +778,37 @@ select.dimsop-input {
   color: var(--dimsop-accent);
 }
 
+.dimsop-lang-dropdown .dropdown-menu {
+  min-width: 9.5rem;
+}
+
+.dimsop-lang-option {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.dimsop-lang-option-code {
+  min-width: 1.6rem;
+}
+
+.dimsop-lang-option-name {
+  font-family: var(--dimsop-font-body);
+  font-size: 0.85rem;
+  letter-spacing: 0;
+  text-transform: none;
+  opacity: 0.75;
+}
+
+.dimsop-lang-option.active .dimsop-lang-option-name {
+  opacity: 1;
+}
+
+.dimsop-lang-dropdown .dropdown-item:focus-visible {
+  outline: none;
+  box-shadow: inset var(--dimsop-ring);
+}
+
 /* Menú Burger Móvil */
 .dimsop-burger {
   background: none;

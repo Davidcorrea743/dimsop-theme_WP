@@ -13,9 +13,9 @@ get_header();
 
 $dimsop_actions = sprintf(
     '<div class="d-flex flex-wrap justify-content-center gap-3 mb-4"><a class="dimsop-button dimsop-button--lg" href="%1$s"><i class="fa fa-home" aria-hidden="true"></i> %2$s</a><a class="dimsop-button dimsop-button--lg dimsop-button--outline dimsop-page-hero-outline" href="%3$s">%4$s</a></div>',
-    esc_url( home_url( '/' ) ),
+    esc_url( dimsop_home_url( '/' ) ),
     esc_html__( 'Ir al inicio', 'dimsop' ),
-    esc_url( home_url( '/#contacto' ) ),
+    esc_url( dimsop_home_url( '/#contacto' ) ),
     esc_html__( 'Contáctanos', 'dimsop' )
 );
 $dimsop_actions .= '<div class="dimsop-page-hero-search mx-auto">' . get_search_form( array( 'echo' => false ) ) . '</div>';
@@ -37,9 +37,12 @@ $dimsop_actions .= '<div class="dimsop-page-hero-search mx-auto">' . get_search_
             <div class="row g-4 justify-content-center">
                 <?php
                 $dimsop_links = array(
-                    array( 'url' => home_url( '/#nosotros' ), 'icon' => 'fa-building-o', 'title' => __( 'Nosotros', 'dimsop' ), 'text' => __( 'Quiénes somos, misión, visión y valores.', 'dimsop' ) ),
-                    array( 'url' => home_url( '/#unidades' ), 'icon' => 'fa-th-large', 'title' => __( 'Unidades de negocio', 'dimsop' ), 'text' => __( 'Nube, redes, ciberseguridad, IA y más.', 'dimsop' ) ),
-                    array( 'url' => home_url( '/#blog' ), 'icon' => 'fa-newspaper-o', 'title' => __( 'Blog', 'dimsop' ), 'text' => __( 'Actualidad y tendencias tecnológicas.', 'dimsop' ) ),
+                    array( 'url' => dimsop_home_url( '/#nosotros' ), 'icon' => 'fa-building-o', 'title' => __( 'Nosotros', 'dimsop' ), 'text' => __( 'Quiénes somos, misión, visión y valores.', 'dimsop' ) ),
+                    array( 'url' => dimsop_home_url( '/#unidades' ), 'icon' => 'fa-th-large', 'title' => __( 'Unidades de negocio', 'dimsop' ), 'text' => __( 'Nube, redes, ciberseguridad, IA y más.', 'dimsop' ) ),
+                    // Sin entradas en este idioma, la tercera tarjeta lleva a Contacto en vez del Blog.
+                    dimsop_has_blog_posts()
+                        ? array( 'url' => dimsop_home_url( '/#blog' ), 'icon' => 'fa-newspaper-o', 'title' => __( 'Blog', 'dimsop' ), 'text' => __( 'Actualidad y tendencias tecnológicas.', 'dimsop' ) )
+                        : array( 'url' => dimsop_home_url( '/#contacto' ), 'icon' => 'fa-envelope-o', 'title' => __( 'Contacto', 'dimsop' ), 'text' => __( 'Escríbenos y te responderemos a la brevedad.', 'dimsop' ) ),
                 );
                 foreach ( $dimsop_links as $dimsop_link ) :
                     ?>

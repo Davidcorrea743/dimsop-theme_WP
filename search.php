@@ -81,9 +81,11 @@ $dimsop_query = get_search_query();
                     <h2 class="dimsop-h3 mt-3"><?php esc_html_e( 'No encontramos resultados', 'dimsop' ); ?></h2>
                     <p class="dimsop-section-lead mx-auto"><?php esc_html_e( 'Prueba con otras palabras o visita alguna de estas secciones:', 'dimsop' ); ?></p>
                     <div class="d-flex flex-wrap justify-content-center gap-2">
-                        <a class="dimsop-button dimsop-button--outline dimsop-button--sm" href="<?php echo esc_url( home_url( '/#unidades' ) ); ?>"><?php esc_html_e( 'Unidades de negocio', 'dimsop' ); ?></a>
-                        <a class="dimsop-button dimsop-button--outline dimsop-button--sm" href="<?php echo esc_url( home_url( '/#blog' ) ); ?>"><?php esc_html_e( 'Blog', 'dimsop' ); ?></a>
-                        <a class="dimsop-button dimsop-button--sm" href="<?php echo esc_url( home_url( '/#contacto' ) ); ?>"><?php esc_html_e( 'Contáctanos', 'dimsop' ); ?></a>
+                        <a class="dimsop-button dimsop-button--outline dimsop-button--sm" href="<?php echo esc_url( dimsop_home_url( '/#unidades' ) ); ?>"><?php esc_html_e( 'Unidades de negocio', 'dimsop' ); ?></a>
+                        <?php if ( dimsop_has_blog_posts() ) : ?>
+                            <a class="dimsop-button dimsop-button--outline dimsop-button--sm" href="<?php echo esc_url( dimsop_home_url( '/#blog' ) ); ?>"><?php esc_html_e( 'Blog', 'dimsop' ); ?></a>
+                        <?php endif; ?>
+                        <a class="dimsop-button dimsop-button--sm" href="<?php echo esc_url( dimsop_home_url( '/#contacto' ) ); ?>"><?php esc_html_e( 'Contáctanos', 'dimsop' ); ?></a>
                     </div>
                 </div>
             <?php endif; ?>

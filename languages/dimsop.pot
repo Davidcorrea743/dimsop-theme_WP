@@ -1,0 +1,1534 @@
+# Copyright (C) 2026 Dimsop Technology
+# This file is distributed under the same license as the Dimsop theme.
+msgid ""
+msgstr ""
+"Project-Id-Version: Dimsop 1.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-13 16:54+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: \n"
+"X-Domain: dimsop\n"
+
+#: 404.php:17
+msgid "Ir al inicio"
+msgstr ""
+
+#: 404.php:19 search.php:88 template-parts/home/section-contacto.php:34
+msgid "Contáctanos"
+msgstr ""
+
+#: 404.php:28
+msgid "Página no encontrada"
+msgstr ""
+
+#: 404.php:29
+msgid "Esta página no existe o cambió de dirección. Puedes volver al inicio, buscar lo que necesitas o escribirnos."
+msgstr ""
+
+#: 404.php:36
+msgid "Quizás te interese"
+msgstr ""
+
+#: 404.php:40 footer.php:70 inc/navigation.php:43
+msgid "Nosotros"
+msgstr ""
+
+#: 404.php:40
+msgid "Quiénes somos, misión, visión y valores."
+msgstr ""
+
+#: 404.php:41 search.php:84
+msgid "Unidades de negocio"
+msgstr ""
+
+#: 404.php:41
+msgid "Nube, redes, ciberseguridad, IA y más."
+msgstr ""
+
+#: 404.php:44 footer.php:73 inc/navigation.php:46 search.php:57 search.php:86 template-parts/home/section-blog.php:30
+msgid "Blog"
+msgstr ""
+
+#: 404.php:44
+msgid "Actualidad y tendencias tecnológicas."
+msgstr ""
+
+#: 404.php:45 footer.php:75 inc/navigation.php:48 inc/options-page.php:23 inc/post-types.php:500
+msgid "Contacto"
+msgstr ""
+
+#: 404.php:45
+msgid "Escríbenos y te responderemos a la brevedad."
+msgstr ""
+
+#: footer.php:24
+msgid "Venezuela"
+msgstr ""
+
+#: footer.php:25 inc/enqueues.php:156 template-parts/home/section-cobertura.php:42
+msgid "Caracas"
+msgstr ""
+
+#: footer.php:33
+msgid "Estados Unidos"
+msgstr ""
+
+#: footer.php:34 inc/enqueues.php:157 template-parts/home/section-cobertura.php:43
+msgid "Miami"
+msgstr ""
+
+#: footer.php:52
+msgid "Soluciones TIC de Vanguardia"
+msgstr ""
+
+#: footer.php:53
+msgid "Integramos nube, redes, ciberseguridad e inteligencia artificial para que tu empresa crezca con tecnología confiable."
+msgstr ""
+
+#: footer.php:56
+msgid "Rumbo a la certificación ISO 9001"
+msgstr ""
+
+#: footer.php:67
+msgid "Navegación"
+msgstr ""
+
+#: footer.php:69 inc/navigation.php:42
+msgid "Inicio"
+msgstr ""
+
+#: footer.php:71 inc/importer.php:243 inc/importer.php:388 inc/navigation.php:47
+msgid "Catálogo"
+msgstr ""
+
+#: footer.php:78 template-parts/modals/modal-careers.php:35
+msgid "Forma parte de nuestro equipo"
+msgstr ""
+
+#: footer.php:87
+msgid "Soluciones"
+msgstr ""
+
+#: footer.php:98 inc/options-page.php:34
+msgid "Sedes"
+msgstr ""
+
+#: footer.php:124
+msgid "Cómo llegar"
+msgstr ""
+
+#: footer.php:125
+msgid "(se abre en una pestaña nueva)"
+msgstr ""
+
+#: footer.php:130
+msgid "Ver mapa"
+msgstr ""
+
+#: footer.php:131
+msgid "Ocultar mapa"
+msgstr ""
+
+#. translators: %s: país de la sede
+#: footer.php:138
+#, php-format
+msgid "Mapa de la sede de %s"
+msgstr ""
+
+#: footer.php:152
+msgid "Todos los derechos reservados."
+msgstr ""
+
+#: footer.php:158 inc/importer.php:236 inc/importer.php:377
+msgid "Política de privacidad"
+msgstr ""
+
+#: footer.php:162
+msgid "LinkedIn (se abre en una pestaña nueva)"
+msgstr ""
+
+#: footer.php:166
+msgid "Instagram (se abre en una pestaña nueva)"
+msgstr ""
+
+#: footer.php:170
+msgid "Volver arriba"
+msgstr ""
+
+#: footer.php:183
+msgid "Contáctanos por WhatsApp"
+msgstr ""
+
+#: footer.php:184
+msgid "WhatsApp"
+msgstr ""
+
+#: header.php:44
+msgid "Navegación principal"
+msgstr ""
+
+#: header.php:52 header.php:127 header.php:134 searchform.php:18
+msgid "Buscar"
+msgstr ""
+
+#: header.php:58
+msgid "Cambiar modo claro/oscuro"
+msgstr ""
+
+#: header.php:59 header.php:60
+msgid "Activar modo claro"
+msgstr ""
+
+#: header.php:61
+msgid "Activar modo oscuro"
+msgstr ""
+
+#: header.php:68 header.php:119
+msgid "Trabaja con nosotros"
+msgstr ""
+
+#. translators: %s: idioma actual
+#: header.php:81
+#, php-format
+msgid "Idioma: %s. Cambiar idioma"
+msgstr ""
+
+#: header.php:105
+msgid "Abrir menú de navegación"
+msgstr ""
+
+#: header.php:115
+msgid "Navegación móvil"
+msgstr ""
+
+#: header.php:133
+msgid "Buscar en Dimsop..."
+msgstr ""
+
+#: header.php:135 template-parts/modals/modal-careers.php:36
+msgid "Cerrar"
+msgstr ""
+
+#: inc/enqueues.php:147
+msgid "México"
+msgstr ""
+
+#: inc/enqueues.php:148
+msgid "Costa Rica"
+msgstr ""
+
+#: inc/enqueues.php:149
+msgid "Colombia"
+msgstr ""
+
+#: inc/enqueues.php:150
+msgid "Perú"
+msgstr ""
+
+#: inc/enqueues.php:151
+msgid "Chile"
+msgstr ""
+
+#: inc/enqueues.php:152
+msgid "Argentina"
+msgstr ""
+
+#: inc/enqueues.php:153 template-parts/home/section-cobertura.php:62
+msgid "España"
+msgstr ""
+
+#: inc/enqueues.php:173
+msgid "Enviando..."
+msgstr ""
+
+#: inc/enqueues.php:174
+msgid "El archivo excede el tamaño máximo permitido de 5MB."
+msgstr ""
+
+#: inc/enqueues.php:175
+msgid "Formato de archivo no válido. Solo se admiten archivos PDF, DOC o DOCX."
+msgstr ""
+
+#: inc/enqueues.php:176
+msgid "Ocurrió un error. Por favor intenta más tarde."
+msgstr ""
+
+#: inc/enqueues.php:178
+msgid "Escribe tu nombre y apellido."
+msgstr ""
+
+#: inc/enqueues.php:179
+msgid "Usa solo letras y espacios, sin números ni símbolos."
+msgstr ""
+
+#: inc/enqueues.php:180
+msgid "Escribe tu correo electrónico."
+msgstr ""
+
+#: inc/enqueues.php:181
+msgid "Revisa el correo: debe tener el formato nombre@empresa.com."
+msgstr ""
+
+#: inc/enqueues.php:182
+msgid "Revisa el teléfono: usa solo números, espacios, guiones, paréntesis o +."
+msgstr ""
+
+#: inc/enqueues.php:183
+msgid "Indícanos el motivo de tu contacto."
+msgstr ""
+
+#: inc/enqueues.php:184 inc/forms/careers-handler.php:136 template-parts/modals/modal-careers.php:23
+msgid "Adjunta tu CV en PDF, DOC o DOCX."
+msgstr ""
+
+#: inc/enqueues.php:185 inc/forms/careers-handler.php:147
+msgid "El archivo está vacío."
+msgstr ""
+
+#: inc/enqueues.php:186
+msgid "Revisa los campos marcados para poder enviar el formulario."
+msgstr ""
+
+#: inc/forms/careers-handler.php:31
+msgid "Recibida"
+msgstr ""
+
+#: inc/forms/careers-handler.php:32
+msgid "En revisión"
+msgstr ""
+
+#: inc/forms/careers-handler.php:33
+msgid "Contratada"
+msgstr ""
+
+#: inc/forms/careers-handler.php:139 inc/forms/careers-handler.php:150
+msgid "El CV supera el tamaño máximo de 5 MB."
+msgstr ""
+
+#: inc/forms/careers-handler.php:142
+msgid "No pudimos recibir el archivo. Intenta de nuevo."
+msgstr ""
+
+#: inc/forms/careers-handler.php:155
+msgid "Formato no válido. Solo se admiten archivos PDF, DOC o DOCX."
+msgstr ""
+
+#: inc/forms/careers-handler.php:177
+msgid "El archivo no es un PDF, DOC o DOCX válido."
+msgstr ""
+
+#: inc/forms/careers-handler.php:223 inc/forms/contact-handler.php:24
+msgid "Método de solicitud no permitido."
+msgstr ""
+
+#: inc/forms/careers-handler.php:229 inc/forms/contact-handler.php:31 template-parts/home/section-contacto.php:23 template-parts/modals/modal-careers.php:26
+msgid "Tu sesión expiró. Recarga la página e intenta de nuevo."
+msgstr ""
+
+#: inc/forms/careers-handler.php:233 template-parts/modals/modal-careers.php:105
+msgid "¡Postulación enviada! Nuestro equipo de talento revisará tu CV pronto."
+msgstr ""
+
+#: inc/forms/careers-handler.php:242 inc/forms/contact-handler.php:45 template-parts/home/section-contacto.php:22 template-parts/modals/modal-careers.php:25
+msgid "Demasiados envíos recientes. Intenta de nuevo en unos minutos."
+msgstr ""
+
+#: inc/forms/careers-handler.php:257 inc/forms/contact-handler.php:61 template-parts/home/section-contacto.php:19 template-parts/modals/modal-careers.php:21
+msgid "Por favor completa tu nombre y un correo electrónico válido."
+msgstr ""
+
+#: inc/forms/careers-handler.php:261 inc/forms/contact-handler.php:68 template-parts/home/section-contacto.php:20 template-parts/modals/modal-careers.php:22
+msgid "El nombre y apellido solo puede tener letras y espacios."
+msgstr ""
+
+#: inc/forms/careers-handler.php:273 inc/forms/careers-handler.php:280 inc/forms/careers-handler.php:288
+msgid "No pudimos guardar tu CV. Intenta más tarde."
+msgstr ""
+
+#: inc/forms/careers-handler.php:301 template-parts/modals/modal-careers.php:27
+msgid "No pudimos registrar tu postulación. Intenta más tarde."
+msgstr ""
+
+#: inc/forms/careers-handler.php:342 inc/post-types.php:534
+msgid "Candidato"
+msgstr ""
+
+#: inc/forms/careers-handler.php:343 inc/post-types.php:501 page-templates/template-styleguide.php:80
+msgid "Correo"
+msgstr ""
+
+#: inc/forms/careers-handler.php:344 inc/post-types.php:502 template-parts/modals/modal-careers.php:61
+msgid "Teléfono"
+msgstr ""
+
+#: inc/forms/careers-handler.php:344
+msgid "No indicado"
+msgstr ""
+
+#: inc/forms/careers-handler.php:345 inc/post-types.php:535 template-parts/modals/modal-careers.php:65
+msgid "Profesión"
+msgstr ""
+
+#: inc/forms/careers-handler.php:345 inc/forms/careers-handler.php:346
+msgid "No indicada"
+msgstr ""
+
+#: inc/forms/careers-handler.php:346 template-parts/modals/modal-careers.php:70
+msgid "Ciudad de residencia"
+msgstr ""
+
+#: inc/forms/careers-handler.php:347
+msgid "CV"
+msgstr ""
+
+#: inc/forms/careers-handler.php:347
+msgid "(adjunto)"
+msgstr ""
+
+#: inc/forms/careers-handler.php:352
+msgid "Nueva postulación: Forma parte de nuestro equipo"
+msgstr ""
+
+#: inc/forms/careers-handler.php:361
+msgid "Ver en el panel (solo administradores)"
+msgstr ""
+
+#: inc/forms/contact-handler.php:39 inc/forms/contact-handler.php:119 template-parts/home/section-contacto.php:95
+msgid "¡Gracias por contactarnos! Un especialista de Dimsop se comunicará contigo a la brevedad."
+msgstr ""
+
+#: inc/forms/contact-handler.php:82 template-parts/home/section-contacto.php:21
+msgid "Elegiste \"Otro\": indícanos el motivo de tu contacto."
+msgstr ""
+
+#: inc/forms/contact-handler.php:99 template-parts/home/section-contacto.php:24
+msgid "No pudimos registrar tu solicitud. Intenta más tarde."
+msgstr ""
+
+#: inc/importer.php:195
+msgid "Dimsop (Soluciones TIC de Vanguardia) respeta tu privacidad y se compromete a proteger los datos personales que compartes a través de este sitio web. Esta política describe qué datos recopilamos, cómo los usamos y los derechos que te asisten."
+msgstr ""
+
+#: inc/importer.php:196
+msgid "1. Datos que recopilamos"
+msgstr ""
+
+#: inc/importer.php:197
+msgid "Solo recopilamos los datos que nos das voluntariamente en nuestros formularios:"
+msgstr ""
+
+#: inc/importer.php:199
+msgid "Formulario de contacto: nombre y apellido, correo electrónico, teléfono, empresa, cargo, servicio de interés y tu mensaje."
+msgstr ""
+
+#: inc/importer.php:200
+msgid "Postulación \"Forma parte de nuestro equipo\": nombre y apellido, correo electrónico, teléfono, profesión, ciudad de residencia y tu CV."
+msgstr ""
+
+#: inc/importer.php:202
+msgid "Por seguridad también registramos la dirección IP desde la que se envía cada formulario, para prevenir el envío masivo de mensajes no deseados."
+msgstr ""
+
+#: inc/importer.php:203
+msgid "2. Uso de la información"
+msgstr ""
+
+#: inc/importer.php:204
+msgid "Usamos tus datos únicamente para atender tu solicitud y contactarte, o para evaluar tu postulación en nuestros procesos de selección. No vendemos ni cedemos tu información personal a terceros con fines comerciales."
+msgstr ""
+
+#: inc/importer.php:205
+msgid "3. Conservación y protección"
+msgstr ""
+
+#: inc/importer.php:206
+msgid "Los datos se guardan en sistemas protegidos, con acceso restringido a personal autorizado. Los CV se almacenan en una ubicación privada y solo los administradores pueden descargarlos. Conservamos la información solo el tiempo necesario para las finalidades descritas o para cumplir obligaciones legales."
+msgstr ""
+
+#: inc/importer.php:207
+msgid "4. Cookies y almacenamiento local"
+msgstr ""
+
+#: inc/importer.php:208
+msgid "Este sitio guarda en tu navegador tu preferencia de modo claro u oscuro. No la usamos para identificarte ni la compartimos."
+msgstr ""
+
+#: inc/importer.php:209
+msgid "5. Tus derechos"
+msgstr ""
+
+#: inc/importer.php:210
+msgid "Puedes solicitar en cualquier momento el acceso, la rectificación o la eliminación de tus datos personales escribiéndonos a los correos indicados abajo."
+msgstr ""
+
+#: inc/importer.php:211
+msgid "6. Contacto"
+msgstr ""
+
+#. translators: 1: correo de contacto, 2: correo de talento
+#: inc/importer.php:214
+#, php-format
+msgid "Para consultas sobre esta política escríbenos a %1$s. Para temas relacionados con tu postulación, a %2$s."
+msgstr ""
+
+#: inc/importer.php:237 inc/importer.php:378
+msgid "Cómo recopilamos, usamos y protegemos tus datos personales."
+msgstr ""
+
+#: inc/importer.php:446
+msgid "No tienes permisos para realizar esta acción."
+msgstr ""
+
+#. translators: 1: unidades, 2: aliados, 3: proyectos, 4: páginas, 5: traducciones al inglés
+#: inc/importer.php:458
+#, php-format
+msgid "Importación terminada. Creados: %1$d unidades, %2$d aliados, %3$d proyectos, %4$d páginas y %5$d traducciones al inglés (lo que ya existía no se tocó)."
+msgstr ""
+
+#: inc/navigation.php:44 inc/post-types.php:82 template-parts/home/section-unidades.php:28
+msgid "Unidades de Negocio"
+msgstr ""
+
+#: inc/navigation.php:45 inc/post-types.php:58
+msgid "Aliados"
+msgstr ""
+
+#: inc/options-page.php:25
+msgid "Número de WhatsApp"
+msgstr ""
+
+#: inc/options-page.php:25
+msgid "Solo dígitos, con código de país. Ej.: 582128195400"
+msgstr ""
+
+#: inc/options-page.php:26
+msgid "Teléfono Venezuela"
+msgstr ""
+
+#: inc/options-page.php:27
+msgid "Teléfono Estados Unidos"
+msgstr ""
+
+#: inc/options-page.php:28
+msgid "Correo del formulario de contacto"
+msgstr ""
+
+#: inc/options-page.php:29
+msgid "Correo de postulaciones (CV)"
+msgstr ""
+
+#: inc/options-page.php:30
+msgid "Correo de ventas"
+msgstr ""
+
+#: inc/options-page.php:36
+msgid "Dirección Venezuela"
+msgstr ""
+
+#: inc/options-page.php:37
+msgid "Dirección Estados Unidos"
+msgstr ""
+
+#: inc/options-page.php:38
+msgid "RIF"
+msgstr ""
+
+#: inc/options-page.php:39
+msgid "Ubicación en el mapa Venezuela"
+msgstr ""
+
+#: inc/options-page.php:39
+msgid "Coordenadas (latitud,longitud) o dirección. En Google Maps: clic derecho sobre el punto y copiar las coordenadas. Ej.: 10.4967188,-66.8227312"
+msgstr ""
+
+#: inc/options-page.php:40
+msgid "Enlace \"Cómo llegar\" Venezuela"
+msgstr ""
+
+#: inc/options-page.php:40
+msgid "En Google Maps, busca la sede y copia la dirección de la barra del navegador. Si se deja vacío, se usa la ubicación del mapa."
+msgstr ""
+
+#: inc/options-page.php:41
+msgid "Ubicación en el mapa Estados Unidos"
+msgstr ""
+
+#: inc/options-page.php:41
+msgid "Coordenadas (latitud,longitud) o dirección completa."
+msgstr ""
+
+#: inc/options-page.php:42
+msgid "Enlace \"Cómo llegar\" Estados Unidos"
+msgstr ""
+
+#: inc/options-page.php:42
+msgid "Dirección de Google Maps de la sede. Si se deja vacío, se usa la ubicación del mapa."
+msgstr ""
+
+#: inc/options-page.php:46
+msgid "Redes sociales"
+msgstr ""
+
+#: inc/options-page.php:48
+msgid "LinkedIn"
+msgstr ""
+
+#: inc/options-page.php:49
+msgid "Instagram"
+msgstr ""
+
+#: inc/options-page.php:60 inc/options-page.php:61 inc/options-page.php:196
+msgid "Opciones Dimsop"
+msgstr ""
+
+#: inc/options-page.php:197
+msgid "Datos corporativos usados en el header, el footer, los formularios y el botón de WhatsApp. Si dejas un campo vacío se usa el valor mostrado en gris."
+msgstr ""
+
+#: inc/options-page.php:212
+msgid "Contenido inicial"
+msgstr ""
+
+#: inc/options-page.php:213
+msgid "Crea las unidades de negocio, los aliados tecnológicos y los proyectos referenciales del sitio Odoo, con sus logos, y las páginas Política de privacidad y Catálogo. Se puede ejecutar varias veces: lo que ya existe no se duplica."
+msgstr ""
+
+#: inc/options-page.php:217
+msgid "Importar contenido inicial"
+msgstr ""
+
+#: inc/post-types.php:28
+msgid "Proyectos"
+msgstr ""
+
+#: inc/post-types.php:29
+msgid "Proyecto Referencial"
+msgstr ""
+
+#: inc/post-types.php:30
+msgid "Proyectos Dimsop"
+msgstr ""
+
+#: inc/post-types.php:31
+msgid "Añadir Nuevo"
+msgstr ""
+
+#: inc/post-types.php:32
+msgid "Añadir Nuevo Proyecto"
+msgstr ""
+
+#: inc/post-types.php:33
+msgid "Editar Proyecto"
+msgstr ""
+
+#: inc/post-types.php:34
+msgid "Nuevo Proyecto"
+msgstr ""
+
+#: inc/post-types.php:35
+msgid "Ver Proyecto"
+msgstr ""
+
+#: inc/post-types.php:36
+msgid "Buscar Proyectos"
+msgstr ""
+
+#: inc/post-types.php:37
+msgid "No se encontraron proyectos"
+msgstr ""
+
+#: inc/post-types.php:38
+msgid "No hay proyectos en la papelera"
+msgstr ""
+
+#: inc/post-types.php:59
+msgid "Aliado Tecnológico"
+msgstr ""
+
+#: inc/post-types.php:60
+msgid "Aliados (Marcas)"
+msgstr ""
+
+#: inc/post-types.php:61
+msgid "Añadir Aliado"
+msgstr ""
+
+#: inc/post-types.php:62
+msgid "Añadir Nuevo Aliado"
+msgstr ""
+
+#: inc/post-types.php:63
+msgid "Editar Aliado"
+msgstr ""
+
+#: inc/post-types.php:64
+msgid "Todos los Aliados"
+msgstr ""
+
+#: inc/post-types.php:65
+msgid "Buscar Aliados"
+msgstr ""
+
+#: inc/post-types.php:83
+msgid "Unidad de Negocio"
+msgstr ""
+
+#: inc/post-types.php:84
+msgid "Unidades TIC"
+msgstr ""
+
+#: inc/post-types.php:85
+msgid "Añadir Unidad"
+msgstr ""
+
+#: inc/post-types.php:86
+msgid "Añadir Nueva Unidad de Negocio"
+msgstr ""
+
+#: inc/post-types.php:87
+msgid "Editar Unidad"
+msgstr ""
+
+#: inc/post-types.php:88
+msgid "Todas las Unidades"
+msgstr ""
+
+#: inc/post-types.php:105
+msgid "Prospectos (CRM)"
+msgstr ""
+
+#: inc/post-types.php:106
+msgid "Prospecto"
+msgstr ""
+
+#: inc/post-types.php:107
+msgid "Prospectos CRM"
+msgstr ""
+
+#: inc/post-types.php:108
+msgid "Todos los Prospectos"
+msgstr ""
+
+#: inc/post-types.php:109 inc/post-types.php:110
+msgid "Ver Prospecto"
+msgstr ""
+
+#: inc/post-types.php:111
+msgid "Buscar Prospectos"
+msgstr ""
+
+#: inc/post-types.php:112
+msgid "No hay prospectos registrados"
+msgstr ""
+
+#: inc/post-types.php:149
+msgid "Postulaciones"
+msgstr ""
+
+#: inc/post-types.php:150
+msgid "Postulación Laboral"
+msgstr ""
+
+#: inc/post-types.php:151
+msgid "Postulaciones / CVs"
+msgstr ""
+
+#: inc/post-types.php:152
+msgid "Todas las Postulaciones"
+msgstr ""
+
+#: inc/post-types.php:153 inc/post-types.php:154
+msgid "Ver Postulación"
+msgstr ""
+
+#: inc/post-types.php:155
+msgid "Buscar Postulaciones"
+msgstr ""
+
+#: inc/post-types.php:156
+msgid "No hay postulaciones registradas"
+msgstr ""
+
+#: inc/post-types.php:195
+msgid "Soluciones en la Nube"
+msgstr ""
+
+#: inc/post-types.php:196
+msgid "Productos y Soluciones de Redes"
+msgstr ""
+
+#: inc/post-types.php:197
+msgid "Ciberseguridad Avanzada"
+msgstr ""
+
+#: inc/post-types.php:198
+msgid "Servicios Gestionados"
+msgstr ""
+
+#: inc/post-types.php:199
+msgid "Soluciones FTTX / ISP"
+msgstr ""
+
+#: inc/post-types.php:200
+msgid "Comunicaciones Unificadas"
+msgstr ""
+
+#: inc/post-types.php:201
+msgid "Inteligencia Artificial y Desarrollo"
+msgstr ""
+
+#: inc/post-types.php:202
+msgid "Otro"
+msgstr ""
+
+#. translators: %s: motivo escrito por el visitante
+#: inc/post-types.php:219
+#, php-format
+msgid "Otro: %s"
+msgstr ""
+
+#: inc/post-types.php:228
+msgid "No especificado"
+msgstr ""
+
+#: inc/post-types.php:238
+msgid "Detalles del Proyecto Referencial"
+msgstr ""
+
+#: inc/post-types.php:248
+msgid "Configuración de Unidad TIC"
+msgstr ""
+
+#: inc/post-types.php:258
+msgid "Información del Prospecto"
+msgstr ""
+
+#: inc/post-types.php:268
+msgid "Información del Candidato y CV"
+msgstr ""
+
+#: inc/post-types.php:288
+msgid "Nombre del Cliente:"
+msgstr ""
+
+#: inc/post-types.php:292
+msgid "Sector / Industria:"
+msgstr ""
+
+#: inc/post-types.php:296
+msgid "Tecnologías / Marcas implementadas:"
+msgstr ""
+
+#: inc/post-types.php:311
+msgid "Clase del Icono FontAwesome:"
+msgstr ""
+
+#: inc/post-types.php:313
+msgid "Ejemplo: fa fa-cloud para nube, fa fa-shield para ciberseguridad."
+msgstr ""
+
+#: inc/post-types.php:335
+msgid "Nombre Completo:"
+msgstr ""
+
+#: inc/post-types.php:339 inc/post-types.php:397
+msgid "Correo Electrónico:"
+msgstr ""
+
+#: inc/post-types.php:343 inc/post-types.php:401
+msgid "Teléfono:"
+msgstr ""
+
+#: inc/post-types.php:347
+msgid "Empresa:"
+msgstr ""
+
+#: inc/post-types.php:351
+msgid "Cargo:"
+msgstr ""
+
+#: inc/post-types.php:355
+msgid "Servicio de Interés:"
+msgstr ""
+
+#: inc/post-types.php:359
+msgid "Mensaje / Motivo:"
+msgstr ""
+
+#: inc/post-types.php:363
+msgid "IP de Registro:"
+msgstr ""
+
+#: inc/post-types.php:393
+msgid "Candidato:"
+msgstr ""
+
+#: inc/post-types.php:405
+msgid "Profesión:"
+msgstr ""
+
+#: inc/post-types.php:409
+msgid "Ciudad de Residencia:"
+msgstr ""
+
+#: inc/post-types.php:413
+msgid "Curriculum Vitae (CV):"
+msgstr ""
+
+#: inc/post-types.php:418
+msgid "Descargar CV Protegido"
+msgstr ""
+
+#: inc/post-types.php:421
+msgid "Sin archivo adjunto"
+msgstr ""
+
+#: inc/post-types.php:426
+msgid "IP de Postulación:"
+msgstr ""
+
+#: inc/post-types.php:431
+msgid "Estado:"
+msgstr ""
+
+#: inc/post-types.php:439
+msgid "Se guarda con el botón Actualizar."
+msgstr ""
+
+#: inc/post-types.php:503 template-parts/home/section-contacto.php:61
+msgid "Empresa"
+msgstr ""
+
+#: inc/post-types.php:504
+msgid "Servicio"
+msgstr ""
+
+#: inc/post-types.php:505
+msgid "Fecha"
+msgstr ""
+
+#: inc/post-types.php:536
+msgid "Ciudad"
+msgstr ""
+
+#: inc/post-types.php:537
+msgid "CV Adjunto"
+msgstr ""
+
+#: inc/post-types.php:538
+msgid "Estado"
+msgstr ""
+
+#: inc/post-types.php:539
+msgid "Fecha de Recepción"
+msgstr ""
+
+#: inc/post-types.php:566
+msgid "Descargar"
+msgstr ""
+
+#: inc/post-types.php:568
+msgid "Sin archivo"
+msgstr ""
+
+#: inc/post-types.php:582
+msgid "Acceso denegado: Se requieren permisos administrativos para acceder a este CV."
+msgstr ""
+
+#: inc/post-types.php:589
+msgid "Enlace de descarga no válido o expirado."
+msgstr ""
+
+#: inc/post-types.php:597
+msgid "El archivo solicitado ya no existe en el servidor."
+msgstr ""
+
+#: inc/post-types.php:603
+msgid "Acceso denegado."
+msgstr ""
+
+#: inc/security.php:78
+msgid "Acceso no autorizado al listado de usuarios."
+msgstr ""
+
+#: inc/security.php:106
+msgid "Credenciales no válidas. Por favor intente de nuevo."
+msgstr ""
+
+#: inc/setup.php:53
+msgid "Menú Principal (Cabecera)"
+msgstr ""
+
+#: inc/setup.php:54
+msgid "Menú Secundario (Pie de Página)"
+msgstr ""
+
+#: index.php:25
+msgid "Contenido no encontrado"
+msgstr ""
+
+#: index.php:26
+msgid "Lo sentimos, no hay contenido disponible en esta sección."
+msgstr ""
+
+#: page-templates/template-catalogo.php:21
+msgid "Solicitar información"
+msgstr ""
+
+#: page-templates/template-catalogo.php:23
+msgid "Ver unidades de negocio"
+msgstr ""
+
+#: page-templates/template-catalogo.php:30
+msgid "Próximamente"
+msgstr ""
+
+#: page-templates/template-catalogo.php:31
+msgid "Catálogo de soluciones"
+msgstr ""
+
+#: page-templates/template-catalogo.php:32
+msgid "Estamos preparando nuestro catálogo de productos y servicios. Mientras tanto, escríbenos y te enviaremos la información que necesitas."
+msgstr ""
+
+#: page-templates/template-catalogo.php:37
+msgid "Vista previa del catálogo, en preparación"
+msgstr ""
+
+#: page-templates/template-catalogo.php:40
+msgid "Contenido en preparación"
+msgstr ""
+
+#: page-templates/template-styleguide.php:22
+msgid "Sistema UI"
+msgstr ""
+
+#: page-templates/template-styleguide.php:23
+msgid "Guía de componentes"
+msgstr ""
+
+#: page-templates/template-styleguide.php:24
+msgid "Prueba cada componente con el botón de modo claro/oscuro del header."
+msgstr ""
+
+#: page-templates/template-styleguide.php:26
+msgid "Botones"
+msgstr ""
+
+#: page-templates/template-styleguide.php:28
+msgid "Primario"
+msgstr ""
+
+#: page-templates/template-styleguide.php:29
+msgid "Secundario"
+msgstr ""
+
+#: page-templates/template-styleguide.php:30
+msgid "Contorno"
+msgstr ""
+
+#: page-templates/template-styleguide.php:31
+msgid "Fantasma"
+msgstr ""
+
+#: page-templates/template-styleguide.php:32
+msgid "Pequeño"
+msgstr ""
+
+#: page-templates/template-styleguide.php:33
+msgid "Grande"
+msgstr ""
+
+#: page-templates/template-styleguide.php:34
+msgid "Deshabilitado"
+msgstr ""
+
+#: page-templates/template-styleguide.php:37
+msgid "Insignias"
+msgstr ""
+
+#: page-templates/template-styleguide.php:39
+msgid "Ciberseguridad"
+msgstr ""
+
+#: page-templates/template-styleguide.php:40
+msgid "Cloud"
+msgstr ""
+
+#: page-templates/template-styleguide.php:41
+msgid "IoT"
+msgstr ""
+
+#: page-templates/template-styleguide.php:44
+msgid "Tarjetas (pasa el ratón por encima)"
+msgstr ""
+
+#: page-templates/template-styleguide.php:67
+msgid "Aún no hay unidades: usa \"Importar contenido inicial\" en Apariencia › Opciones Dimsop."
+msgstr ""
+
+#: page-templates/template-styleguide.php:72
+msgid "Campos de formulario"
+msgstr ""
+
+#: page-templates/template-styleguide.php:75
+msgid "Nombre"
+msgstr ""
+
+#: page-templates/template-styleguide.php:76
+msgid "Tu nombre"
+msgstr ""
+
+#: page-templates/template-styleguide.php:77
+msgid "Texto de ayuda."
+msgstr ""
+
+#: page-templates/template-styleguide.php:82
+msgid "Introduce un correo válido."
+msgstr ""
+
+#: page-templates/template-styleguide.php:85 template-parts/home/section-contacto.php:69
+msgid "Servicio de interés"
+msgstr ""
+
+#: page-templates/template-styleguide.php:93 template-parts/home/section-contacto.php:83
+msgid "Mensaje"
+msgstr ""
+
+#: page-templates/template-styleguide.php:94 template-parts/home/section-contacto.php:84
+msgid "Cuéntanos sobre tu proyecto"
+msgstr ""
+
+#: page-templates/template-styleguide.php:97
+msgid "Enviar"
+msgstr ""
+
+#: page.php:32
+msgid "Páginas:"
+msgstr ""
+
+#. translators: %s: fecha de la última actualización
+#: page.php:40
+#, php-format
+msgid "Última actualización: %s"
+msgstr ""
+
+#: search.php:24
+msgid "Búsqueda"
+msgstr ""
+
+#. translators: %s: términos buscados
+#: search.php:27
+#, php-format
+msgid "Resultados para \"%s\""
+msgstr ""
+
+#. translators: %s: términos buscados
+#: search.php:28 searchform.php:13
+msgid "Buscar en el sitio"
+msgstr ""
+
+#. translators: %d: cantidad de resultados
+#: search.php:31
+#, php-format
+msgid "Encontramos %d resultado."
+msgid_plural "Encontramos %d resultados."
+msgstr[0] ""
+msgstr[1] ""
+
+#: search.php:61
+msgid "Ver más"
+msgstr ""
+
+#: search.php:73
+msgid "Anterior"
+msgstr ""
+
+#: search.php:74
+msgid "Siguiente"
+msgstr ""
+
+#: search.php:75
+msgid "Más resultados"
+msgstr ""
+
+#: search.php:81
+msgid "No encontramos resultados"
+msgstr ""
+
+#: search.php:82
+msgid "Prueba con otras palabras o visita alguna de estas secciones:"
+msgstr ""
+
+#: searchform.php:17
+msgid "Buscar en el sitio…"
+msgstr ""
+
+#: template-parts/home/section-aliados.php:24
+msgid "Ecosistema de marcas"
+msgstr ""
+
+#: template-parts/home/section-aliados.php:25
+msgid "Aliados Tecnológicos"
+msgstr ""
+
+#: template-parts/home/section-aliados.php:27
+msgid "Trabajamos con los fabricantes líderes del mercado para ofrecer soluciones certificadas y con respaldo."
+msgstr ""
+
+#: template-parts/home/section-aliados.php:32
+msgid "Logos de aliados tecnológicos de Dimsop"
+msgstr ""
+
+#: template-parts/home/section-aliados.php:33 template-parts/home/section-proyectos.php:32
+msgid "Mover el carrusel hacia atrás"
+msgstr ""
+
+#: template-parts/home/section-aliados.php:61 template-parts/home/section-proyectos.php:57
+msgid "Mover el carrusel hacia adelante"
+msgstr ""
+
+#: template-parts/home/section-banner.php:30
+msgid "Dimsop Technology"
+msgstr ""
+
+#: template-parts/home/section-banner.php:40
+msgid "Soluciones TIC de Vanguardia para la continuidad de tu negocio."
+msgstr ""
+
+#: template-parts/home/section-banner.php:43
+msgid "Impulsamos la transformación digital con tecnología de vanguardia y soluciones legadas para la continuidad de tu negocio."
+msgstr ""
+
+#: template-parts/home/section-blog.php:31
+msgid "Actualidad y Tendencias Tecnológicas"
+msgstr ""
+
+#: template-parts/home/section-blog.php:33
+msgid "Ideas y novedades sobre nube, ciberseguridad, redes e inteligencia artificial."
+msgstr ""
+
+#: template-parts/home/section-blog.php:54
+msgid "Leer más"
+msgstr ""
+
+#: template-parts/home/section-blog.php:65
+msgid "Ver todas las publicaciones"
+msgstr ""
+
+#: template-parts/home/section-cobertura.php:17
+msgid "Presencia regional"
+msgstr ""
+
+#: template-parts/home/section-cobertura.php:18
+msgid "Nuestras Sedes"
+msgstr ""
+
+#: template-parts/home/section-cobertura.php:20
+msgid "En Dimsop Technology expandimos constantemente nuestra presencia para conectar a los negocios con soluciones TIC de vanguardia, garantizando continuidad operativa y rentabilidad donde sea que se encuentren."
+msgstr ""
+
+#: template-parts/home/section-cobertura.php:26
+msgid "En el mapa de nuestras sedes puedes ver nuestro alcance:"
+msgstr ""
+
+#: template-parts/home/section-cobertura.php:30
+msgid "Sedes físicas"
+msgstr ""
+
+#. translators: 1: sede principal, 2: sede de operaciones
+#: template-parts/home/section-cobertura.php:35
+#, php-format
+msgid "Nuestra sede principal está en %1$s y trabaja en sinergia con nuestra sede de operaciones en %2$s."
+msgstr ""
+
+#. translators: 1: sede principal, 2: sede de operaciones
+#: template-parts/home/section-cobertura.php:36
+msgid "Caracas, Venezuela"
+msgstr ""
+
+#. translators: 1: sede principal, 2: sede de operaciones
+#: template-parts/home/section-cobertura.php:37
+msgid "Miami, Estados Unidos"
+msgstr ""
+
+#: template-parts/home/section-cobertura.php:50
+msgid "Cobertura global"
+msgstr ""
+
+#. translators: %s: región de cobertura
+#: template-parts/home/section-cobertura.php:55
+#, php-format
+msgid "Ejecutamos proyectos integrales y despliegues a lo largo de %s."
+msgstr ""
+
+#. translators: %s: región de cobertura
+#: template-parts/home/section-cobertura.php:56
+msgid "Latinoamérica y España"
+msgstr ""
+
+#: template-parts/home/section-cobertura.php:61
+msgid "Latinoamérica"
+msgstr ""
+
+#: template-parts/home/section-cobertura.php:72
+msgid "Mapa de cobertura Dimsop"
+msgstr ""
+
+#: template-parts/home/section-cobertura.php:82
+msgid "Cargando el globo de cobertura…"
+msgstr ""
+
+#: template-parts/home/section-cobertura.php:89
+msgid "Gracias a nuestro ecosistema global de aliados y a un equipo altamente calificado, llevamos innovación en nube, ciberseguridad, inteligencia artificial y redes al corazón de las empresas, sin importar sus fronteras geográficas."
+msgstr ""
+
+#: template-parts/home/section-contacto.php:25
+msgid "No pudimos procesar tu solicitud. Intenta de nuevo."
+msgstr ""
+
+#: template-parts/home/section-contacto.php:33 template-parts/home/section-unidades.php:42
+msgid "Conversemos"
+msgstr ""
+
+#: template-parts/home/section-contacto.php:36
+msgid "Déjanos tus datos y nos pondremos en contacto contigo a la brevedad."
+msgstr ""
+
+#: template-parts/home/section-contacto.php:49 template-parts/modals/modal-careers.php:52
+msgid "Nombre y apellido *"
+msgstr ""
+
+#: template-parts/home/section-contacto.php:53 template-parts/modals/modal-careers.php:56
+msgid "Correo electrónico *"
+msgstr ""
+
+#: template-parts/home/section-contacto.php:57
+msgid "Número de teléfono"
+msgstr ""
+
+#: template-parts/home/section-contacto.php:57 template-parts/home/section-contacto.php:61 template-parts/home/section-contacto.php:65 template-parts/home/section-contacto.php:69 template-parts/home/section-contacto.php:83 template-parts/modals/modal-careers.php:61 template-parts/modals/modal-careers.php:65 template-parts/modals/modal-careers.php:70
+msgid "(opcional)"
+msgstr ""
+
+#: template-parts/home/section-contacto.php:65
+msgid "Cargo"
+msgstr ""
+
+#: template-parts/home/section-contacto.php:71
+msgid "Selecciona un servicio"
+msgstr ""
+
+#: template-parts/home/section-contacto.php:79
+msgid "Si elegiste \"Otro\", indícanos el motivo de tu contacto"
+msgstr ""
+
+#: template-parts/home/section-contacto.php:80
+msgid "Ej.: soporte técnico, consultoría…"
+msgstr ""
+
+#: template-parts/home/section-contacto.php:88
+msgid "Enviar mensaje"
+msgstr ""
+
+#: template-parts/home/section-contadores.php:14
+msgid "Proyectos implementados"
+msgstr ""
+
+#: template-parts/home/section-contadores.php:15
+msgid "Clientes satisfechos"
+msgstr ""
+
+#: template-parts/home/section-contadores.php:16
+msgid "Países con presencia"
+msgstr ""
+
+#: template-parts/home/section-contadores.php:23
+msgid "Impacto en cifras"
+msgstr ""
+
+#: template-parts/home/section-contadores.php:24
+msgid "Ecosistema Dimsop"
+msgstr ""
+
+#: template-parts/home/section-iso.php:12
+msgid "Rumbo a la certificación ISO 9001 | Compromiso con la calidad y la mejora continua"
+msgstr ""
+
+#: template-parts/home/section-metodologia.php:16
+msgid "Cómo trabajamos"
+msgstr ""
+
+#: template-parts/home/section-metodologia.php:17
+msgid "Metodología de Trabajo"
+msgstr ""
+
+#: template-parts/home/section-metodologia.php:19
+msgid "Nuestro proceso garantiza soluciones efectivas, desde la identificación de necesidades hasta la entrega de valor tangible para tu negocio."
+msgstr ""
+
+#: template-parts/home/section-metodologia.php:25 template-parts/home/section-metodologia.php:66
+msgid "Metodología de trabajo Dimsop"
+msgstr ""
+
+#: template-parts/home/section-metodologia.php:29 template-parts/home/section-metodologia.php:31
+msgid "Necesidades del Cliente"
+msgstr ""
+
+#: template-parts/home/section-metodologia.php:36 template-parts/home/section-metodologia.php:38
+msgid "Base Instalada"
+msgstr ""
+
+#: template-parts/home/section-metodologia.php:43 template-parts/home/section-metodologia.php:45
+msgid "Propuesta de Valor"
+msgstr ""
+
+#: template-parts/home/section-metodologia.php:50 template-parts/home/section-metodologia.php:52
+msgid "Propuesta de Equipos y Servicios"
+msgstr ""
+
+#: template-parts/home/section-metodologia.php:57 template-parts/home/section-metodologia.php:59
+msgid "Diseño de Solución"
+msgstr ""
+
+#: template-parts/home/section-nosotros.php:14
+msgid "Sobre nosotros"
+msgstr ""
+
+#: template-parts/home/section-nosotros.php:15
+msgid "¿Quiénes Somos?"
+msgstr ""
+
+#: template-parts/home/section-nosotros.php:17
+msgid "En Dimsop impulsamos la rentabilidad y la continuidad operativa de nuestros clientes, respaldados por personal altamente calificado e innovadores de la región."
+msgstr ""
+
+#: template-parts/home/section-nosotros.php:24
+msgid "Misión"
+msgstr ""
+
+#: template-parts/home/section-nosotros.php:26
+msgid "Apoyar a nuestros clientes y aliados de negocios en las soluciones de innovación tecnológicas legadas y emergentes, para maximizar la rentabilidad de sus negocios en una relación de ganancia mutua, contando con personal altamente calificado e innovadores de la región."
+msgstr ""
+
+#: template-parts/home/section-nosotros.php:32
+msgid "Visión"
+msgstr ""
+
+#: template-parts/home/section-nosotros.php:34
+msgid "Ser líder en el desarrollo de soluciones TIC´s basadas en las tecnologías de innovación emergentes como internet of things (IoT), la visión computarizada (digitalización), la realidad virtual, la inteligencia artificial y las criptotecnologías, entre otras."
+msgstr ""
+
+#: template-parts/home/section-nosotros.php:41
+msgid "Nuestros Valores"
+msgstr ""
+
+#: template-parts/home/section-nosotros.php:42
+msgid "Los principios que guían cada proyecto que entregamos."
+msgstr ""
+
+#: template-parts/home/section-nosotros.php:46
+msgid "Transparencia"
+msgstr ""
+
+#: template-parts/home/section-nosotros.php:46
+msgid "Comunicación clara y honesta en cada etapa del proyecto."
+msgstr ""
+
+#: template-parts/home/section-nosotros.php:47
+msgid "Trabajo en equipos virtuales"
+msgstr ""
+
+#: template-parts/home/section-nosotros.php:47
+msgid "Talento conectado entre países, sin fronteras."
+msgstr ""
+
+#: template-parts/home/section-nosotros.php:48
+msgid "Tecnologías disruptivas"
+msgstr ""
+
+#: template-parts/home/section-nosotros.php:48
+msgid "Adoptamos lo emergente para adelantarnos al cambio."
+msgstr ""
+
+#: template-parts/home/section-nosotros.php:49
+msgid "Innovación sostenible"
+msgstr ""
+
+#: template-parts/home/section-nosotros.php:49
+msgid "Soluciones eficientes que cuidan el entorno."
+msgstr ""
+
+#: template-parts/home/section-nosotros.php:50
+msgid "Rentabilidad"
+msgstr ""
+
+#: template-parts/home/section-nosotros.php:50
+msgid "Crecimiento con ganancia mutua para clientes y aliados."
+msgstr ""
+
+#: template-parts/home/section-proyectos.php:23
+msgid "Casos de éxito"
+msgstr ""
+
+#: template-parts/home/section-proyectos.php:24
+msgid "Proyectos Referenciales"
+msgstr ""
+
+#: template-parts/home/section-proyectos.php:26
+msgid "Empresas de banca, salud, energía, telecomunicaciones y retail en la región confían en nosotros."
+msgstr ""
+
+#: template-parts/home/section-proyectos.php:31
+msgid "Proyectos referenciales de Dimsop"
+msgstr ""
+
+#: template-parts/home/section-unidades.php:27
+msgid "Soluciones TIC"
+msgstr ""
+
+#: template-parts/home/section-unidades.php:30
+msgid "Siete áreas especializadas que cubren de punta a punta la infraestructura tecnológica de tu empresa."
+msgstr ""
+
+#: template-parts/home/section-unidades.php:37
+msgid "Innovación"
+msgstr ""
+
+#: template-parts/modals/modal-careers.php:24
+msgid "El CV no es válido. Adjunta un PDF, DOC o DOCX de máximo 5 MB."
+msgstr ""
+
+#: template-parts/modals/modal-careers.php:42
+msgid "Déjanos tus datos y tu CV. Nuestro equipo de talento te contactará si tu perfil encaja con alguna vacante."
+msgstr ""
+
+#: template-parts/modals/modal-careers.php:74
+msgid "Adjunta tu CV *"
+msgstr ""
+
+#: template-parts/modals/modal-careers.php:79 template-parts/modals/modal-careers.php:79
+msgid "Seleccionar archivo"
+msgstr ""
+
+#: template-parts/modals/modal-careers.php:82
+msgid "PDF, DOC o DOCX, máximo 5 MB."
+msgstr ""
+
+#. translators: %s: enlace a la política de privacidad
+#: template-parts/modals/modal-careers.php:89
+#, php-format
+msgid "Usaremos tus datos solo para este proceso de selección. Más información en nuestra %s."
+msgstr ""
+
+#. translators: %s: enlace a la política de privacidad
+#: template-parts/modals/modal-careers.php:90
+msgid "política de privacidad"
+msgstr ""
+
+#: template-parts/modals/modal-careers.php:97
+msgid "Enviar postulación"
+msgstr ""
+

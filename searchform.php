@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 
 $dimsop_search_id = wp_unique_id( 'dimsop-search-' );
 ?>
-<form role="search" method="get" class="dimsop-search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+<form role="search" method="get" class="dimsop-search-form" action="<?php echo esc_url( dimsop_home_url( '/' ) ); ?>">
     <label class="visually-hidden" for="<?php echo esc_attr( $dimsop_search_id ); ?>"><?php esc_html_e( 'Buscar en el sitio', 'dimsop' ); ?></label>
     <i class="fa fa-search dimsop-search-form-icon" aria-hidden="true"></i>
     <input class="dimsop-input dimsop-search-form-input" id="<?php echo esc_attr( $dimsop_search_id ); ?>" type="search" name="s"

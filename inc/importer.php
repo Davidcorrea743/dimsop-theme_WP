@@ -169,14 +169,12 @@ function dimsop_import_post( $postarr, $meta = array(), $image = '' ) {
 }
 
 /**
- * Páginas del sitio: se crean solo si no existe ya una con ese slug.
+ * Texto de la política de privacidad en bloques, en el idioma activo
+ * (se llama con switch_to_locale() para generar la versión en inglés).
  *
- * La política de privacidad parte del texto genérico de Odoo, ampliado con la
- * postulación con CV. Es un borrador: el texto legal definitivo lo entrega el cliente.
- *
- * @return int Cantidad de páginas creadas.
+ * @return string
  */
-function dimsop_seed_pages() {
+function dimsop_privacy_page_content() {
     $contact = sanitize_email( dimsop_get_option( 'contact_email', 'mercadeo@dimsop.com' ) );
     $careers = sanitize_email( dimsop_get_option( 'careers_email', 'talento@dimsop.com' ) );
 
@@ -217,6 +215,20 @@ function dimsop_seed_pages() {
         '<a href="mailto:' . esc_attr( $contact ) . '">' . esc_html( $contact ) . '</a>',
         '<a href="mailto:' . esc_attr( $careers ) . '">' . esc_html( $careers ) . '</a>'
     ) );
+
+    return $privacy;
+}
+
+/**
+ * Páginas del sitio: se crean solo si no existe ya una con ese slug.
+ *
+ * La política de privacidad parte del texto genérico de Odoo, ampliado con la
+ * postulación con CV. Es un borrador: el texto legal definitivo lo entrega el cliente.
+ *
+ * @return int Cantidad de páginas creadas.
+ */
+function dimsop_seed_pages() {
+    $privacy = dimsop_privacy_page_content();
 
     $pages = array(
         array(
@@ -268,9 +280,130 @@ function dimsop_seed_pages() {
 }
 
 /**
+ * Versión en inglés de las unidades de negocio, por título en español.
+ *
+ * @return array<string, array{title: string, excerpt: string}>
+ */
+function dimsop_seed_units_en() {
+    return array(
+        'Soluciones en la Nube'                          => array( 'title' => 'Cloud Solutions',                               'excerpt' => 'Hybrid, private and public architectures with maximum scalability.' ),
+        'Productos y Soluciones de Redes'                => array( 'title' => 'Networking Products and Solutions',            'excerpt' => 'High-performance connectivity and corporate infrastructure.' ),
+        'Ciberseguridad Avanzada'                        => array( 'title' => 'Advanced Cybersecurity',                        'excerpt' => 'Perimeter protection, threat detection and asset hardening.' ),
+        'Servicios Gestionados'                          => array( 'title' => 'Managed Services',                              'excerpt' => '24/7 monitoring and end-to-end management of your IT infrastructure.' ),
+        'Soluciones FTTX / ISP'                          => array( 'title' => 'FTTX / ISP Solutions',                          'excerpt' => 'Deployment and equipment for large-scale fiber-optic networks.' ),
+        'Comunicaciones Unificadas'                      => array( 'title' => 'Unified Communications',                        'excerpt' => 'Voice, video and business collaboration, fully integrated.' ),
+        'Unidad de Desarrollo e Inteligencia Artificial' => array( 'title' => 'Development and Artificial Intelligence Unit', 'excerpt' => 'Software development, automation and AI-powered solutions.' ),
+    );
+}
+
+/**
+ * Crea la versión en inglés del contenido y la enlaza con la española en Polylang:
+ * las 7 unidades de negocio y las páginas Privacy policy (/en/privacy/) y Catalog (/en/catalog/).
+ *
+ * Se puede ejecutar varias veces: solo crea lo que aún no tiene traducción.
+ * El contenido existente sin idioma se marca como español (idioma por defecto).
+ *
+ * @return int Cantidad de traducciones creadas.
+ */
+function dimsop_seed_translations() {
+    if ( ! function_exists( 'pll_set_post_language' ) || ! function_exists( 'pll_save_post_translations' ) ) {
+        return 0;
+    }
+    $created = 0;
+
+    // Crea la traducción $en_post de $es_id si no existe y enlaza ambas.
+    $translate = function ( $es_id, $en_post, $meta = array() ) use ( &$created ) {
+        if ( ! pll_get_post_language( $es_id ) ) {
+            pll_set_post_language( $es_id, 'es' );
+        }
+        if ( pll_get_post( $es_id, 'en' ) ) {
+            return;
+        }
+        $en_id = wp_insert_post( wp_slash( $en_post + array( 'post_status' => 'publish' ) ), true );
+        if ( is_wp_error( $en_id ) ) {
+            return;
+        }
+        foreach ( $meta as $key => $value ) {
+            update_post_meta( $en_id, $key, $value );
+        }
+        pll_set_post_language( $en_id, 'en' );
+        $translations       = pll_get_post_translations( $es_id );
+        $translations['es'] = $es_id;
+        $translations['en'] = $en_id;
+        pll_save_post_translations( $translations );
+        $created++;
+    };
+
+    // Unidades de negocio
+    $units_en = dimsop_seed_units_en();
+    $units    = get_posts( array(
+        'post_type'   => 'dimsop_unit',
+        'post_status' => 'publish',
+        'numberposts' => -1,
+        'lang'        => '', // todas, también las que aún no tienen idioma
+    ) );
+    foreach ( $units as $unit ) {
+        $lang = pll_get_post_language( $unit->ID );
+        if ( 'en' === $lang ) {
+            continue;
+        }
+        if ( ! $lang ) {
+            pll_set_post_language( $unit->ID, 'es' );
+        }
+        if ( ! isset( $units_en[ $unit->post_title ] ) ) {
+            continue; // unidad creada a mano: se traduce desde el panel
+        }
+        $translate(
+            $unit->ID,
+            array(
+                'post_type'    => 'dimsop_unit',
+                'post_title'   => $units_en[ $unit->post_title ]['title'],
+                'post_excerpt' => $units_en[ $unit->post_title ]['excerpt'],
+                'menu_order'   => $unit->menu_order,
+            ),
+            array( '_dimsop_unit_icon' => get_post_meta( $unit->ID, '_dimsop_unit_icon', true ) )
+        );
+    }
+
+    // Páginas: el texto en inglés sale de las traducciones del tema (en_US.mo)
+    $privacy = get_page_by_path( 'politica-de-privacidad', OBJECT, 'page' );
+    $catalog = get_page_by_path( 'catalogo', OBJECT, 'page' );
+
+    $switched = switch_to_locale( 'en_US' );
+    if ( $privacy ) {
+        $translate( $privacy->ID, array(
+            'post_type'    => 'page',
+            'post_name'    => 'privacy', // 'privacy-policy' lo ocupa el borrador que crea WordPress
+            'post_title'   => __( 'Política de privacidad', 'dimsop' ),
+            'post_excerpt' => __( 'Cómo recopilamos, usamos y protegemos tus datos personales.', 'dimsop' ),
+            'post_content' => dimsop_privacy_page_content(),
+        ) );
+    }
+    if ( $catalog ) {
+        $translate(
+            $catalog->ID,
+            array(
+                'post_type'  => 'page',
+                'post_name'  => 'catalog',
+                'post_title' => __( 'Catálogo', 'dimsop' ),
+            ),
+            array(
+                '_wp_page_template'                => 'page-templates/template-catalogo.php',
+                '_yoast_wpseo_meta-robots-noindex' => '1', // provisional, igual que la española
+            )
+        );
+    }
+    if ( $switched ) {
+        restore_previous_locale();
+    }
+
+    return $created;
+}
+
+/**
  * Ejecuta la importación completa.
  *
- * @return array{units: int, partners: int, projects: int, pages: int} Cantidad creada por tipo.
+ * @return array{units: int, partners: int, projects: int, pages: int, translations: int} Cantidad creada por tipo.
  */
 function dimsop_import_initial_content() {
     $created = array( 'units' => 0, 'partners' => 0, 'projects' => 0, 'pages' => dimsop_seed_pages() );
@@ -299,6 +432,9 @@ function dimsop_import_initial_content() {
         );
     }
 
+    // Al final: las traducciones parten del contenido en español ya creado.
+    $created['translations'] = dimsop_seed_translations();
+
     return $created;
 }
 
@@ -318,12 +454,13 @@ function dimsop_handle_import_content() {
 
     $created = dimsop_import_initial_content();
     $message = sprintf(
-        /* translators: 1: unidades, 2: aliados, 3: proyectos, 4: páginas */
-        __( 'Importación terminada. Creados: %1$d unidades, %2$d aliados, %3$d proyectos y %4$d páginas (lo que ya existía no se tocó).', 'dimsop' ),
+        /* translators: 1: unidades, 2: aliados, 3: proyectos, 4: páginas, 5: traducciones al inglés */
+        __( 'Importación terminada. Creados: %1$d unidades, %2$d aliados, %3$d proyectos, %4$d páginas y %5$d traducciones al inglés (lo que ya existía no se tocó).', 'dimsop' ),
         $created['units'],
         $created['partners'],
         $created['projects'],
-        $created['pages']
+        $created['pages'],
+        $created['translations']
     );
 
     wp_safe_redirect( add_query_arg( 'dimsop_imported', rawurlencode( $message ), admin_url( 'themes.php?page=dimsop-options' ) ) );

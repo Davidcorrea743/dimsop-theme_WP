@@ -43,6 +43,7 @@ $dimsop_app_errors = array(
 
                         <form class="dimsop-careers-form" id="dimsop-carreras-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="action" value="dimsop_submit_application">
+                            <?php dimsop_lang_field(); ?>
                             <input type="hidden" name="nonce" value="<?php echo esc_attr( wp_create_nonce( 'dimsop_careers_nonce' ) ); ?>">
                             <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo esc_attr( 5 * 1024 * 1024 ); ?>">
                             <input type="text" name="homepage" value="" tabindex="-1" autocomplete="off" aria-hidden="true" class="dimsop-hp-field">
@@ -86,7 +87,7 @@ $dimsop_app_errors = array(
                                 printf(
                                     /* translators: %s: enlace a la política de privacidad */
                                     esc_html__( 'Usaremos tus datos solo para este proceso de selección. Más información en nuestra %s.', 'dimsop' ),
-                                    '<a href="' . esc_url( home_url( '/politica-de-privacidad' ) ) . '">' . esc_html__( 'política de privacidad', 'dimsop' ) . '</a>'
+                                    '<a href="' . esc_url( dimsop_page_url( 'politica-de-privacidad' ) ) . '">' . esc_html__( 'política de privacidad', 'dimsop' ) . '</a>'
                                 );
                                 ?>
                             </p>

@@ -216,6 +216,46 @@ function dimsop_sanitize_phone( $phone ) {
 }
 
 /**
+ * Portada del idioma actual, con una ruta o ancla opcional ('/', '/#contacto').
+ *
+ * home_url() no lleva el idioma: en /en/ los enlaces del menú volvían a la
+ * portada en español. Con Polylang se parte de pll_home_url().
+ *
+ * @param string $path Ruta relativa a la portada; puede empezar por '#'.
+ * @return string
+ */
+function dimsop_home_url( $path = '/' ) {
+    $base = function_exists( 'pll_home_url' ) ? pll_home_url() : home_url( '/' );
+    $base = trailingslashit( $base );
+    $path = ltrim( (string) $path, '/' );
+    return $base . $path;
+}
+
+/**
+ * Enlace a una página del sitio en el idioma actual.
+ *
+ * Busca la página por su ruta en español (p. ej. 'catalogo') y, si tiene
+ * traducción en el idioma actual, devuelve la traducción. Mientras no la
+ * tenga (Día 12) se usa la página en español.
+ *
+ * @param string $path Ruta de la página en español.
+ * @return string
+ */
+function dimsop_page_url( $path ) {
+    $page = get_page_by_path( $path );
+    if ( ! $page ) {
+        return dimsop_home_url( $path . '/' );
+    }
+    if ( function_exists( 'pll_get_post' ) ) {
+        $translated = pll_get_post( $page->ID );
+        if ( $translated ) {
+            return get_permalink( $translated );
+        }
+    }
+    return get_permalink( $page );
+}
+
+/**
  * Obtener URL de asset con cache-busting automático por fecha de modificación
  *
  * @param string $relative_path Ruta relativa dentro de /assets/.
@@ -230,4 +270,16 @@ function dimsop_asset_url( $relative_path ) {
     }
 
     return esc_url( $file_uri );
+}
+
+/**
+ * Campo oculto con el idioma actual para los formularios que se envían a admin-ajax.php.
+ *
+ * Esa petición no lleva /en/ en la URL; con el parámetro "lang" Polylang fija el
+ * idioma y los avisos del servidor (gracias, errores) salen en el idioma de la página.
+ */
+function dimsop_lang_field() {
+    if ( function_exists( 'pll_current_language' ) && pll_current_language() ) {
+        printf( '<input type="hidden" name="lang" value="%s">', esc_attr( pll_current_language( 'slug' ) ) );
+    }
 }

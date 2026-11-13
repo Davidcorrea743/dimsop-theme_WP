@@ -41,6 +41,7 @@ $dimsop_errors = array(
             <div class="col-lg-8">
                 <form class="dimsop-form row g-0 gx-md-3" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
                     <input type="hidden" name="action" value="dimsop_submit_contact">
+                    <?php dimsop_lang_field(); ?>
                     <input type="hidden" name="nonce" value="<?php echo esc_attr( wp_create_nonce( 'dimsop_public_nonce' ) ); ?>">
                     <input type="text" name="homepage" value="" tabindex="-1" autocomplete="off" aria-hidden="true" class="dimsop-hp-field">
 

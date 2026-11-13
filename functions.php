@@ -20,6 +20,7 @@ require_once DIMSOP_THEME_DIR . '/inc/setup.php';
 require_once DIMSOP_THEME_DIR . '/inc/helpers.php';
 require_once DIMSOP_THEME_DIR . '/inc/enqueues.php';
 require_once DIMSOP_THEME_DIR . '/inc/navigation.php';
+require_once DIMSOP_THEME_DIR . '/inc/i18n.php';
 
 if ( is_admin() ) {
     require_once DIMSOP_THEME_DIR . '/inc/options-page.php';

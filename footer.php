@@ -45,7 +45,7 @@ $dimsop_sedes = array(
         <div class="row gy-4 gy-lg-5 gx-4">
             <!-- Marca -->
             <div class="col-12 col-lg-4 dimsop-footer-col dimsop-footer-brand">
-                <a class="dimsop-footer-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+                <a class="dimsop-footer-logo" href="<?php echo esc_url( dimsop_home_url( '/' ) ); ?>">
                     <img src="<?php echo esc_url( dimsop_asset_url( 'images/logos/logo-footer-white.webp' ) ); ?>"
                          alt="<?php bloginfo( 'name' ); ?>" class="dimsop-footer-logo-img" width="480" height="178" loading="lazy">
                 </a>
@@ -66,11 +66,13 @@ $dimsop_sedes = array(
             <nav class="col-6 col-lg-2 dimsop-footer-col" aria-labelledby="dimsop-footer-nav-title">
                 <h2 id="dimsop-footer-nav-title" class="dimsop-footer-title"><?php esc_html_e( 'Navegación', 'dimsop' ); ?></h2>
                 <ul class="dimsop-footer-links">
-                    <li><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Inicio', 'dimsop' ); ?></a></li>
-                    <li><a href="<?php echo esc_url( home_url( '/#nosotros' ) ); ?>"><?php esc_html_e( 'Nosotros', 'dimsop' ); ?></a></li>
-                    <li><a href="<?php echo esc_url( home_url( '/catalogo/' ) ); ?>"><?php esc_html_e( 'Catálogo', 'dimsop' ); ?></a></li>
-                    <li><a href="<?php echo esc_url( home_url( '/#blog' ) ); ?>"><?php esc_html_e( 'Blog', 'dimsop' ); ?></a></li>
-                    <li><a href="<?php echo esc_url( home_url( '/#contacto' ) ); ?>"><?php esc_html_e( 'Contacto', 'dimsop' ); ?></a></li>
+                    <li><a href="<?php echo esc_url( dimsop_home_url( '/' ) ); ?>"><?php esc_html_e( 'Inicio', 'dimsop' ); ?></a></li>
+                    <li><a href="<?php echo esc_url( dimsop_home_url( '/#nosotros' ) ); ?>"><?php esc_html_e( 'Nosotros', 'dimsop' ); ?></a></li>
+                    <li><a href="<?php echo esc_url( dimsop_page_url( 'catalogo' ) ); ?>"><?php esc_html_e( 'Catálogo', 'dimsop' ); ?></a></li>
+                    <?php if ( dimsop_has_blog_posts() ) : ?>
+                        <li><a href="<?php echo esc_url( dimsop_home_url( '/#blog' ) ); ?>"><?php esc_html_e( 'Blog', 'dimsop' ); ?></a></li>
+                    <?php endif; ?>
+                    <li><a href="<?php echo esc_url( dimsop_home_url( '/#contacto' ) ); ?>"><?php esc_html_e( 'Contacto', 'dimsop' ); ?></a></li>
                     <li>
                         <a href="#carreras" data-bs-toggle="modal" data-bs-target="#dimsop-carreras-modal">
                             <?php esc_html_e( 'Forma parte de nuestro equipo', 'dimsop' ); ?>
@@ -85,7 +87,7 @@ $dimsop_sedes = array(
                     <h2 id="dimsop-footer-units-title" class="dimsop-footer-title"><?php esc_html_e( 'Soluciones', 'dimsop' ); ?></h2>
                     <ul class="dimsop-footer-links">
                         <?php foreach ( $dimsop_footer_units as $dimsop_unit ) : ?>
-                            <li><a href="<?php echo esc_url( home_url( '/#unidades' ) ); ?>"><?php echo esc_html( get_the_title( $dimsop_unit ) ); ?></a></li>
+                            <li><a href="<?php echo esc_url( dimsop_home_url( '/#unidades' ) ); ?>"><?php echo esc_html( get_the_title( $dimsop_unit ) ); ?></a></li>
                         <?php endforeach; ?>
                     </ul>
                 </nav>
@@ -153,7 +155,7 @@ $dimsop_sedes = array(
                 <?php endif; ?>
             </p>
             <div class="dimsop-footer-bottom-end">
-                <a class="dimsop-footer-privacy" href="<?php echo esc_url( home_url( '/politica-de-privacidad/' ) ); ?>"><?php esc_html_e( 'Política de privacidad', 'dimsop' ); ?></a>
+                <a class="dimsop-footer-privacy" href="<?php echo esc_url( dimsop_page_url( 'politica-de-privacidad' ) ); ?>"><?php esc_html_e( 'Política de privacidad', 'dimsop' ); ?></a>
                 <?php /* Día 11: aquí irá el selector de idioma ES/EN. */ ?>
                 <div class="dimsop-social">
                     <a href="<?php echo esc_url( dimsop_get_option( 'linkedin_url' ) ); ?>"
